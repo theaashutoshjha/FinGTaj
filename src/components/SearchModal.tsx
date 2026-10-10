@@ -26,7 +26,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   const q = query.toLowerCase().trim();
 
   const matchedArticles = q 
-    ? ARTICLES.filter(a => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.tag.toLowerCase().includes(q))
+    ? ARTICLES.filter(a => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || (a.tag || '').toLowerCase().includes(q))
     : [];
 
   const matchedProducts = q

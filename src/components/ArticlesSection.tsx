@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Article } from '../types';
 import { ARTICLES } from '../data/articles';
-import { BookOpen, Bookmark, Clock, ArrowRight } from 'lucide-react';
+import { BookOpen, Bookmark, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
 
 interface ArticlesSectionProps {
   onOpenArticle: (article: Article) => void;
   savedArticleIds: string[];
   onToggleBookmark: (articleId: string) => void;
-  initialCategory?: 'all' | 'trading' | 'finance' | 'loans';
+  initialCategory?: 'all' | 'trading' | 'finance' | 'loans' | 'tech';
   articles?: Article[];
 }
 
@@ -19,12 +19,15 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
   articles
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const [visibleCount, setVisibleCount] = useState<number>(12);
 
   const articleList = articles && articles.length > 0 ? articles : ARTICLES;
   const filtered = articleList.filter(a => {
     if (selectedCategory === 'all') return true;
     return a.category === selectedCategory;
   });
+
+  const displayedArticles = filtered.slice(0, visibleCount);
 
   return (
     <section style={{ padding: '60px 0' }} id="articles">
@@ -35,14 +38,14 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
             <span className="badge badge-cyan">
               <BookOpen size={13} />
-              Institutional Editorial Library
+              Educational Financial Library
             </span>
           </div>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', marginBottom: '12px' }}>
-            Rigorous Financial <span className="text-gradient">Intelligence</span>
+            Comprehensive Financial <span className="text-gradient">Education</span>
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto', fontSize: '15px' }}>
-            In-depth analytical breakdowns on indexing economics, valuation models, tax shelters, and loan amortization mathematics.
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '680px', margin: '0 auto', fontSize: '15px', lineHeight: 1.6 }}>
+            In-depth guides on index investing, corporate valuations, tax optimization, debt management, and digital banking security. Provided strictly for educational awareness in compliance with SEBI, RBI, and IRDAI standards.
           </p>
 
           {/* Category Filter Tabs */}
@@ -54,14 +57,18 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
             marginTop: '28px'
           }}>
             {[
-              { id: 'all', label: 'All Disciplines' },
-              { id: 'trading', label: 'Trading & Equity Research' },
-              { id: 'finance', label: 'Personal Finance & Tax' },
-              { id: 'loans', label: 'Loans & Amortization' }
+              { id: 'all', label: `All Disciplines (${articleList.length})` },
+              { id: 'trading', label: `Trading & Equity (${articleList.filter(a => a.category === 'trading').length})` },
+              { id: 'finance', label: `Personal Finance & Tax (${articleList.filter(a => a.category === 'finance').length})` },
+              { id: 'loans', label: `Loans & Amortization (${articleList.filter(a => a.category === 'loans').length})` },
+              { id: 'tech', label: `Fintech & Security (${articleList.filter(a => a.category === 'tech').length})` }
             ].map(tab => (
               <button
                 key={tab.id}
-                onClick={() => setSelectedCategory(tab.id)}
+                onClick={() => {
+                  setSelectedCategory(tab.id);
+                  setVisibleCount(12);
+                }}
                 style={{
                   padding: '8px 18px',
                   borderRadius: 'var(--radius-full)',
@@ -81,14 +88,41 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
           </div>
         </div>
 
+        {/* Regulatory Disclosure Banner */}
+        <div style={{
+          background: 'rgba(0, 245, 255, 0.03)',
+          border: '1px solid rgba(0, 245, 255, 0.12)',
+          borderRadius: '12px',
+          padding: '12px 18px',
+          marginBottom: '28px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          fontSize: '13px',
+          color: 'var(--text-secondary)'
+        }}>
+          <ShieldCheck size={18} color="var(--accent-cyan)" style={{ flexShrink: 0 }} />
+          <span>
+            <strong>Educational Notice:</strong> FingTaj is an independent educational portal, not a SEBI registered investment advisor or broker. All case studies, calculations, and content are provided solely for financial literacy and conceptual research.
+          </span>
+        </div>
+
         {/* Articles Grid */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '24px'
         }}>
-          {filtered.map(art => {
+          {displayedArticles.map(art => {
             const isBookmarked = savedArticleIds.includes(art.id);
+            const tagColor = art.category === 'trading' 
+              ? 'var(--accent-cyan)' 
+              : art.category === 'finance' 
+                ? 'var(--accent-emerald)' 
+                : art.category === 'loans' 
+                  ? 'var(--accent-amber)' 
+                  : '#a78bfa';
+
             return (
               <article
                 key={art.id}
@@ -99,7 +133,8 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  padding: '24px'
+                  padding: '24px',
+                  transition: 'transform 0.2s ease, border-color 0.2s ease'
                 }}
               >
                 <div>
@@ -110,9 +145,9 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
-                      color: art.category === 'trading' ? 'var(--accent-cyan)' : (art.category === 'finance' ? 'var(--accent-emerald)' : 'var(--accent-amber)')
+                      color: tagColor
                     }}>
-                      {art.tag}
+                      {art.tag || (art.tags && art.tags[0]) || art.category.toUpperCase()}
                     </span>
                     <button
                       onClick={(e) => {
@@ -167,6 +202,24 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
             );
           })}
         </div>
+
+        {/* Load More Button */}
+        {visibleCount < filtered.length && (
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <button
+              onClick={() => setVisibleCount(prev => prev + 12)}
+              className="btn btn-secondary"
+              style={{
+                padding: '12px 28px',
+                fontSize: '14px',
+                fontWeight: 600,
+                borderRadius: 'var(--radius-full)'
+              }}
+            >
+              Load More Guides ({filtered.length - visibleCount} remaining)
+            </button>
+          </div>
+        )}
 
       </div>
     </section>

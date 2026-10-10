@@ -64,7 +64,8 @@ export interface AEOCheck {
 export interface Article {
   id: string;
   slug: string;
-  tag: string;
+  tag?: string;
+  tags?: string[];
   category: 'trading' | 'finance' | 'loans' | 'tech';
   title: string;
   excerpt: string;
@@ -73,6 +74,10 @@ export interface Article {
   author?: string;
   authorBio?: string;
   publishedAt?: string | null;
+  date?: string;
+  views?: number;
+  featured?: boolean;
+  aeoDirectAnswer?: string;
   updatedAt?: string;
   status?: 'draft' | 'published' | 'archived';
   seo?: {

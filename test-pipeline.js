@@ -45,7 +45,7 @@ async function runTests() {
 
     // Test 5: Originality & Duplicate Detection Gate
     const duplicateCheck = originalityEngine.evaluateArticle({
-      title: 'The Mathematics of Compounding: How ₹10,000/Month Turns Into ₹3.5 Crore',
+      title: compoundingArt.title,
       content: 'This is an exact duplicate title test article.'
     });
     assert(duplicateCheck.duplicateTitleFound === true && duplicateCheck.passed === false, 'Originality gate correctly catches duplicate article titles');

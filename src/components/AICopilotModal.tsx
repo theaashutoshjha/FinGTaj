@@ -12,12 +12,21 @@ interface Message {
   text: string;
 }
 
+// Function to strictly strip all asterisks and markdown asterisks from text
+const cleanAsterisks = (text: string): string => {
+  if (!text) return '';
+  return text
+    .replace(/\*\*/g, '') // remove double asterisks
+    .replace(/\*/g, '')   // remove single asterisks
+    .trim();
+};
+
 export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'm1',
       sender: 'ai',
-      text: "Welcome to FingTaj AI Copilot. I'm your institutional financial intelligence advisor. Ask me anything about compound math, loan prepayment economics, tax strategies, or equity DCF valuations!"
+      text: "Welcome to FingTaj Financial Assistant. I am here to help you learn about compound interest, loan prepayment calculations, tax planning concepts, and personal budgeting rules. How can I help you today?"
     }
   ]);
   const [input, setInput] = useState('');
@@ -36,7 +45,7 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
   const saveApiKey = () => {
     localStorage.setItem('fingtaj_gemini_key', apiKey.trim());
     setShowKeyConfig(false);
-    alert('Gemini API key saved! FingTaj AI will now query live Google Gemini 1.5 Flash.');
+    alert('Google Gemini API key saved! Co-Pilot will now query live Google Gemini 1.5 Flash.');
   };
 
   const handleSend = async (customPrompt?: string) => {
@@ -64,7 +73,11 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
             body: JSON.stringify({
               contents: [{
                 parts: [{
-                  text: `You are FingTaj AI, an elite institutional financial advisor and wealth strategist. Answer with rigorous, mathematical precision, citing specific percentages, equations, or action steps.\n\nUser Question: ${textToSend}`
+                  text: `You are FingTaj Educational Financial Assistant. Provide educational explanations strictly for financial literacy and illustrative purposes.
+CRITICAL FORMATTING INSTRUCTION: Do NOT use any asterisks (*) or markdown asterisks (**) anywhere in your response. Never use bold asterisks. Use plain text and simple numbered points or dashes for lists.
+Do not provide personalized investment advice or stock tips.
+
+User Question: ${textToSend}`
                 }]
               }]
             })
@@ -72,53 +85,90 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
         );
         const data = await response.json();
         if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+          const rawReply = data.candidates[0].content.parts[0].text;
+          const cleanedReply = cleanAsterisks(rawReply);
           const aiReply: Message = {
             id: 'a-' + Date.now(),
             sender: 'ai',
-            text: data.candidates[0].content.parts[0].text
+            text: cleanedReply
           };
           setMessages(prev => [...prev, aiReply]);
           setLoading(false);
           return;
         }
       } catch (e) {
-        console.warn('Gemini API error, falling back to local financial intelligence engine', e);
+        console.warn('Gemini API error, falling back to educational assistant engine', e);
       }
     }
 
-    // Route 2: High-Precision Local Financial Intelligence Engine
+    // Route 2: Local Educational Financial Assistant (Zero asterisks guaranteed)
     setTimeout(() => {
       const reply = generateLocalIntelligence(textToSend);
       const aiReply: Message = {
         id: 'a-' + Date.now(),
         sender: 'ai',
-        text: reply
+        text: cleanAsterisks(reply)
       };
       setMessages(prev => [...prev, aiReply]);
       setLoading(false);
-    }, 600);
+    }, 500);
   };
 
+  // Educational answers with strictly NO asterisks
   const generateLocalIntelligence = (query: string): string => {
     const q = query.toLowerCase();
 
     if (q.includes('prepay') || q.includes('loan') || q.includes('emi')) {
-      return `**Loan Amortization Economics:**\n\n1. **The Front-Loaded Trap:** In the first 5 years of a 20-year mortgage at 8.5%, roughly 75% of your EMI goes directly to bank interest and only 25% to principal.\n2. **The 1-Extra-EMI Power Law:** By making just 1 additional EMI payment every calendar year (or increasing your monthly EMI by 5% each year), you reduce a 20-year loan tenure down to ~15.3 years and save up to 40% of all cumulative interest obligations.\n3. **Recommendation:** Test your exact numbers using our interactive Home Loan EMI & Prepayment Calculator!`;
+      return `Loan Amortization Economics:
+
+1. The Front-Loaded Interest Effect: In the first 5 years of a 20-year home loan at 8.5%, roughly 75% of your monthly EMI payment goes towards interest, and only 25% reduces the principal.
+
+2. The 1 Extra EMI Rule: By paying just 1 additional EMI every calendar year directly towards the principal, you can reduce a 20-year loan tenure down to roughly 15 years and 4 months, saving up to 40% in total interest.
+
+3. Actionable Tip: Try out your exact loan numbers in our free Home Loan EMI & Prepayment Calculator!`;
     }
 
     if (q.includes('tax') || q.includes('regime') || q.includes('old vs new')) {
-      return `**2026 Tax Optimization Strategy:**\n\n• **Mathematical Breakeven:** For salaried earners up to ₹15 Lakhs, the New Tax Regime is financially superior unless your total tax deductions (Section 80C + 80D + HRA + Home Loan Interest) exceed ₹3,75,000.\n• **Corporate NPS Super-Weapon:** Section 80CCD(2) employer contributions to NPS (up to 14% of Basic) are exempt under the New Tax Regime without any ceiling limit!\n• **LTCG Harvesting:** Take full advantage of the ₹1.25 Lakh annual tax-free capital gains window each financial year.`;
+      return `2026 Income Tax Comparison Guide:
+
+1. Mathematical Breakeven: For salaried individuals earning up to 15 Lakhs, the New Tax Regime is mathematically beneficial unless your total eligible deductions (Section 80C, 80D, HRA, and Home Loan Interest) exceed 3,75,000.
+
+2. Section 80CCD(2) Corporate NPS: Employer contributions up to 14% of Basic salary to the National Pension System are eligible for deduction under the New Tax Regime.
+
+3. Long Term Capital Gains: Take advantage of the annual 1.25 Lakh tax-exempt threshold for listed equities each financial year to rebalance cost basis legally.`;
     }
 
     if (q.includes('dcf') || q.includes('valuation') || q.includes('stock')) {
-      return `**Institutional Equity Valuation (DCF):**\n\n• **Core Principle:** Accounting net profit is an opinion, but Free Cash Flow to Firm (FCFF) is a fact.\n• **Formula:** Intrinsic Enterprise Value = (Sum of Discounted 5-Year FCFF @ WACC) + Discounted Terminal Value - Net Debt.\n• **Margin of Safety:** Never purchase equity at theoretical fair value; institutional discipline requires a 25% to 35% margin of safety to absorb forecast errors and competitive turbulence.`;
+      return `Educational Equity Valuation Overview (DCF):
+
+1. Core Concept: Discounted Cash Flow models estimate fair value by forecasting future Free Cash Flows and discounting them back to today using the Weighted Average Cost of Capital (WACC).
+
+2. Cash Flow Over Accounting Profit: Free Cash Flow represents actual operational surplus left after necessary capital expenditures and working capital needs.
+
+3. Margin of Safety: Educational valuation principles recommend maintaining a 25% to 35% margin of safety below estimated intrinsic worth to absorb unforeseen forecasting errors.`;
     }
 
-    if (q.includes('invest') || q.includes('portfolio') || q.includes('sip')) {
-      return `**Institutional Asset Allocation Protocol:**\n\n1. **Emergency Moat:** 6 months of living expenses in overnight liquid debt funds.\n2. **Core Equity (70%):** Low-cost broad market index funds (Nifty 50 / S&P 500) with expense ratios under 0.15%.\n3. **Growth Torque (20%):** Quality Midcap 150 or NASDAQ 100 for capital appreciation.\n4. **Rebalancing Anchor (10%):** Sovereign gold or short arbitrage for dry powder rebalancing during deep market drawdowns.`;
+    if (q.includes('invest') || q.includes('portfolio') || q.includes('sip') || q.includes('allocate')) {
+      return `General Asset Allocation Learning Framework:
+
+1. Emergency Fund Buffer: Maintain 3 to 6 months of non-negotiable living expenses in liquid savings accounts or liquid funds.
+
+2. Core Broad Market Equities: Low-cost broad market index funds (such as Nifty 50 or S&P 500) provide diversified exposure across the economy with minimal expense ratios.
+
+3. Fixed Income and Debt: High-grade sovereign debt or fixed income allocations help cushion volatility and provide funds for systematic rebalancing during market downturns.`;
     }
 
-    return `**Institutional Wealth Perspective on "${query}":**\n\nFinancial independence is strictly governed by three non-negotiable variables:\n1. **Savings Rate:** Aim for a minimum 20% to 35% automated savings rate.\n2. **Time Horizon:** Compounding is geometric; doubling your horizon typically multiplies terminal wealth by 4x to 6x.\n3. **Fee Minimization:** Keep total portfolio drag (expense ratios + turnover churn) below 0.20%.\n\nWould you like me to simulate a specific investment target or calculate your retirement runway?`;
+    return `Educational Financial Perspective on "${query}":
+
+Three fundamental principles govern long-term wealth planning:
+
+1. Savings Consistency: Automating 20% to 30% of monthly income into investments helps avoid discretionary overspending.
+
+2. Compounding Time Horizon: Compounding operates on an exponential curve. Time in the market generally outpaces market timing.
+
+3. Cost and Expense Control: Low expense ratio index funds protect capital from ongoing management fee erosion.
+
+All calculations and guidance are provided strictly for educational purposes. Feel free to ask about any specific financial simulator or concept!`;
   };
 
   const quickChips = [
@@ -154,9 +204,9 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
               <Sparkles size={20} />
             </div>
             <div>
-              <div style={{ fontSize: '16px', fontWeight: 800 }}>FingTaj AI Intelligence</div>
+              <div style={{ fontSize: '16px', fontWeight: 800 }}>FingTaj Financial Learning Assistant</div>
               <div style={{ fontSize: '11px', color: apiKey ? 'var(--accent-emerald)' : 'var(--accent-cyan)' }}>
-                {apiKey ? 'Connected to Google Gemini 1.5 Flash' : 'High-Precision Financial Intelligence Model'}
+                {apiKey ? 'Connected to Google Gemini 1.5 Flash' : 'Educational Financial Literacy Guide'}
               </div>
             </div>
           </div>
@@ -165,11 +215,12 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
             <button 
               className="btn-icon" 
               onClick={() => setShowKeyConfig(!showKeyConfig)}
-              title="Configure Custom Gemini API Key"
+              title="Configure Optional Gemini API Key"
+              style={{ color: apiKey ? 'var(--accent-emerald)' : 'var(--text-secondary)' }}
             >
-              <Key size={16} color={apiKey ? 'var(--accent-emerald)' : 'var(--text-secondary)'} />
+              <Key size={16} />
             </button>
-            <button className="btn-icon" onClick={onClose}>
+            <button className="btn-icon" onClick={onClose} title="Close Assistant">
               <X size={18} />
             </button>
           </div>
@@ -186,7 +237,7 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
             gap: '10px'
           }}>
             <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-              Enter your Google Gemini API Key to enable live cloud AI processing. Keys remain locally in your browser.
+              Enter your optional Google Gemini API Key for live AI responses. Keys are saved locally in your browser.
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <input
@@ -214,7 +265,7 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
                 gap: '12px',
                 alignItems: 'flex-start',
                 alignSelf: m.sender === 'user' ? 'flex-end' : 'flex-start',
-                maxWidth: '85%'
+                maxWidth: '88%'
               }}
             >
               {m.sender === 'ai' && (
@@ -234,17 +285,17 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
               )}
 
               <div style={{
-                background: m.sender === 'user' ? 'var(--gradient-brand)' : 'rgba(255, 255, 255, 0.05)',
+                background: m.sender === 'user' ? 'var(--gradient-brand)' : 'rgba(255, 255, 255, 0.04)',
                 color: m.sender === 'user' ? '#03080f' : 'var(--text-primary)',
                 fontWeight: m.sender === 'user' ? 600 : 400,
                 border: m.sender === 'user' ? 'none' : '1px solid var(--border-subtle)',
                 borderRadius: '16px',
                 padding: '14px 18px',
                 fontSize: '14px',
-                lineHeight: 1.6,
+                lineHeight: 1.65,
                 whiteSpace: 'pre-wrap'
               }}>
-                {m.text}
+                {cleanAsterisks(m.text)}
               </div>
 
               {m.sender === 'user' && (
@@ -266,29 +317,47 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
           ))}
 
           {loading && (
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', color: 'var(--accent-cyan)', fontSize: '13px' }}>
-              <Bot size={16} />
-              <span>Analyzing financial models...</span>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <div style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                background: 'rgba(0, 245, 255, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--accent-cyan)'
+              }}>
+                <Bot size={16} />
+              </div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+                Preparing educational breakdown...
+              </div>
             </div>
           )}
 
           <div ref={chatEndRef} />
         </div>
 
-        {/* Quick Chips */}
+        {/* Quick Question Chips */}
         <div style={{
-          padding: '0 24px 12px',
+          padding: '10px 24px',
           display: 'flex',
           gap: '8px',
           overflowX: 'auto',
-          whiteSpace: 'nowrap'
+          borderTop: '1px solid var(--border-subtle)'
         }}>
           {quickChips.map((chip, idx) => (
             <button
               key={idx}
               onClick={() => handleSend(chip)}
               className="btn btn-secondary"
-              style={{ padding: '6px 12px', fontSize: '11px', borderRadius: 'var(--radius-full)' }}
+              style={{
+                fontSize: '11px',
+                padding: '6px 12px',
+                whiteSpace: 'nowrap',
+                borderRadius: 'var(--radius-full)'
+              }}
             >
               {chip}
             </button>
@@ -300,24 +369,30 @@ export const AICopilotModal: React.FC<AICopilotModalProps> = ({ isOpen, onClose 
           padding: '16px 24px',
           borderTop: '1px solid var(--border-subtle)',
           display: 'flex',
-          gap: '10px'
+          gap: '12px',
+          alignItems: 'center'
         }}>
           <input
             type="text"
-            placeholder="Ask about loans, index funds, DCF, budgeting, or tax..."
+            className="input-field"
+            placeholder="Ask about SIP math, loan prepayments, 2026 tax, or personal budgeting..."
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSend()}
-            className="input-field"
           />
           <button 
             className="btn btn-primary" 
             onClick={() => handleSend()}
-            disabled={loading}
-            style={{ padding: '12px 20px' }}
+            disabled={!input.trim() || loading}
+            style={{ padding: '12px 18px', flexShrink: 0 }}
           >
             <Send size={16} />
           </button>
+        </div>
+
+        {/* Fiduciary educational footnote */}
+        <div style={{ padding: '8px 24px', background: 'rgba(0,0,0,0.3)', fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center' }}>
+          Educational Notice: FingTaj Assistant provides mathematical simulations for learning only. Not financial or investment advice.
         </div>
 
       </div>

@@ -49,11 +49,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navLinks = [
     { id: 'home', label: 'Home' },
-    { id: 'trading', label: 'Trading & Equity' },
+    { id: 'trading', label: 'Investing' },
     { id: 'finance', label: 'Personal Finance' },
-    { id: 'loans', label: 'Loans & Credit' },
-    { id: 'store', label: 'Digital Store' },
+    { id: 'loans', label: 'Loans & EMIs' },
     { id: 'calculators', label: 'Calculators' },
+    { id: 'store', label: 'Worksheets' },
     { id: 'academy', label: 'Academy' },
     { id: 'about', label: 'About' },
     { id: 'contact', label: 'Contact' },
@@ -65,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      background: 'rgba(3, 8, 15, 0.82)',
+      background: 'rgba(3, 8, 15, 0.88)',
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
       borderBottom: '1px solid var(--border-subtle)',
@@ -75,7 +75,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: '74px'
+        height: '70px',
+        gap: '12px'
       }}>
         {/* Brand Logo */}
         <div 
@@ -83,40 +84,41 @@ export const Navbar: React.FC<NavbarProps> = ({
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            gap: '10px',
             cursor: 'pointer',
-            userSelect: 'none'
+            userSelect: 'none',
+            flexShrink: 0
           }}
         >
           <div style={{
-            width: '40px',
-            height: '40px',
-            borderRadius: '12px',
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
             background: 'var(--gradient-brand)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 20px rgba(0, 245, 255, 0.4)',
+            boxShadow: '0 0 16px rgba(0, 245, 255, 0.35)',
             color: '#03080f',
             fontWeight: 900,
-            fontSize: '20px'
+            fontSize: '18px'
           }}>
             F
           </div>
           <div>
             <div style={{
-              fontSize: '20px',
+              fontSize: '18px',
               fontWeight: 800,
               letterSpacing: '-0.02em',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px'
+              gap: '6px',
+              lineHeight: 1.2
             }}>
               <span>FingTaj</span>
-              <span className="badge badge-cyan" style={{ fontSize: '9px', padding: '2px 6px' }}>PRO</span>
             </div>
-            <div style={{ fontSize: '10px', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-              Wealth Systems
+            <div style={{ fontSize: '9px', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              Financial Education
             </div>
           </div>
         </div>
