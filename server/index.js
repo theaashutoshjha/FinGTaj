@@ -74,11 +74,9 @@ app.get('/api/articles', (req, res) => {
     tag: a.tag,
     readTime: a.readTime,
     excerpt: a.excerpt,
+    content: a.content,
     publishedAt: a.publishedAt,
-    author: a.author,
-    originalityScore: a.originalityScore,
-    seoScore: a.seo?.score || 95,
-    aeoScore: a.aeo?.score || 95
+    author: a.author
   }));
   res.json(published);
 });

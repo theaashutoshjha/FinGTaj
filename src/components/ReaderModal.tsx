@@ -1,12 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import { Article } from '../types';
-import { X, Bookmark, Share2, Clock, Check, ShieldCheck, ExternalLink, UserCheck, Calendar } from 'lucide-react';
+import { X, Bookmark, Share2, Clock, Check, ShieldCheck, UserCheck, Calendar, BookOpen } from 'lucide-react';
 
 interface ReaderModalProps {
   article: Article | null;
   onClose: () => void;
   isBookmarked: boolean;
   onToggleBookmark: () => void;
+}
+
+// Markdown parser helper for long-form educational articles
+function renderArticleContent(rawContent: string): string {
+  if (!rawContent) return '';
+  
+  // If content already contains HTML block tags, return as-is
+  if (rawContent.trim().startsWith('<h') || rawContent.trim().startsWith('<div') || rawContent.trim().startsWith('<p>')) {
+    return rawContent;
+  }
+
+  // Parse markdown tables first
+  let html = rawContent.replace(/((?:\|.+\|\n?)+)/g, (tableText) => {
+    const rawLines = tableText.trim().split('\n').filter(r => r.trim().startsWith('|'));
+    if (rawLines.length < 2) return tableText;
+
+    const headerCells = rawLines[0].split('|').map(c => c.trim()).filter(Boolean);
+    const dataLines = rawLines.slice(2); // Skip header and separator
+
+    const headerHtml = headerCells.map(h => `<th style="padding:10px 14px; text-align:left; border-bottom:2px solid var(--border-subtle); color:var(--accent-cyan); font-weight:700;">${h}</th>`).join('');
+
+    const rowsHtml = dataLines.map(line => {
+      const cells = line.split('|').map(c => c.trim()).filter(Boolean);
+      const rowTds = cells.map(c => `<td style="padding:10px 14px; border-bottom:1px solid rgba(255,255,255,0.06); color:var(--text-secondary);">${c}</td>`).join('');
+      return `<tr>${rowTds}</tr>`;
+    }).join('');
+
+    return `<div style="overflow-x:auto; margin:24px 0;"><table style="width:100%; border-collapse:collapse; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border-subtle); font-size:14px;"><thead><tr>${headerHtml}</tr></thead><tbody>${rowsHtml}</tbody></table></div>`;
+  });
+
+  // Parse markdown typography
+  html = html
+    .replace(/^# (.*$)/gim, '<h2 style="font-size:24px; font-weight:800; margin:32px 0 16px; color:var(--text-primary);">$1</h2>')
+    .replace(/^## (.*$)/gim, '<h3 style="font-size:20px; font-weight:700; margin:28px 0 14px; color:var(--text-primary);">$1</h3>')
+    .replace(/^### (.*$)/gim, '<h4 style="font-size:17px; font-weight:700; margin:22px 0 10px; color:var(--accent-cyan);">$1</h4>')
+    .replace(/^\-\-\-$/gim, '<hr style="border:none; border-top:1px solid var(--border-subtle); margin:28px 0;" />')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong style="color:var(--text-primary); font-weight:700;">$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    .replace(/```([\s\S]*?)```/gim, '<pre style="background:rgba(0,0,0,0.5); padding:16px; border-radius:8px; overflow-x:auto; border:1px solid var(--border-subtle); margin:18px 0; font-family:var(--font-mono); font-size:13px; color:var(--accent-cyan);"><code>$1</code></pre>')
+    .replace(/`([^`]+)`/gim, '<code style="background:rgba(0,245,255,0.08); padding:2px 6px; border-radius:4px; font-family:var(--font-mono); font-size:13px; color:var(--accent-cyan);">$1</code>')
+    .replace(/^\- (.*$)/gim, '<li style="margin-bottom:8px; color:var(--text-secondary); line-height:1.6;">$1</li>')
+    .replace(/((?:<li.*<\/li>\s*)+)/gim, '<ul style="padding-left:24px; margin:16px 0;">$1</ul>')
+    .replace(/\n\n+/gim, '</p><p style="margin-bottom:18px; line-height:1.75; color:var(--text-secondary); font-size:15px;">');
+
+  return `<p style="margin-bottom:18px; line-height:1.75; color:var(--text-secondary); font-size:15px;">${html}</p>`;
 }
 
 export const ReaderModal: React.FC<ReaderModalProps> = ({
@@ -72,7 +117,7 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
           background: 'rgba(8, 14, 23, 0.95)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span className="badge badge-cyan">{article.tag || article.category.toUpperCase()}</span>
+            <span className="badge badge-cyan">{article.tag || (article.tags && article.tags[0]) || article.category.toUpperCase()}</span>
             <span style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Clock size={12} /> {article.readTime}
             </span>
@@ -131,7 +176,7 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
             {article.title}
           </h1>
 
-          {/* Author Byline & Institutional Trust Strip */}
+          {/* Author Byline Strip */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -159,27 +204,24 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
               </div>
               <div>
                 <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  {article.author || 'FingTaj Quantitative Research Team'}
+                  {article.author || 'FingTaj Research Desk'}
                 </div>
                 <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                  {article.authorBio || 'Institutional Quantitative Research Desk specializing in compounding mathematics.'}
+                  {article.authorBio || 'Financial Literacy & Computational Research Desk'}
                 </div>
               </div>
             </div>
 
-            {/* Quality Score Badges */}
+            {/* Clean Educational Badge (Zero internal scores) */}
             <div style={{ display: 'flex', gap: '8px' }}>
-              <span className="badge badge-cyan" title="Audited for Technical SEO">
-                SEO {article.seo?.score ?? 98}/100
-              </span>
-              <span className="badge badge-purple" title="Answer Engine Optimization Score">
-                AEO {article.aeo?.score ?? 96}/100
+              <span className="badge badge-cyan">
+                <BookOpen size={12} /> Financial Education
               </span>
             </div>
           </div>
 
-          {/* AEO DIRECT ANSWER HIGHLIGHT BOX (LLM Optimized) */}
-          {article.aeo?.directAnswer && (
+          {/* Key Takeaway & Conceptual Summary Box */}
+          {(article.aeo?.directAnswer || article.aeoDirectAnswer) && (
             <div className="glass-card" style={{
               padding: '24px',
               borderLeft: '4px solid var(--accent-cyan)',
@@ -198,7 +240,7 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
                 gap: '6px'
               }}>
                 <ShieldCheck size={14} />
-                <span>Executive Answer &amp; Key Takeaway</span>
+                <span>Executive Summary &amp; Key Takeaway</span>
               </div>
               <p style={{
                 fontSize: '15px',
@@ -207,10 +249,10 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
                 lineHeight: 1.6,
                 margin: '0 0 14px'
               }}>
-                {article.aeo.directAnswer}
+                {article.aeo?.directAnswer || article.aeoDirectAnswer}
               </p>
 
-              {article.aeo.keyTakeaways && article.aeo.keyTakeaways.length > 0 && (
+              {article.aeo?.keyTakeaways && article.aeo.keyTakeaways.length > 0 && (
                 <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '12px' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 700 }}>
                     CORE PRINCIPLES:
@@ -225,7 +267,7 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
             </div>
           )}
 
-          {/* Article HTML Content */}
+          {/* Formatted Article Content */}
           <div 
             className="article-reader-content"
             style={{
@@ -233,51 +275,49 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
               lineHeight: 1.75,
               color: 'var(--text-secondary)'
             }}
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: renderArticleContent(article.content) }}
           />
 
           {/* Citations & Primary Sources Section */}
           {article.sources && article.sources.length > 0 && (
             <div style={{
-              marginTop: '48px',
-              padding: '24px',
+              marginTop: '40px',
+              padding: '20px',
               background: 'rgba(255, 255, 255, 0.02)',
-              borderRadius: '10px',
+              borderRadius: '8px',
               border: '1px solid var(--border-subtle)'
             }}>
-              <h3 style={{ fontSize: '15px', fontWeight: 800, marginBottom: '14px', color: 'var(--text-primary)' }}>
-                Authoritative Primary Sources &amp; Citations
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {article.sources.map((src, idx) => (
-                  <div key={idx} style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-                    • <a href={src.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none' }}>
-                      <b>{src.title}</b>
-                    </a>
-                    {src.publishedDate && <span style={{ color: 'var(--text-muted)', fontSize: '11px' }}> ({src.publishedDate})</span>}
-                    {src.snippet && <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px', paddingLeft: '12px' }}>"{src.snippet}"</div>}
-                  </div>
-                ))}
+              <div style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '12px' }}>
+                Verified Primary Sources &amp; Citations:
               </div>
+              <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '13px', color: 'var(--text-secondary)' }}>
+                {article.sources.map((src, idx) => (
+                  <li key={idx} style={{ marginBottom: '6px' }}>
+                    <a href={src.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none' }}>
+                      {src.title}
+                    </a>
+                    {src.publishedDate && ` (${src.publishedDate})`}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
-          {/* Regulatory Fiduciary Notice */}
+          {/* Statutory Regulatory Disclaimer */}
           <div style={{
             marginTop: '36px',
-            padding: '18px 24px',
-            background: 'rgba(255, 255, 255, 0.02)',
+            padding: '16px 20px',
             borderRadius: '8px',
-            borderLeft: '4px solid #f59e0b',
+            background: 'rgba(0, 245, 255, 0.02)',
+            border: '1px solid rgba(0, 245, 255, 0.1)',
             fontSize: '12px',
             color: 'var(--text-muted)',
             lineHeight: 1.6
           }}>
-            <b>Fiduciary Notice:</b> FingTaj publishes educational research and institutional simulation models. This guide does not constitute personal financial, tax, or legal advice. Please consult a SEBI / RIA registered advisor prior to capital allocation.
+            <strong>Regulatory Educational Notice:</strong> This article is authored solely for financial literacy and general educational comprehension under SEBI, RBI, and IRDAI awareness guidelines. FingTaj does not offer personalized financial, investment, legal, or tax advisory services. Readers should consult a SEBI registered investment advisor or certified financial professional before making financial decisions. Questions or editorial queries: <a href="mailto:admin@fingtaj.com" style={{ color: 'var(--accent-cyan)' }}>admin@fingtaj.com</a>.
           </div>
 
         </div>
-
       </div>
     </div>
   );

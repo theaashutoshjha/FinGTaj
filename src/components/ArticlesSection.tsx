@@ -188,11 +188,6 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                       <Clock size={13} />
                       <span>{art.readTime}</span>
                     </div>
-                    {art.seo?.score && (
-                      <span className="badge badge-cyan" style={{ fontSize: '10px', padding: '2px 6px' }}>
-                        SEO {art.seo.score}
-                      </span>
-                    )}
                   </div>
                   <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     Read Guide <ArrowRight size={14} />

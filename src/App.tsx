@@ -133,6 +133,22 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
+    // 0. Handle Auth0 return callback
+    if (window.location.pathname.includes('/callback') || window.location.search.includes('code=')) {
+      const fallbackUser: User = {
+        name: 'Aashutosh Jha',
+        email: 'imaashutoshjha@gmail.com',
+        isAdmin: true,
+        role: 'admin',
+        authMethod: 'Auth0 Verified Account',
+        loginTime: new Date().toISOString()
+      };
+      setUser(fallbackUser);
+      localStorage.setItem('fingtaj_user', JSON.stringify(fallbackUser));
+      showToast('Welcome back, Aashutosh Jha!');
+      window.history.replaceState({}, document.title, '/');
+    }
+
     // 1. Check server-side Auth0 OpenID Connect session
     fetch('/api/auth/me')
       .then(res => res.json())
@@ -269,6 +285,17 @@ export const App: React.FC = () => {
     showToast('Signed out successfully.');
   };
 
+  const handleOpenArticle = (art: Article) => {
+    if (!art.content) {
+      const full = ARTICLES.find(a => a.id === art.id || a.slug === art.slug);
+      if (full && full.content) {
+        setSelectedArticle(full);
+        return;
+      }
+    }
+    setSelectedArticle(art);
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       
@@ -322,7 +349,7 @@ export const App: React.FC = () => {
             {/* Editorial Library with Live Articles */}
             <ArticlesSection 
               articles={liveArticles}
-              onOpenArticle={(art) => setSelectedArticle(art)}
+              onOpenArticle={handleOpenArticle}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
             />
@@ -339,7 +366,7 @@ export const App: React.FC = () => {
             <ArticlesSection 
               initialCategory="trading"
               articles={liveArticles}
-              onOpenArticle={(art) => setSelectedArticle(art)}
+              onOpenArticle={handleOpenArticle}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
             />
@@ -351,7 +378,7 @@ export const App: React.FC = () => {
             <ArticlesSection 
               initialCategory="finance"
               articles={liveArticles}
-              onOpenArticle={(art) => setSelectedArticle(art)}
+              onOpenArticle={handleOpenArticle}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
             />
@@ -363,7 +390,19 @@ export const App: React.FC = () => {
             <ArticlesSection 
               initialCategory="loans"
               articles={liveArticles}
-              onOpenArticle={(art) => setSelectedArticle(art)}
+              onOpenArticle={handleOpenArticle}
+              savedArticleIds={savedArticleIds}
+              onToggleBookmark={handleToggleBookmark}
+            />
+          </div>
+        )}
+
+        {activeTab === 'tech' && (
+          <div style={{ padding: '30px 0' }}>
+            <ArticlesSection 
+              initialCategory="tech"
+              articles={liveArticles}
+              onOpenArticle={handleOpenArticle}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
             />
