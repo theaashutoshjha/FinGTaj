@@ -40,7 +40,7 @@ export const setupAuth0 = () => {
     clientID,
     issuerBaseURL,
     routes: {
-      login: '/login',
+      login: false, // Handled with custom parameter forwarding in server/index.js
       logout: '/logout',
       callback: '/callback',
       postLogoutRedirect: '/'

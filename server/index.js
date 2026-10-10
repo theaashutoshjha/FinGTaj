@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 // Load environment variables from .env
 dotenv.config();
 
-import { setupAuth0, requireAuth, requireAdmin, getCurrentUser } from './auth.js';
+import { setupAuth0, requireAuth, requireAdmin, getCurrentUser, isUserAdmin } from './auth.js';
 import { db } from './db.js';
 import { aiEngine } from './aiEngine.js';
 import { researchEngine } from './researchEngine.js';
@@ -43,17 +43,102 @@ app.use((req, res, next) => {
 // Mount Auth0 OpenID Connect
 app.use(setupAuth0());
 
-// Auth0 Signup convenience route (Universal Login with screen_hint)
-app.get('/signup', (req, res) => {
+// Auth0 Universal Login Route (supports ?login_hint=... and ?returnTo=...)
+app.get('/login', (req, res) => {
+  const authorizationParams = {};
+  if (req.query.login_hint) {
+    authorizationParams.login_hint = String(req.query.login_hint);
+  }
+  if (req.query.screen_hint) {
+    authorizationParams.screen_hint = String(req.query.screen_hint);
+  }
+  const returnTo = (typeof req.query.returnTo === 'string' && req.query.returnTo) || '/';
   res.oidc.login({
-    returnTo: '/',
-    authorizationParams: { screen_hint: 'signup' }
+    returnTo,
+    authorizationParams
+  });
+});
+
+// Auth0 Universal Signup Route (pre-sets screen_hint: 'signup')
+app.get('/signup', (req, res) => {
+  const authorizationParams = { screen_hint: 'signup' };
+  if (req.query.login_hint) {
+    authorizationParams.login_hint = String(req.query.login_hint);
+  }
+  const returnTo = (typeof req.query.returnTo === 'string' && req.query.returnTo) || '/';
+  res.oidc.login({
+    returnTo,
+    authorizationParams
   });
 });
 
 // ==============================================================================
-// PUBLIC ENDPOINTS
+// PUBLIC AUTH & REGISTRATION ENDPOINTS
 // ==============================================================================
+
+// Public Auth0 Tenant Configuration
+app.get('/api/auth/config', (req, res) => {
+  const adminEmails = (process.env.ADMIN_EMAILS || 'admin@fingtaj.com,founder@fingtaj.com')
+    .split(',')
+    .map(e => e.trim().toLowerCase())
+    .filter(Boolean);
+
+  res.json({
+    issuerBaseUrl: process.env.ISSUER_BASE_URL || 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com',
+    clientId: process.env.CLIENT_ID || '7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx',
+    adminEmails
+  });
+});
+
+// Real User Registration via Auth0 Database Connection API
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required.' });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters long.' });
+    }
+
+    const cleanEmail = String(email).trim().toLowerCase();
+    const issuerBaseURL = process.env.ISSUER_BASE_URL || 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com';
+    const clientID = process.env.CLIENT_ID || '7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx';
+
+    const signupUrl = `${issuerBaseURL.replace(/\/$/, '')}/dbconnections/signup`;
+    const auth0Res = await fetch(signupUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: clientID,
+        email: cleanEmail,
+        password,
+        connection: 'Username-Password-Authentication',
+        name: name ? String(name).trim() : cleanEmail.split('@')[0]
+      })
+    });
+
+    const data = await auth0Res.json();
+    if (!auth0Res.ok) {
+      const errMsg = data.description || data.message || 'Registration failed at Auth0 identity provider.';
+      return res.status(auth0Res.status).json({ error: errMsg, details: data });
+    }
+
+    db.logAction('USER_REGISTERED', cleanEmail, { auth0Id: data._id });
+    res.json({
+      success: true,
+      message: 'Account successfully registered with Auth0. You can now log in.',
+      user: {
+        id: data._id,
+        email: data.email,
+        emailVerified: Boolean(data.email_verified)
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || 'Internal registration error' });
+  }
+});
 
 // Current Auth Profile
 app.get('/api/auth/me', (req, res) => {

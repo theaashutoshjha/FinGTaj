@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User } from '../types';
-import { X, Lock, Mail, ShieldCheck, UserCheck, AlertCircle, Sparkles } from 'lucide-react';
+import { X, Lock, Mail, ShieldCheck, UserCheck, AlertCircle, ArrowRight, CheckCircle2, Shield } from 'lucide-react';
+import { AUTH0_CONFIG, buildAuth0AuthorizeUrl, isEmailAdmin } from '../constants/auth';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,56 +15,96 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onAuthSuccess
 }) => {
   const [tab, setTab] = useState<'signin' | 'signup'>('signin');
-  const [email, setEmail] = useState('imaashutoshjha@gmail.com');
-  const [name, setName] = useState('Aashutosh Jha');
-  const [password, setPassword] = useState('••••••••••••');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [showAuth0Hint, setShowAuth0Hint] = useState(false);
 
   if (!isOpen) return null;
 
-  // Recognized admin emails
-  const ADMIN_EMAILS = ['imaashutoshjha@gmail.com', 'admin@fingtaj.com', 'founder@fingtaj.com', 'investor@fingtaj.com'];
-
-  const performLogin = (targetEmail: string, targetName?: string) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      const cleanEmail = targetEmail.trim().toLowerCase();
-      const isAdmin = ADMIN_EMAILS.includes(cleanEmail);
-      
-      const authenticatedUser: User = {
-        name: targetName || (cleanEmail.includes('aashutosh') ? 'Aashutosh Jha' : cleanEmail.split('@')[0]),
-        email: cleanEmail,
-        isAdmin: isAdmin,
-        role: isAdmin ? 'admin' : 'user',
-        authMethod: 'Auth0 Verified Account',
-        loginTime: new Date().toISOString()
-      };
-
-      onAuthSuccess(authenticatedUser);
-      onClose();
-    }, 250);
+  const resetForm = () => {
+    setErrorMsg(null);
+    setSuccessMsg(null);
   };
 
-  const handleInstantAdminLogin = () => {
-    performLogin('imaashutoshjha@gmail.com', 'Aashutosh Jha');
+  const handleTabChange = (newTab: 'signin' | 'signup') => {
+    setTab(newTab);
+    resetForm();
   };
 
-  const handleAuth0Redirect = () => {
-    const auth0Domain = 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com';
-    const clientId = '7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx';
-    const redirectUri = encodeURIComponent(window.location.origin + '/callback');
-    const auth0Url = `${auth0Domain}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=openid%20profile%20email${tab === 'signup' ? '&screen_hint=signup' : ''}`;
+  // Launch Auth0 Universal Login / Hosted Experience
+  const handleAuth0HostedRedirect = () => {
+    setErrorMsg(null);
+    const targetUrl = tab === 'signup' ? '/signup' : '/login';
+    const params = new URLSearchParams();
+    if (email.trim()) {
+      params.set('login_hint', email.trim().toLowerCase());
+    }
     
-    // Redirect to Auth0
-    window.location.href = auth0Url;
+    const query = params.toString() ? `?${params.toString()}` : '';
+    // Navigate through backend OIDC handler (proxied by Vite in dev or handled directly by Express)
+    window.location.href = `${targetUrl}${query}`;
   };
 
-  const handleEmailAuth = (e: React.FormEvent) => {
+  // Direct Auth0 Registration & Login Form
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    performLogin(email, name);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail) {
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+
+    if (tab === 'signup') {
+      if (!password || password.length < 8) {
+        setErrorMsg('Password must be at least 8 characters long.');
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: cleanEmail,
+            password,
+            name: name.trim() || undefined
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Registration failed at identity provider.');
+        }
+
+        setSuccessMsg('Account registered with Auth0! Redirecting to secure login...');
+        
+        // Short pause then redirect to Auth0 login with email pre-filled
+        setTimeout(() => {
+          window.location.href = `/login?login_hint=${encodeURIComponent(cleanEmail)}`;
+        }, 1200);
+      } catch (err: any) {
+        setErrorMsg(err.message || 'An unexpected authentication error occurred.');
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // In Sign In mode:
+      // Redirect to Auth0 Universal Login with login_hint so the user signs in with Auth0
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (cleanEmail) {
+        params.set('login_hint', cleanEmail);
+      }
+      window.location.href = `/login?${params.toString()}`;
+    }
   };
 
   return (
@@ -73,21 +114,108 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <div>
-            <span className="badge badge-cyan" style={{ marginBottom: '6px' }}>Member Portal</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+              <span className="badge badge-cyan">Auth0 Security</span>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Enterprise Identity</span>
+            </div>
             <h2 style={{ fontSize: '20px', fontWeight: 800, margin: 0 }}>
               {tab === 'signin' ? 'Sign In to FingTaj' : 'Create Free Account'}
             </h2>
           </div>
-          <button className="btn-icon" onClick={onClose}>
+          <button className="btn-icon" onClick={onClose} aria-label="Close authentication modal">
             <X size={18} />
           </button>
         </div>
 
-        {/* 1-Click Fast Admin Sign In Button */}
+        {/* Tab Selector */}
+        <div style={{
+          display: 'flex',
+          background: 'rgba(255, 255, 255, 0.04)',
+          borderRadius: '8px',
+          padding: '4px',
+          marginBottom: '20px',
+          border: '1px solid var(--border-subtle)'
+        }}>
+          <button
+            type="button"
+            onClick={() => handleTabChange('signin')}
+            style={{
+              flex: 1,
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: 'none',
+              fontSize: '13px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              background: tab === 'signin' ? 'var(--accent-cyan)' : 'transparent',
+              color: tab === 'signin' ? '#03080f' : 'var(--text-muted)',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            onClick={() => handleTabChange('signup')}
+            style={{
+              flex: 1,
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: 'none',
+              fontSize: '13px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              background: tab === 'signup' ? 'var(--accent-cyan)' : 'transparent',
+              color: tab === 'signup' ? '#03080f' : 'var(--text-muted)',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            Create Account
+          </button>
+        </div>
+
+        {/* Feedback Alerts */}
+        {errorMsg && (
+          <div style={{
+            background: 'rgba(244, 63, 94, 0.12)',
+            border: '1px solid rgba(244, 63, 94, 0.3)',
+            borderRadius: '8px',
+            padding: '10px 14px',
+            marginBottom: '16px',
+            fontSize: '12px',
+            color: '#fda4af',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <AlertCircle size={15} style={{ flexShrink: 0 }} />
+            <span>{errorMsg}</span>
+          </div>
+        )}
+
+        {successMsg && (
+          <div style={{
+            background: 'rgba(16, 185, 129, 0.12)',
+            border: '1px solid rgba(16, 185, 129, 0.3)',
+            borderRadius: '8px',
+            padding: '10px 14px',
+            marginBottom: '16px',
+            fontSize: '12px',
+            color: '#6ee7b7',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <CheckCircle2 size={15} style={{ flexShrink: 0 }} />
+            <span>{successMsg}</span>
+          </div>
+        )}
+
+        {/* Auth0 Universal Hosted Login / Sign Up Button */}
         <div style={{ marginBottom: '16px' }}>
           <button 
             type="button"
-            onClick={handleInstantAdminLogin}
+            onClick={handleAuth0HostedRedirect}
             className="btn btn-primary"
             style={{
               width: '100%',
@@ -103,62 +231,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               boxShadow: '0 4px 15px rgba(0, 245, 255, 0.25)'
             }}
           >
-            <Sparkles size={16} />
-            <span>Instant Sign In (imaashutoshjha@gmail.com)</span>
+            <Lock size={16} />
+            <span>
+              {tab === 'signin' 
+                ? 'Continue with Auth0 Universal Login ↗' 
+                : 'Sign Up with Auth0 Hosted Portal ↗'}
+            </span>
           </button>
-        </div>
-
-        {/* Auth0 Universal Login Button with Hint */}
-        <div style={{ marginBottom: '16px' }}>
-          <button 
-            type="button"
-            onClick={handleAuth0Redirect}
-            className="btn btn-secondary"
-            style={{
-              width: '100%',
-              padding: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              fontSize: '13px',
-              fontWeight: 700
-            }}
-          >
-            <Lock size={15} />
-            <span>Auth0 Universal Hosted Login ↗</span>
-          </button>
-
-          <div style={{ textAlign: 'center', marginTop: '6px' }}>
-            <button 
-              type="button" 
-              onClick={() => setShowAuth0Hint(!showAuth0Hint)}
-              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '11px', cursor: 'pointer', textDecoration: 'underline' }}
-            >
-              {showAuth0Hint ? 'Hide Auth0 Callback Settings' : 'Auth0 Callback Setup Note'}
-            </button>
-          </div>
-
-          {showAuth0Hint && (
-            <div style={{
-              background: 'rgba(255, 179, 0, 0.08)',
-              border: '1px solid rgba(255, 179, 0, 0.25)',
-              borderRadius: '8px',
-              padding: '10px 14px',
-              marginTop: '10px',
-              fontSize: '11.5px',
-              color: 'var(--text-secondary)',
-              lineHeight: 1.5
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#ffb300', fontWeight: 700, marginBottom: '4px' }}>
-                <AlertCircle size={14} /> Auth0 Application Setting
-              </div>
-              If you see <i>"Callback URL mismatch"</i> on Auth0, add this URL to <b>Allowed Callback URLs</b> in your <a href="https://manage.auth0.com/#/applications/7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx/settings" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)' }}>Auth0 Console</a>:
-              <code style={{ display: 'block', background: 'rgba(0,0,0,0.4)', padding: '4px 6px', borderRadius: '4px', marginTop: '6px', wordBreak: 'break-all', color: 'var(--accent-cyan)' }}>
-                {window.location.origin}/callback
-              </code>
-            </div>
-          )}
         </div>
 
         <div style={{
@@ -172,18 +251,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           letterSpacing: '0.05em'
         }}>
           <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
-          <span>Or Sign In with Email</span>
+          <span>Or Continue with Email</span>
           <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
         </div>
 
-        {/* Email Sign In Form */}
-        <form onSubmit={handleEmailAuth} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {/* Real Email Form */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {tab === 'signup' && (
             <div>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>Full Name</label>
+              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>
+                Full Name
+              </label>
               <input 
                 type="text" 
-                placeholder="Aashutosh Jha" 
+                placeholder="Your Full Name" 
                 value={name} 
                 onChange={e => setName(e.target.value)} 
                 className="input-field" 
@@ -192,10 +273,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           )}
 
           <div>
-            <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>Email Address</label>
+            <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>
+              Email Address
+            </label>
             <input 
               type="email" 
-              placeholder="imaashutoshjha@gmail.com" 
+              placeholder="name@company.com" 
               value={email} 
               onChange={e => setEmail(e.target.value)} 
               className="input-field" 
@@ -204,14 +287,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
 
           <div>
-            <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>Password</label>
+            <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>
+              Password
+            </label>
             <input 
               type="password" 
-              placeholder="••••••••••••" 
+              placeholder={tab === 'signup' ? 'Min 8 chars with symbols' : 'Enter your password'} 
               value={password} 
               onChange={e => setPassword(e.target.value)} 
               className="input-field" 
-              required 
+              required={tab === 'signup'}
             />
           </div>
 
@@ -219,19 +304,73 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             type="submit" 
             className="btn btn-secondary" 
             disabled={loading}
-            style={{ width: '100%', padding: '12px', marginTop: '4px', fontWeight: 700 }}
+            style={{
+              width: '100%',
+              padding: '12px',
+              marginTop: '4px',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
           >
-            {loading ? 'Authenticating...' : (tab === 'signin' ? 'Sign In ↗' : 'Create Free Account ↗')}
+            {loading ? (
+              'Authenticating with Auth0...'
+            ) : tab === 'signin' ? (
+              <>
+                <span>Sign In via Auth0</span>
+                <ArrowRight size={14} />
+              </>
+            ) : (
+              <>
+                <ShieldCheck size={15} />
+                <span>Create Verified Auth0 Account</span>
+              </>
+            )}
           </button>
         </form>
 
+        {/* Bottom Switcher */}
         <div style={{ textAlign: 'center', marginTop: '18px', fontSize: '12px', color: 'var(--text-muted)' }}>
           {tab === 'signin' ? (
-            <span>New to FingTaj? <a href="#signup" onClick={(e) => { e.preventDefault(); setTab('signup'); }} style={{ color: 'var(--accent-cyan)' }}>Create free account</a></span>
+            <span>New to FingTaj? <a href="#signup" onClick={(e) => { e.preventDefault(); handleTabChange('signup'); }} style={{ color: 'var(--accent-cyan)' }}>Create free account</a></span>
           ) : (
-            <span>Already have an account? <a href="#signin" onClick={(e) => { e.preventDefault(); setTab('signin'); }} style={{ color: 'var(--accent-cyan)' }}>Sign in</a></span>
+            <span>Already have an account? <a href="#signin" onClick={(e) => { e.preventDefault(); handleTabChange('signin'); }} style={{ color: 'var(--accent-cyan)' }}>Sign in</a></span>
           )}
         </div>
+
+        {/* Auth0 Callback Setup Assistance */}
+        <div style={{ textAlign: 'center', marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)' }}>
+          <button 
+            type="button" 
+            onClick={() => setShowAuth0Hint(!showAuth0Hint)}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '11px', cursor: 'pointer', textDecoration: 'underline' }}
+          >
+            {showAuth0Hint ? 'Hide Auth0 Settings Note' : 'Auth0 Callback Setting Info'}
+          </button>
+        </div>
+
+        {showAuth0Hint && (
+          <div style={{
+            background: 'rgba(0, 245, 255, 0.05)',
+            border: '1px solid rgba(0, 245, 255, 0.2)',
+            borderRadius: '8px',
+            padding: '10px 14px',
+            marginTop: '10px',
+            fontSize: '11px',
+            color: 'var(--text-secondary)',
+            lineHeight: 1.5
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-cyan)', fontWeight: 700, marginBottom: '4px' }}>
+              <Shield size={13} /> Auth0 Allowed Callback URLs
+            </div>
+            When deploying on new domains or hosts, verify that the callback URL is registered in the Auth0 Application Settings:
+            <code style={{ display: 'block', background: 'rgba(0,0,0,0.5)', padding: '4px 6px', borderRadius: '4px', marginTop: '6px', wordBreak: 'break-all', color: 'var(--accent-cyan)' }}>
+              {window.location.origin}/callback
+            </code>
+          </div>
+        )}
 
       </div>
     </div>

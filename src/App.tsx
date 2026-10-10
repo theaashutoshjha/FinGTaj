@@ -22,6 +22,7 @@ import { ContactSection } from './components/ContactSection';
 import { PolicySection } from './components/PolicySection';
 import { CookieBanner } from './components/CookieBanner';
 import { ARTICLES } from './data/articles';
+import { AUTH0_CONFIG, isEmailAdmin } from './constants/auth';
 
 export const App: React.FC = () => {
   // Navigation & View State
@@ -133,28 +134,71 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    // 0. Handle Auth0 return callback
-    if (window.location.pathname.includes('/callback') || window.location.search.includes('code=')) {
-      const fallbackUser: User = {
-        name: 'Aashutosh Jha',
-        email: 'imaashutoshjha@gmail.com',
-        isAdmin: true,
-        role: 'admin',
-        authMethod: 'Auth0 Verified Account',
-        loginTime: new Date().toISOString()
-      };
-      setUser(fallbackUser);
-      localStorage.setItem('fingtaj_user', JSON.stringify(fallbackUser));
-      showToast('Welcome back, Aashutosh Jha!');
+    // 0. Handle Auth0 return callback & real URL tokens
+    const hash = window.location.hash.substring(1);
+    const searchParams = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(hash);
+
+    // Check for Auth0 Error in query or fragment
+    const authError = searchParams.get('error') || hashParams.get('error');
+    if (authError) {
+      const desc = searchParams.get('error_description') || hashParams.get('error_description') || authError;
+      showToast(`Auth0 Error: ${desc}`);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Check for cryptographically signed Auth0 ID token (OIDC implicit / hybrid flow)
+    const idToken = hashParams.get('id_token');
+    if (idToken) {
+      try {
+        const payloadBase64 = idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        const decoded = JSON.parse(decodeURIComponent(escape(atob(payloadBase64))));
+        if (decoded && decoded.email) {
+          const email = decoded.email.toLowerCase();
+          const isAdmin = isEmailAdmin(email);
+          const authenticatedUser: User = {
+            sub: decoded.sub,
+            name: decoded.name || decoded.nickname || email.split('@')[0],
+            email,
+            picture: decoded.picture,
+            emailVerified: Boolean(decoded.email_verified),
+            isAdmin,
+            role: isAdmin ? 'admin' : 'user',
+            authMethod: 'Auth0 Verified Account',
+            loginTime: new Date().toISOString()
+          };
+          setUser(authenticatedUser);
+          localStorage.setItem('fingtaj_user', JSON.stringify(authenticatedUser));
+          showToast(`Welcome, ${authenticatedUser.name}!`);
+          window.history.replaceState({}, document.title, '/');
+        }
+      } catch (err) {
+        console.error('Failed to parse Auth0 id_token:', err);
+      }
+    } else if (window.location.pathname.includes('/callback') || searchParams.has('code')) {
+      // Returned from code authorization flow: clean URL bar
       window.history.replaceState({}, document.title, '/');
     }
 
-    // 1. Check server-side Auth0 OpenID Connect session
-    fetch('/api/auth/me')
+    // 1. Check server-side Auth0 OpenID Connect session (via secure HTTP-only cookie)
+    fetch('/api/auth/me', { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         if (data.isAuthenticated && data.user) {
           setUser(data.user);
+          localStorage.setItem('fingtaj_user', JSON.stringify(data.user));
+        } else if (!idToken) {
+          // If server says unauthenticated and local storage had an old fake or expired session, clean it
+          const saved = localStorage.getItem('fingtaj_user');
+          if (saved) {
+            try {
+              const parsed = JSON.parse(saved);
+              if (parsed.email && parsed.email.includes('aashutosh')) {
+                localStorage.removeItem('fingtaj_user');
+                setUser(null);
+              }
+            } catch (e) {}
+          }
         }
       })
       .catch(() => {});
@@ -278,11 +322,14 @@ export const App: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('/logout');
+      await fetch('/logout', { credentials: 'include' });
     } catch (e) {}
     setUser(null);
     localStorage.removeItem('fingtaj_user');
     showToast('Signed out successfully.');
+    // Trigger Auth0 single logout to invalidate Auth0 SSO session
+    const returnTo = encodeURIComponent(window.location.origin);
+    window.location.href = `https://${AUTH0_CONFIG.domain}/v2/logout?client_id=${AUTH0_CONFIG.clientId}&returnTo=${returnTo}`;
   };
 
   const handleOpenArticle = (art: Article) => {

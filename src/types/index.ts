@@ -27,6 +27,7 @@ export interface User {
   loginTime?: string;
   isAdmin?: boolean;
   role?: 'admin' | 'user';
+  emailVerified?: boolean;
 }
 
 export interface Order {
