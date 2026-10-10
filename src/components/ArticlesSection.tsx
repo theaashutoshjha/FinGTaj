@@ -8,17 +8,20 @@ interface ArticlesSectionProps {
   savedArticleIds: string[];
   onToggleBookmark: (articleId: string) => void;
   initialCategory?: 'all' | 'trading' | 'finance' | 'loans';
+  articles?: Article[];
 }
 
 export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
   onOpenArticle,
   savedArticleIds,
   onToggleBookmark,
-  initialCategory = 'all'
+  initialCategory = 'all',
+  articles
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
 
-  const filtered = ARTICLES.filter(a => {
+  const articleList = articles && articles.length > 0 ? articles : ARTICLES;
+  const filtered = articleList.filter(a => {
     if (selectedCategory === 'all') return true;
     return a.category === selectedCategory;
   });
@@ -145,9 +148,16 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                   borderTop: '1px solid var(--border-subtle)',
                   paddingTop: '16px'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--text-muted)' }}>
-                    <Clock size={13} />
-                    <span>{art.readTime}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                      <Clock size={13} />
+                      <span>{art.readTime}</span>
+                    </div>
+                    {art.seo?.score && (
+                      <span className="badge badge-cyan" style={{ fontSize: '10px', padding: '2px 6px' }}>
+                        SEO {art.seo.score}
+                      </span>
+                    )}
                   </div>
                   <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     Read Guide <ArrowRight size={14} />

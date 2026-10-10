@@ -122,6 +122,31 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </button>
         </div>
 
+        {/* Auth0 Universal Login Option */}
+        <div style={{ marginBottom: '16px' }}>
+          <a 
+            href={tab === 'signup' ? '/signup' : '/login'}
+            className="btn btn-primary"
+            style={{
+              width: '100%',
+              padding: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              textDecoration: 'none',
+              background: 'linear-gradient(135deg, #0284c7, #6366f1)',
+              fontWeight: 700
+            }}
+          >
+            <Lock size={16} />
+            <span>{tab === 'signup' ? 'Sign Up via Auth0 Universal Login ↗' : 'Sign In via Auth0 Universal Login ↗'}</span>
+          </a>
+          <div style={{ fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center', marginTop: '6px' }}>
+            Production OpenID Connect • Auth0 Tenant: dev-1iofcqlcwa1lvzvv.us.auth0.com
+          </div>
+        </div>
+
         {/* Google OAuth Button Slot */}
         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
           <div id="google-btn-slot">

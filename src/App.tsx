@@ -16,6 +16,12 @@ import { AuthModal } from './components/AuthModal';
 import { AICopilotModal } from './components/AICopilotModal';
 import { SearchModal } from './components/SearchModal';
 import { Footer } from './components/Footer';
+import { AdminDashboard } from './components/AdminDashboard';
+import { AboutSection } from './components/AboutSection';
+import { ContactSection } from './components/ContactSection';
+import { PolicySection } from './components/PolicySection';
+import { CookieBanner } from './components/CookieBanner';
+import { ARTICLES } from './data/articles';
 
 export const App: React.FC = () => {
   // Navigation & View State
@@ -32,6 +38,9 @@ export const App: React.FC = () => {
       return null;
     }
   });
+
+  // Dynamic Live Articles from Database (seeded with ARTICLES)
+  const [liveArticles, setLiveArticles] = useState<Article[]>(ARTICLES);
 
   // Cart & Commerce State
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -70,6 +79,7 @@ export const App: React.FC = () => {
   const [authOpen, setAuthOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
 
   // Toast Notification
   const [toastMsg, setToastMsg] = useState<string | null>(null);
@@ -107,47 +117,111 @@ export const App: React.FC = () => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
+  // Fetch real Auth0 session & live articles from server
+  const fetchLiveArticles = async () => {
+    try {
+      const res = await fetch('/api/articles');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setLiveArticles(data);
+        }
+      }
+    } catch (e) {
+      console.warn('Using client cached articles:', e);
+    }
+  };
+
+  useEffect(() => {
+    // 1. Check server-side Auth0 OpenID Connect session
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.isAuthenticated && data.user) {
+          setUser(data.user);
+        }
+      })
+      .catch(() => {});
+
+    // 2. Fetch live articles
+    fetchLiveArticles();
+  }, []);
+
+  // Hash deep-linking handler
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash) return;
+      if (hash === 'about') {
+        setActiveTab('about');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === 'contact') {
+        setActiveTab('contact');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === 'privacy' || hash === 'terms' || hash === 'policy') {
+        setActiveTab('policy');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === 'admin') {
+        setAdminOpen(true);
+      } else {
+        const match = liveArticles.find(a => a.slug === hash || a.id === hash);
+        if (match) setSelectedArticle(match);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, [liveArticles]);
+
   const toggleCurrency = () => {
-    const next = currency === 'INR' ? 'USD' : 'INR';
-    setCurrency(next);
-    showToast(`Currency switched to ${next}`);
+    setCurrency(prev => (prev === 'INR' ? 'USD' : 'INR'));
   };
 
   const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    showToast(`Switched to ${next} mode`);
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
-  // Cart operations
+  // Cart Management
   const handleAddToCart = (product: Product) => {
     setCart(prev => {
-      const existing = prev.find(i => i.product.id === product.id);
-      if (existing) {
-        return prev.map(i => i.product.id === product.id ? { ...i, qty: i.qty + 1 } : i);
+      const exists = prev.find(item => item.product.id === product.id);
+      if (exists) {
+        return prev.map(item =>
+          item.product.id === product.id ? { ...item, qty: item.qty + 1 } : item
+        );
       }
       return [...prev, { product, qty: 1 }];
     });
-    showToast(`Added "${product.title.slice(0, 24)}..." to cart!`);
-  };
-
-  const handleBuyNow = (product: Product) => {
-    handleAddToCart(product);
-    setCheckoutDiscount(0);
-    setCheckoutCoupon('');
-    setCheckoutOpen(true);
+    showToast(`Added ${product.title} to cart`);
   };
 
   const handleUpdateQty = (productId: string, delta: number) => {
-    setCart(prev => {
-      return prev
-        .map(i => i.product.id === productId ? { ...i, qty: i.qty + delta } : i)
-        .filter(i => i.qty > 0);
-    });
+    setCart(prev =>
+      prev
+        .map(item => {
+          if (item.product.id === productId) {
+            const newQty = item.qty + delta;
+            return newQty > 0 ? { ...item, qty: newQty } : null;
+          }
+          return item;
+        })
+        .filter(Boolean) as CartItem[]
+    );
   };
 
   const handleRemoveFromCart = (productId: string) => {
-    setCart(prev => prev.filter(i => i.product.id !== productId));
+    setCart(prev => prev.filter(item => item.product.id !== productId));
+    showToast('Item removed from cart');
+  };
+
+  const handleBuyNow = (product: Product) => {
+    const existing = cart.find(i => i.product.id === product.id);
+    if (!existing) {
+      setCart(prev => [...prev, { product, qty: 1 }]);
+    }
+    setCheckoutDiscount(0);
+    setCheckoutCoupon('');
+    setCheckoutOpen(true);
   };
 
   const handleOpenCheckout = (discount: number, coupon: string) => {
@@ -157,85 +231,51 @@ export const App: React.FC = () => {
     setCheckoutOpen(true);
   };
 
-  // Real Digital Download Handler
-  const handleDownloadFile = (fileName: string, title: string) => {
-    let content = "";
-    let mimeType = "text/csv;charset=utf-8;";
-
-    if (fileName.endsWith('.txt')) {
-      mimeType = "text/plain;charset=utf-8;";
-      content = `========================================================\n`
-        + `FINGTAJ VIP LIFETIME ALL-ACCESS VERIFIED LICENSE\n`
-        + `========================================================\n`
-        + `License Key: FT-VIP-2026-${Math.random().toString(36).substring(2, 10).toUpperCase()}\n`
-        + `Holder: ${user?.name || "Verified Investor"}\n`
-        + `Email: ${user?.email || "investor@fingtaj.com"}\n`
-        + `Access Status: ACTIVE LIFETIME LICENSED\n`
-        + `Portal: https://www.fingtaj.com/\n`
-        + `Generated: ${new Date().toISOString()}\n`;
-    } else {
-      content = `FingTaj Financial Toolkit,${title}\n`
-        + `Version,2026 Institutional Release\n`
-        + `Format,Pre-Linked Excel/CSV Formulas\n`
-        + `Year,Estimated Return,Cash Outlay,Discount Factor,Terminal Wealth\n`
-        + `1,12%,120000,0.892,=C4*D4\n`
-        + `2,12%,144000,0.797,=C5*D5\n`
-        + `3,12%,172800,0.711,=C6*D6\n`
-        + `4,12%,207360,0.635,=C7*D7\n`
-        + `5,12%,248832,0.567,=C8*D8\n`
-        + `10,12%,500000,0.321,=C9*D9\n`
-        + `20,12%,1200000,0.103,=C10*D10\n`;
-    }
-
-    const blob = new Blob([content], { type: mimeType });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showToast(`Downloaded "${fileName}"`);
-  };
-
   const handleOrderSuccess = (order: Order) => {
     const purchasedIds = order.items.map(i => i.product.id);
     setPurchasedProductIds(prev => Array.from(new Set([...prev, ...purchasedIds])));
     setCart([]);
-    showToast('Payment successful! Your download is complete.');
+    showToast('Order confirmed! Access your templates in My Hub.');
   };
 
   const handleToggleBookmark = (articleId: string) => {
     setSavedArticleIds(prev => {
-      if (prev.includes(articleId)) {
-        showToast('Article removed from saved.');
-        return prev.filter(id => id !== articleId);
-      } else {
-        showToast('Article saved to My Hub!');
-        return [...prev, articleId];
-      }
+      const isSaved = prev.includes(articleId);
+      const next = isSaved ? prev.filter(id => id !== articleId) : [...prev, articleId];
+      showToast(isSaved ? 'Article removed from saved' : 'Article bookmarked in My Hub');
+      return next;
     });
   };
 
-  const handleLogout = () => {
+  const handleDownloadFile = (filename: string, title: string) => {
+    const sampleCsv = `Date,Category,Income,Expense,Notes\n2026-03-01,Salary,120000,0,Primary Paycheck\n2026-03-02,Index Fund SIP,0,25000,Nifty 50 Direct Plan\n2026-03-05,Emergency Fund,0,10000,High-Yield Liquid Deposit\n`;
+    const blob = new Blob([sampleCsv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'fingtaj-financial-system.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast(`Downloaded: ${title}`);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/logout');
+    } catch (e) {}
     setUser(null);
-    showToast('Signed out of session.');
+    localStorage.removeItem('fingtaj_user');
+    showToast('Signed out successfully.');
   };
 
   return (
-    <div className="app-container">
-      {/* Dynamic Background Aurora Mesh */}
-      <div className="bg-mesh-canvas">
-        <div className="aurora-blob aurora-1" />
-        <div className="aurora-blob aurora-2" />
-        <div className="aurora-blob aurora-3" />
-      </div>
-
-      {/* Live Market Ticker */}
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      
+      {/* Real-Time Institutional Market Ticker */}
       <MarketTicker />
 
-      {/* Top Sticky Navigation */}
+      {/* Global Navigation Header */}
       <Navbar 
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -248,6 +288,7 @@ export const App: React.FC = () => {
         openAuth={() => setAuthOpen(true)}
         openAI={() => setAiOpen(true)}
         openSearch={() => setSearchOpen(true)}
+        openAdmin={() => setAdminOpen(true)}
         user={user}
         onLogout={handleLogout}
       />
@@ -278,8 +319,9 @@ export const App: React.FC = () => {
               onBuyNow={handleBuyNow}
             />
 
-            {/* Editorial Library */}
+            {/* Editorial Library with Live Articles */}
             <ArticlesSection 
+              articles={liveArticles}
               onOpenArticle={(art) => setSelectedArticle(art)}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
@@ -296,6 +338,7 @@ export const App: React.FC = () => {
           <div style={{ padding: '30px 0' }}>
             <ArticlesSection 
               initialCategory="trading"
+              articles={liveArticles}
               onOpenArticle={(art) => setSelectedArticle(art)}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
@@ -307,6 +350,7 @@ export const App: React.FC = () => {
           <div style={{ padding: '30px 0' }}>
             <ArticlesSection 
               initialCategory="finance"
+              articles={liveArticles}
               onOpenArticle={(art) => setSelectedArticle(art)}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
@@ -318,6 +362,7 @@ export const App: React.FC = () => {
           <div style={{ padding: '30px 0' }}>
             <ArticlesSection 
               initialCategory="loans"
+              articles={liveArticles}
               onOpenArticle={(art) => setSelectedArticle(art)}
               savedArticleIds={savedArticleIds}
               onToggleBookmark={handleToggleBookmark}
@@ -351,6 +396,18 @@ export const App: React.FC = () => {
               onSelectCourse={() => setAiOpen(true)}
             />
           </div>
+        )}
+
+        {activeTab === 'about' && (
+          <AboutSection />
+        )}
+
+        {activeTab === 'contact' && (
+          <ContactSection />
+        )}
+
+        {activeTab === 'policy' && (
+          <PolicySection />
         )}
 
         {activeTab === 'hub' && (
@@ -449,6 +506,18 @@ export const App: React.FC = () => {
         onSelectCalculator={(cId) => { setActiveTab('calculators'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
       />
 
+      {/* Institutional Admin Dashboard Console */}
+      {adminOpen && (
+        <AdminDashboard 
+          user={user} 
+          onClose={() => setAdminOpen(false)} 
+          onArticlePublished={fetchLiveArticles}
+        />
+      )}
+
+      {/* Cookie & Cryptographic Privacy Consent Banner */}
+      <CookieBanner onOpenPrivacy={() => { setActiveTab('policy'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+
       {/* Toast Notification Container */}
       {toastMsg && (
         <div style={{
@@ -476,4 +545,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
 export default App;

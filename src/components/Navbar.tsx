@@ -23,6 +23,7 @@ interface NavbarProps {
   openAuth: () => void;
   openAI: () => void;
   openSearch: () => void;
+  openAdmin?: () => void;
   user: User | null;
   onLogout: () => void;
 }
@@ -39,6 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   openAuth,
   openAI,
   openSearch,
+  openAdmin,
   user,
   onLogout
 }) => {
@@ -53,6 +55,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'store', label: 'Digital Store' },
     { id: 'calculators', label: 'Calculators' },
     { id: 'academy', label: 'Academy' },
+    { id: 'about', label: 'About' },
+    { id: 'contact', label: 'Contact' },
     { id: 'hub', label: 'My Hub' }
   ];
 
@@ -159,6 +163,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Sparkles size={14} color="var(--accent-cyan)" />
             <span style={{ color: 'var(--accent-cyan)' }}>FingTaj AI</span>
           </button>
+
+          {/* Admin Command Center for Administrators */}
+          {user?.isAdmin && openAdmin && (
+            <button 
+              className="btn" 
+              onClick={openAdmin}
+              style={{
+                padding: '7px 14px',
+                fontSize: '12px',
+                gap: '6px',
+                background: 'rgba(0, 245, 255, 0.12)',
+                color: 'var(--accent-cyan)',
+                border: '1px solid var(--accent-cyan)',
+                fontWeight: 700
+              }}
+              title="Open Institutional Admin Dashboard"
+            >
+              <span>Admin Console ↗</span>
+            </button>
+          )}
 
           {/* Currency Switcher */}
           <button 
@@ -272,9 +296,34 @@ export const Navbar: React.FC<NavbarProps> = ({
                   zIndex: 200
                 }}>
                   <div style={{ padding: '8px', borderBottom: '1px solid var(--border-subtle)', marginBottom: '6px' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700 }}>{user.name}</div>
+                    <div style={{ fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>{user.name}</span>
+                      {user.isAdmin && <span className="badge badge-emerald" style={{ fontSize: '9px' }}>ADMIN</span>}
+                    </div>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.email}</div>
                   </div>
+                  {user.isAdmin && openAdmin && (
+                    <button
+                      onClick={() => { openAdmin(); setProfileDropdownOpen(false); }}
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        background: 'rgba(0, 245, 255, 0.08)',
+                        border: 'none',
+                        color: 'var(--accent-cyan)',
+                        textAlign: 'left',
+                        fontSize: '13px',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        marginBottom: '4px'
+                      }}
+                    >
+                      Admin Console ↗
+                    </button>
+                  )}
                   <button
                     onClick={() => { setActiveTab('hub'); setProfileDropdownOpen(false); }}
                     style={{

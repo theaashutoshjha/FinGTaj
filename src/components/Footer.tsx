@@ -89,7 +89,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Bottom Legal Strip */}
+          {/* Bottom Legal Strip */}
         <div style={{
           borderTop: '1px solid var(--border-subtle)',
           paddingTop: '24px',
@@ -102,12 +102,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           color: 'var(--text-muted)'
         }}>
           <div>
-            © {new Date().getFullYear()} FingTaj Technologies. All Rights Reserved. Deployed at <b>https://www.fingtaj.com/</b>
+            © {new Date().getFullYear()} FingTaj Technologies. All Rights Reserved. Deployed at <b>https://fingtaj.com/</b>
           </div>
-          <div style={{ display: 'flex', gap: '20px' }}>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
-            <span>Security Architecture</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+            <a href="#about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>About FingTaj</a>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact Desk</a>
+            <a href="#privacy" onClick={(e) => { e.preventDefault(); onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Privacy Policy</a>
+            <a href="#terms" onClick={(e) => { e.preventDefault(); onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Terms of Service</a>
+            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>XML Sitemap</a>
+            <a href="/robots.txt" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Robots.txt</a>
           </div>
         </div>
 
