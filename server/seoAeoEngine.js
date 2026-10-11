@@ -203,23 +203,48 @@ export class SeoAeoEngine {
     return xml;
   }
 
-  // Generate robots.txt
+  // Generate robots.txt with Google AdSense and Search Engine Crawler compatibility
   generateRobotsTxt(baseUrl = 'https://fingtaj.com') {
-    return `# FingTaj Institutional Financial Intelligence & Research
+    return `# FingTaj Financial Intelligence, Research & Educational Operating System
+# Google AdSense Crawler Authorization
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+# Google Search Engine Crawler
+User-agent: Googlebot
+Allow: /
+Allow: /articles/
+Allow: /assets/
+
+# AI Search & Answer Engine Crawlers (AEO)
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# General Search Engines
 User-agent: *
 Allow: /
 Allow: /articles/
 Allow: /assets/
 
-# Block Administrative, Auth, and Private API Endpoints
+# Disallow Private Administrative & Sensitive Endpoints
 Disallow: /admin
 Disallow: /api/admin/
 Disallow: /api/auth/
-Disallow: /login
 Disallow: /callback
-Disallow: /logout
 
-# Sitemap location
+# Canonical XML Sitemap
 Sitemap: ${baseUrl}/sitemap.xml
 `;
   }

@@ -1,6 +1,81 @@
 {
   "articles": [
     {
+      "id": "art-1791700607654",
+      "slug": "ai-agents-in-a-stand-up-call",
+      "tag": "TECH • Institutional Guide",
+      "category": "tech",
+      "title": "AI agents in a stand-up call",
+      "readTime": "3 Min Read",
+      "author": "FingTaj Research Desk",
+      "authorBio": "Institutional Quantitative Research Desk specializing in compounding mathematics, asset allocation, and fintech architecture.",
+      "publishedAt": null,
+      "updatedAt": "2026-10-11T06:36:47.654Z",
+      "status": "draft",
+      "excerpt": "In-depth institutional guide on ai agents in a stand-up call. Learn mathematical frameworks, risk mitigations, and execution blueprints.",
+      "content": "\n        <h2>1. Executive Summary & Core Mechanism</h2>\n        <p>Readers seek institutional, mathematically verifiable guidance on \"AI agents in a stand-up call\" with clear formulas and step-by-step action items.</p>\n        <div class=\"glass-card\" style=\"margin: 20px 0; border-left: 4px solid var(--accent-cyan); padding: 18px;\">\n          <strong>Institutional Milestone Rule:</strong>\n          <p style=\"margin: 6px 0 0;\">Empirical longitudinal analysis across modern market cycles confirms that asset allocation, fee minimization, and systematic rebalancing dictate over 90% of total wealth accumulation variance over multi-decade horizons.</p>\n        </div>\n\n        <h2>2. Quantitative Breakdown and Mathematical Framework</h2>\n        <p>In analyzing \"AI agents in a stand-up call\", institutions evaluate both upside participation and downside variance. By applying disciplined mathematical allocations rather than reactionary market timing, long-term investors eliminate destructive behavioural drag and friction costs.</p>\n\n        <div style=\"overflow-x: auto; margin: 24px 0;\">\n          <table style=\"width: 100%; border-collapse: collapse; font-size: 14px; background: rgba(255,255,255,0.02); border-radius: 8px;\">\n            <thead>\n              <tr style=\"border-bottom: 2px solid var(--border-subtle); color: var(--accent-cyan);\">\n                <th style=\"padding: 10px 14px; text-align: left;\">Time Horizon</th>\n                <th style=\"padding: 10px 14px; text-align: left;\">Systematic Capital</th>\n                <th style=\"padding: 10px 14px; text-align: left;\">Compounded Portfolio</th>\n                <th style=\"padding: 10px 14px; text-align: left;\">Effective Multiplier</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr style=\"border-bottom: 1px solid rgba(255,255,255,0.06);\">\n                <td style=\"padding: 10px 14px;\">5 Years</td>\n                <td style=\"padding: 10px 14px;\">₹6,00,000</td>\n                <td style=\"padding: 10px 14px;\">₹8,24,864</td>\n                <td style=\"padding: 10px 14px;\">1.37x</td>\n              </tr>\n              <tr style=\"border-bottom: 1px solid rgba(255,255,255,0.06);\">\n                <td style=\"padding: 10px 14px;\">15 Years</td>\n                <td style=\"padding: 10px 14px;\">₹18,00,000</td>\n                <td style=\"padding: 10px 14px;\">₹50,45,760</td>\n                <td style=\"padding: 10px 14px;\">2.80x</td>\n              </tr>\n              <tr style=\"border-bottom: 1px solid rgba(255,255,255,0.06);\">\n                <td style=\"padding: 10px 14px;\">25 Years</td>\n                <td style=\"padding: 10px 14px;\">₹30,00,000</td>\n                <td style=\"padding: 10px 14px;\">₹1,89,76,350</td>\n                <td style=\"padding: 10px 14px;\">6.32x</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>\n\n        <h2>3. Institutional Implementation Protocol</h2>\n        <p>• <b>Protocol 1: Friction Audit:</b> Audit and eliminate direct and indirect expense ratio leakage exceeding 0.20% per annum.<br/>\n        • <b>Protocol 2: Pre-Commitment Rule:</b> Enforce automated, pre-committed cashflow mandates scheduled immediately upon income arrival.<br/>\n        • <b>Protocol 3: Drawdown Discipline:</b> Never pause systematic accumulations during broad-market corrections when asset valuations offer peak margin of safety.</p>\n\n        <h2>4. Statutory & Regulatory Framework</h2>\n        <p>Investors must align systematic wealth accumulation strategies with statutory tax frameworks under Section 112A (Long-Term Capital Gains exemptions up to ₹1.25 Lakh annually) and Section 80CCD(2) employer contributions for optimal after-tax compounding.</p>\n\n        <h2>5. Frequently Asked Questions (FAQ)</h2>\n        <h3>How does systematic execution outperform market timing?</h3>\n        <p>Systematic allocation removes human emotional bias and enforces Rupee-Cost Averaging, buying more units when prices fall and fewer when markets are elevated.</p>\n\n        <h3>What role do expense ratios play over a 25-year horizon?</h3>\n        <p>An ongoing fee difference of 1.5% between active and direct passive funds consumes over 30% of total terminal wealth due to lost compounding upon forgone capital.</p>\n      ",
+      "seo": {
+        "title": "AI agents in a stand-up call | FingTaj",
+        "description": "In-depth institutional guide on ai agents in a stand-up call. Learn mathematical frameworks, risk mitigations, and execution blueprints.",
+        "keywords": [
+          "ai agents in",
+          "mathematical models",
+          "portfolio optimization",
+          "institutional finance"
+        ],
+        "canonicalUrl": "https://fingtaj.com/articles/ai-agents-in-a-stand-up-call",
+        "score": 90
+      },
+      "aeo": {
+        "primaryQuestion": "What is the foundational economic mechanism behind AI agents in a stand-up call?",
+        "directAnswer": "Understanding AI agents in a stand-up call requires focusing on verified empirical evidence, expense ratio minimization, and long-term geometric compounding rather than short-term market speculation.",
+        "keyTakeaways": [
+          "Prioritize friction and expense ratio elimination.",
+          "Enforce automated systematic allocation rules.",
+          "Anchor decisions to verified primary source data."
+        ],
+        "score": 100
+      },
+      "sources": [
+        {
+          "title": "Hacker News Top Technology",
+          "url": "https://atoll92.github.io/agent-standup/",
+          "publishedDate": "Sun, 11 Oct 2026 03:42:47 +0000",
+          "snippet": "Historical performance indicates non-linear returns when horizon exceeds 10 years."
+        }
+      ],
+      "originalityScore": 69,
+      "originalityReport": {
+        "passed": false,
+        "originalityScore": 69,
+        "duplicateTitleFound": false,
+        "maxInternalSimilarity": 1,
+        "mostSimilarArticle": "Gold in Asset Allocation: Historical Correlation Analysis & Inflation Hedging",
+        "sourceOverlapPercent": 0,
+        "wordCount": 253,
+        "isThinContent": true,
+        "notes": "Originality check failed: Article contains thin content (<300 words)."
+      },
+      "factVerificationPassed": true,
+      "factVerificationReport": {
+        "passed": true,
+        "sampleExtractedMetrics": [
+          "90%",
+          "₹6,00,000",
+          "₹8,24,864",
+          "₹18,00,000",
+          "₹50,45,760",
+          "₹30,00,000",
+          "₹1,89,76,350",
+          "0.20%"
+        ],
+        "evidenceCount": 1,
+        "status": "Verified against authoritative primary evidence"
+      },
+      "aiProvider": "Deterministic Institutional Synthesis Engine (Offline Mode)",
+      "createdAt": "2026-10-11T06:36:47.654Z"
+    },
+    {
       "id": "art-1791664554731",
       "slug": "nvidia-in-talks-to-acquire-us-open-model-startup-r",
       "tag": "TECH • Institutional Guide",
@@ -4080,6 +4155,85 @@
   ],
   "topics": [
     {
+      "id": "top-1791700606823-3d7a",
+      "status": "researched",
+      "discoveredAt": "2026-10-11T06:36:46.823Z",
+      "title": "AI agents in a stand-up call",
+      "category": "tech",
+      "sourceName": "Hacker News Top Technology",
+      "sourceUrl": "https://atoll92.github.io/agent-standup/",
+      "pubDate": "Sun, 11 Oct 2026 03:42:47 +0000",
+      "summary": "Comments",
+      "relevanceScore": 90,
+      "brief": {
+        "topicId": "top-1791700606823-3d7a",
+        "title": "AI agents in a stand-up call",
+        "category": "tech",
+        "readerIntent": "Readers seek institutional, mathematically verifiable guidance on \"AI agents in a stand-up call\" with clear formulas and step-by-step action items.",
+        "targetKeywords": [
+          "ai agents in",
+          "mathematical models",
+          "portfolio optimization",
+          "institutional finance"
+        ],
+        "coreQuestionsToAnswer": [
+          "What is the foundational economic mechanism behind AI agents in a stand-up call?",
+          "What common misconceptions cause retail investors or borrowers to lose capital?",
+          "What specific calculation or rule can readers apply immediately?"
+        ],
+        "evidence": [
+          {
+            "url": "https://atoll92.github.io/agent-standup/",
+            "title": "Hacker News Top Technology",
+            "publishedDate": "Sun, 11 Oct 2026 03:42:47 +0000",
+            "accessDate": "2026-10-11T06:36:47.630Z",
+            "claims": [
+              "Historical performance indicates non-linear returns when horizon exceeds 10 years.",
+              "Transaction costs, expense ratios, and tax leakage significantly reduce compound net yield.",
+              "Disciplined systematic allocation outperforms reactionary emotional trades."
+            ]
+          }
+        ],
+        "createdAt": "2026-10-11T06:36:47.630Z"
+      }
+    },
+    {
+      "id": "top-1791700606819-rnq6",
+      "status": "discovered",
+      "discoveredAt": "2026-10-11T06:36:46.819Z",
+      "title": "A city-building game in which the city would prefer you didn't",
+      "category": "tech",
+      "sourceName": "Hacker News Top Technology",
+      "sourceUrl": "https://housing.over.pizza/",
+      "pubDate": "Sat, 10 Oct 2026 20:31:50 +0000",
+      "summary": "Comments",
+      "relevanceScore": 87
+    },
+    {
+      "id": "top-1791700606815-873l",
+      "status": "discovered",
+      "discoveredAt": "2026-10-11T06:36:46.815Z",
+      "title": "Build your own decision model",
+      "category": "tech",
+      "sourceName": "Hacker News Top Technology",
+      "sourceUrl": "https://nishtahir.com/build-your-own-decision-model/",
+      "pubDate": "Sat, 10 Oct 2026 22:50:10 +0000",
+      "summary": "Comments",
+      "relevanceScore": 94
+    },
+    {
+      "id": "top-1791700606811-431p",
+      "status": "discovered",
+      "discoveredAt": "2026-10-11T06:36:46.811Z",
+      "title": "WallHop – 12ft.io is gone, so I built a replacement",
+      "category": "tech",
+      "sourceName": "Hacker News Top Technology",
+      "sourceUrl": "https://wallhop.io/",
+      "pubDate": "Sun, 11 Oct 2026 00:46:48 +0000",
+      "summary": "Comments",
+      "relevanceScore": 98
+    },
+    {
       "id": "top-1791663641839-5uif",
       "status": "researched",
       "discoveredAt": "2026-10-10T20:20:41.839Z",
@@ -4361,6 +4515,26 @@
   "sources": [],
   "jobs": [
     {
+      "id": "job-1791700607616-3feu",
+      "createdAt": "2026-10-11T06:36:47.616Z",
+      "status": "completed",
+      "type": "full_pipeline",
+      "triggeredBy": "test_suite",
+      "step": "DRAFT_SAVED",
+      "logs": [
+        "Job started. Idempotency protection active.",
+        "[06:36:47] [RESEARCH] Researching topic: \"AI agents in a stand-up call\"",
+        "[06:36:47] [BRIEF_CREATED] Research brief constructed with verified citations.",
+        "[06:36:47] [GENERATE] Generating comprehensive institutional article...",
+        "[06:36:47] [DRAFT_SAVED] Draft saved (ID: art-1791700607654) with live SEO/AEO audits.",
+        "[06:36:47] [AUDITED] Audit Scores: Originality=69%, SEO=90/100, AEO=100/100, Facts=PASSED",
+        "[06:36:47] [DRAFT_SAVED] Article retained in drafts for editorial review and approval."
+      ],
+      "updatedAt": "2026-10-11T06:36:47.673Z",
+      "articleId": "art-1791700607654",
+      "published": false
+    },
+    {
       "id": "job-1791664554683-3yis",
       "createdAt": "2026-10-10T20:35:54.683Z",
       "status": "completed",
@@ -4492,6 +4666,16 @@
   },
   "auditLogs": [
     {
+      "id": "log-1791700607669",
+      "timestamp": "2026-10-11T06:36:47.669Z",
+      "action": "CREATE_DRAFT_ARTICLE",
+      "userEmail": "test_suite",
+      "details": {
+        "articleId": "art-1791700607654",
+        "title": "AI agents in a stand-up call"
+      }
+    },
+    {
       "id": "log-1791664554746",
       "timestamp": "2026-10-10T20:35:54.746Z",
       "action": "CREATE_DRAFT_ARTICLE",
@@ -4551,5 +4735,7 @@
         "title": "Federal Reserve Board announces approval of application by Fleur Capital Corporation"
       }
     }
-  ]
+  ],
+  "users": [],
+  "sessions": []
 }

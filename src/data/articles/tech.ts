@@ -31,9 +31,43 @@ With retail demat accounts in India surpassing 16 crore accounts, cybersecurity 
 - Depositories introduced the CDSL/NSDL TPIN system to prevent unauthorized broker transfers.
 - Even if a bad actor accesses your broker password, they cannot debit your long-term equity holdings from the depository without entering your private 6-digit TPIN and the subsequent OTP sent directly to your registered mobile and email.
 
-3. **Depository Freeze Facility:**
-- If you are a long-term buy-and-hold investor who does not trade frequently, you can freeze your demat account directly on the CDSL or NSDL portal.
-- A frozen account prevents all debits until you voluntarily unfreeze it, eliminating unauthorized transaction risks entirely.
+3. **Depository Account Freeze Facility:**
+- Long-term buy-and-hold investors can activate a voluntary debit freeze on their demat account directly on the CDSL or NSDL portals.
+- A frozen account continues receiving corporate dividends and bonus shares, but prevents all outbound debits until you voluntarily unfreeze it with verified OTP authentication.
+
+---
+
+### Step-by-Step Demat Hardening Protocol
+
+| Layer | Standard Risk | Hardened Security Action |
+| :--- | :--- | :--- |
+| **Authentication** | Basic SMS OTP | Shift to TOTP Authenticator App or Biometrics |
+| **Share Debits** | General Power of Attorney (PoA) | Revoke PoA; enforce on-demand CDSL TPIN + E-DIS OTP |
+| **Dormant Holdings** | Unmonitored Accounts | Register on CDSL *m-Easitalk* / NSDL *Speed-e* for monthly Consolidated Account Statements (CAS) |
+| **Emergency Response** | Delayed Bank Calls | Dial National Cyber Helpline **1930** & notify depository immediately |
+
+---
+
+### Incident Response: What to Do If Compromised
+1. **Immediate Freeze:** Log into your depository portal (CDSL/NSDL) and invoke the instant investor account freeze.
+2. **Broker Notification:** Contact your stockbroker's official compliance and fraud desk via recorded email and registered phone support.
+3. **Official Filing:** Register a cybercrime complaint on the government portal **cybercrime.gov.in** and retain the official acknowledgement reference number for SEBI SCORES escalation.
+
+---
+
+### Frequently Asked Questions (FAQ)
+
+**Q1: What is the difference between my stockbroker and the depository?**
+Your stockbroker (e.g. Zerodha, Groww, AngelOne) is merely an intermediary facilitating buy and sell orders. Your actual shares and mutual fund units are held safely in your name at government-regulated national depositories: CDSL (Central Depository Services Limited) or NSDL (National Securities Depository Limited). Even if your broker goes bankrupt, your shares remain 100% safe in your depository demat account.
+
+**Q2: What is a Consolidated Account Statement (CAS)?**
+A CAS is a single monthly statement sent directly by CDSL/NSDL to your registered email that aggregates all your investments across all brokers, stocks, mutual funds, and sovereign bonds. Always reconcile your broker holdings against your monthly CAS.
+
+**Q3: Can a stockbroker sell my shares without my permission?**
+Under revised SEBI guidelines, brokers cannot sell shares without explicit client-authenticated E-DIS TPIN authorization or Margin Pledge verification. The older practice of signing blanket Power of Attorney (PoA) forms has been superseded by secure digital pledges.
+
+**Q4: How can I verify that my email and phone number are correctly registered?**
+Visit the official CDSL or NSDL portal, navigate to the 'Verify Demat Account' section, and enter your 16-digit Demat Account Number (BO ID) and PAN to confirm your registered contact details.
 
 Educational Notice: Compliant with SEBI cybersecurity and investor awareness circulars.
 `

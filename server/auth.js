@@ -2,7 +2,7 @@ import { auth } from 'express-openid-connect';
 
 // Extract admin emails from environment
 const getAdminEmails = () => {
-  const envVal = process.env.ADMIN_EMAILS || 'admin@fingtaj.com,founder@fingtaj.com';
+  const envVal = process.env.ADMIN_EMAILS || 'admin@fingtaj.com,founder@fingtaj.com,investor@fingtaj.com,aashutosh@fingtaj.com';
   return envVal
     .split(',')
     .map(e => e.trim().toLowerCase())
@@ -25,9 +25,9 @@ export const isUserAdmin = (user) => {
 // Configure the Auth0 Express OpenID Connect Middleware
 export const setupAuth0 = () => {
   const issuerBaseURL = process.env.ISSUER_BASE_URL || 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com';
-  const clientID = process.env.CLIENT_ID || '7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx';
+  const clientID = process.env.CLIENT_ID || 'mdXD45c448jB42N1B1EXd1Wy32AkBZjr';
   const secret = process.env.SECRET || '726ce5b769e901aec0c8d76953b7d7156c5a364bbe31a5e6cf9caaa005a11ba8';
-  const baseURL = process.env.BASE_URL || 'http://localhost:5000';
+  const baseURL = process.env.BASE_URL || 'https://fingtaj.com';
 
   console.log(`[Auth0] Initializing OpenID Connect for Issuer: ${issuerBaseURL}`);
   console.log(`[Auth0] Client ID: ${clientID} | Base URL: ${baseURL}`);
@@ -52,15 +52,15 @@ export const setupAuth0 = () => {
       cookie: {
         httpOnly: true,
         sameSite: 'Lax',
-        secure: process.env.NODE_ENV === 'production'
+        secure: process.env.NODE_ENV === 'production' || Boolean(baseURL && baseURL.startsWith('https'))
       }
     }
   });
 };
 
-// Middleware: Require Authenticated User
+// Middleware: Require Authenticated User (Supports direct email session or Auth0)
 export const requireAuth = (req, res, next) => {
-  if (req.oidc && req.oidc.isAuthenticated()) {
+  if (req.user || (req.oidc && req.oidc.isAuthenticated())) {
     return next();
   }
 
@@ -73,21 +73,25 @@ export const requireAuth = (req, res, next) => {
   }
 
   // Redirect browser to login
-  res.oidc.login({ returnTo: req.originalUrl || '/' });
+  if (req.oidc && typeof req.oidc.login === 'function') {
+    res.oidc.login({ returnTo: req.originalUrl || '/' });
+  } else {
+    res.redirect('/login');
+  }
 };
 
 // Middleware: Require Administrator Role
 export const requireAdmin = (req, res, next) => {
-  if (!req.oidc || !req.oidc.isAuthenticated()) {
+  const user = getCurrentUser(req);
+  if (!user) {
     return res.status(401).json({
       error: 'Authentication Required',
-      message: 'Please authenticate via Auth0 to access administrative controls.',
+      message: 'Please authenticate to access administrative controls.',
       loginUrl: '/login'
     });
   }
 
-  const user = req.oidc.user;
-  if (!isUserAdmin(user)) {
+  if (!user.isAdmin) {
     return res.status(403).json({
       error: 'Access Denied',
       message: 'Administrator privileges are required for this action.',
@@ -101,6 +105,21 @@ export const requireAdmin = (req, res, next) => {
 
 // Helper: Extract current user context safely
 export const getCurrentUser = (req) => {
+  if (req.user) {
+    const admin = isUserAdmin(req.user);
+    return {
+      sub: req.user.sub || req.user.id || `usr-${req.user.email}`,
+      name: req.user.name || req.user.email.split('@')[0],
+      email: req.user.email,
+      picture: req.user.picture || null,
+      emailVerified: Boolean(req.user.emailVerified ?? true),
+      isAdmin: admin,
+      role: admin ? 'admin' : 'user',
+      authMethod: req.user.authMethod || 'Direct Email Account',
+      updatedAt: req.user.updatedAt || new Date().toISOString()
+    };
+  }
+
   if (!req.oidc || !req.oidc.isAuthenticated()) {
     return null;
   }
@@ -114,6 +133,7 @@ export const getCurrentUser = (req) => {
     emailVerified: u.email_verified,
     isAdmin: admin,
     role: admin ? 'admin' : 'user',
+    authMethod: 'Auth0 Verified Account',
     updatedAt: u.updated_at
   };
 };

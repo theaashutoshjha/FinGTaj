@@ -27,6 +27,7 @@ import { AUTH0_CONFIG, isEmailAdmin } from './constants/auth';
 export const App: React.FC = () => {
   // Navigation & View State
   const [activeTab, setActiveTab] = useState<string>('home');
+  const [policyTab, setPolicyTab] = useState<'privacy' | 'terms' | 'disclaimer' | 'editorial' | 'cookies' | 'dmca'>('privacy');
   const [currency, setCurrency] = useState<Currency>('INR');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
@@ -180,24 +181,31 @@ export const App: React.FC = () => {
       window.history.replaceState({}, document.title, '/');
     }
 
-    // 1. Check server-side Auth0 OpenID Connect session (via secure HTTP-only cookie)
-    fetch('/api/auth/me', { credentials: 'include' })
+    // 1. Check server-side session (via secure HTTP-only cookie or bearer token)
+    const storedToken = localStorage.getItem('fingtaj_token');
+    const headers: Record<string, string> = {};
+    if (storedToken) {
+      headers['Authorization'] = `Bearer ${storedToken}`;
+    }
+
+    fetch('/api/auth/me', { credentials: 'include', headers })
       .then(res => res.json())
       .then(data => {
         if (data.isAuthenticated && data.user) {
           setUser(data.user);
           localStorage.setItem('fingtaj_user', JSON.stringify(data.user));
         } else if (!idToken) {
-          // If server says unauthenticated and local storage had an old fake or expired session, clean it
+          // If server says unauthenticated, check if we have a locally stored valid direct session
           const saved = localStorage.getItem('fingtaj_user');
           if (saved) {
             try {
               const parsed = JSON.parse(saved);
-              if (parsed.email && parsed.email.includes('aashutosh')) {
-                localStorage.removeItem('fingtaj_user');
-                setUser(null);
+              if (parsed && parsed.email) {
+                setUser(parsed);
               }
-            } catch (e) {}
+            } catch (e) {
+              setUser(null);
+            }
           }
         }
       })
@@ -218,8 +226,11 @@ export const App: React.FC = () => {
       } else if (hash === 'contact') {
         setActiveTab('contact');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (hash === 'privacy' || hash === 'terms' || hash === 'policy') {
+      } else if (hash === 'privacy' || hash === 'terms' || hash === 'disclaimer' || hash === 'editorial' || hash === 'cookies' || hash === 'dmca' || hash === 'policy') {
         setActiveTab('policy');
+        if (['privacy', 'terms', 'disclaimer', 'editorial', 'cookies', 'dmca'].includes(hash)) {
+          setPolicyTab(hash as any);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === 'admin') {
         setAdminOpen(true);
@@ -322,14 +333,20 @@ export const App: React.FC = () => {
 
   const handleLogout = async () => {
     try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
       await fetch('/logout', { credentials: 'include' });
     } catch (e) {}
+    const wasAuth0 = user?.authMethod === 'Auth0 Verified Account';
     setUser(null);
     localStorage.removeItem('fingtaj_user');
+    localStorage.removeItem('fingtaj_token');
     showToast('Signed out successfully.');
-    // Trigger Auth0 single logout to invalidate Auth0 SSO session
-    const returnTo = encodeURIComponent(window.location.origin);
-    window.location.href = `https://${AUTH0_CONFIG.domain}/v2/logout?client_id=${AUTH0_CONFIG.clientId}&returnTo=${returnTo}`;
+
+    // Only redirect if user explicitly authenticated via external Auth0 SSO portal
+    if (wasAuth0) {
+      const returnTo = encodeURIComponent(window.location.origin);
+      window.location.href = `https://${AUTH0_CONFIG.domain}/v2/logout?client_id=${AUTH0_CONFIG.clientId}&returnTo=${returnTo}`;
+    }
   };
 
   const handleOpenArticle = (art: Article) => {
@@ -493,7 +510,7 @@ export const App: React.FC = () => {
         )}
 
         {activeTab === 'policy' && (
-          <PolicySection />
+          <PolicySection initialTab={policyTab} />
         )}
 
         {activeTab === 'hub' && (

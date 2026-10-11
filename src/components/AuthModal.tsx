@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { User } from '../types';
-import { X, Lock, Mail, ShieldCheck, UserCheck, AlertCircle, ArrowRight, CheckCircle2, Shield } from 'lucide-react';
-import { AUTH0_CONFIG, buildAuth0AuthorizeUrl, isEmailAdmin } from '../constants/auth';
+import { X, Lock, Mail, ShieldCheck, UserCheck, AlertCircle, ArrowRight, CheckCircle2, Shield, Eye, EyeOff } from 'lucide-react';
+import { isEmailAdmin } from '../constants/auth';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -18,10 +18,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
-  const [showAuth0Hint, setShowAuth0Hint] = useState(false);
 
   if (!isOpen) return null;
 
@@ -35,21 +36,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     resetForm();
   };
 
-  // Launch Auth0 Universal Login / Hosted Experience
-  const handleAuth0HostedRedirect = () => {
-    setErrorMsg(null);
-    const targetUrl = tab === 'signup' ? '/signup' : '/login';
-    const params = new URLSearchParams();
-    if (email.trim()) {
-      params.set('login_hint', email.trim().toLowerCase());
-    }
-    
-    const query = params.toString() ? `?${params.toString()}` : '';
-    // Navigate through backend OIDC handler (proxied by Vite in dev or handled directly by Express)
-    window.location.href = `${targetUrl}${query}`;
-  };
-
-  // Direct Auth0 Registration & Login Form
+  // Direct In-App Authentication with Email & Password
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
@@ -61,14 +48,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       return;
     }
 
-    if (tab === 'signup') {
-      if (!password || password.length < 8) {
-        setErrorMsg('Password must be at least 8 characters long.');
-        return;
-      }
+    if (!password) {
+      setErrorMsg('Please enter your password.');
+      return;
+    }
 
-      setLoading(true);
-      try {
+    setLoading(true);
+
+    try {
+      if (tab === 'signup') {
+        if (password.length < 8) {
+          setErrorMsg('Password must be at least 8 characters long.');
+          setLoading(false);
+          return;
+        }
+
         const res = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -81,30 +75,83 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.error || 'Registration failed at identity provider.');
+          throw new Error(data.error || 'Registration failed. Please try again.');
         }
 
-        setSuccessMsg('Account registered with Auth0! Redirecting to secure login...');
-        
-        // Short pause then redirect to Auth0 login with email pre-filled
+        setSuccessMsg('Account created successfully! Welcome to FingTaj.');
+        const authenticatedUser: User = {
+          sub: data.user.sub || `usr-${cleanEmail}`,
+          name: data.user.name || name.trim() || cleanEmail.split('@')[0],
+          email: cleanEmail,
+          isAdmin: Boolean(data.user.isAdmin || isEmailAdmin(cleanEmail)),
+          role: (data.user.isAdmin || isEmailAdmin(cleanEmail)) ? 'admin' : 'user',
+          authMethod: 'Direct Email Account',
+          loginTime: new Date().toISOString()
+        };
+
+        if (data.token) {
+          localStorage.setItem('fingtaj_token', data.token);
+        }
+        localStorage.setItem('fingtaj_user', JSON.stringify(authenticatedUser));
+
         setTimeout(() => {
-          window.location.href = `/login?login_hint=${encodeURIComponent(cleanEmail)}`;
-        }, 1200);
-      } catch (err: any) {
-        setErrorMsg(err.message || 'An unexpected authentication error occurred.');
-      } finally {
-        setLoading(false);
+          onAuthSuccess(authenticatedUser);
+          onClose();
+        }, 600);
+
+      } else {
+        // Sign In Mode: Call direct /api/auth/login endpoint
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: cleanEmail,
+            password
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Invalid email or password.');
+        }
+
+        setSuccessMsg('Authentication successful! Welcome back.');
+        const authenticatedUser: User = {
+          sub: data.user.sub || `usr-${cleanEmail}`,
+          name: data.user.name || cleanEmail.split('@')[0],
+          email: cleanEmail,
+          isAdmin: Boolean(data.user.isAdmin || isEmailAdmin(cleanEmail)),
+          role: (data.user.isAdmin || isEmailAdmin(cleanEmail)) ? 'admin' : 'user',
+          authMethod: 'Direct Email Account',
+          loginTime: new Date().toISOString()
+        };
+
+        if (data.token) {
+          localStorage.setItem('fingtaj_token', data.token);
+        }
+        localStorage.setItem('fingtaj_user', JSON.stringify(authenticatedUser));
+
+        setTimeout(() => {
+          onAuthSuccess(authenticatedUser);
+          onClose();
+        }, 500);
       }
-    } else {
-      // In Sign In mode:
-      // Redirect to Auth0 Universal Login with login_hint so the user signs in with Auth0
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (cleanEmail) {
-        params.set('login_hint', cleanEmail);
-      }
-      window.location.href = `/login?${params.toString()}`;
+    } catch (err: any) {
+      setErrorMsg(err.message || 'An authentication error occurred. Please try again.');
+    } finally {
+      setLoading(false);
     }
+  };
+
+  // Optional External Auth0 Universal Login for SSO
+  const handleAuth0UniversalRedirect = () => {
+    const targetUrl = tab === 'signup' ? '/signup' : '/login';
+    const params = new URLSearchParams();
+    if (email.trim()) {
+      params.set('login_hint', email.trim().toLowerCase());
+    }
+    const query = params.toString() ? `?${params.toString()}` : '';
+    window.location.href = `${targetUrl}${query}`;
   };
 
   return (
@@ -115,10 +162,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-              <span className="badge badge-cyan">Auth0 Security</span>
-              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Enterprise Identity</span>
+              <span className="badge badge-cyan">Direct Email Access</span>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Real-Time Authentication</span>
             </div>
-            <h2 style={{ fontSize: '20px', fontWeight: 800, margin: 0 }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 800, margin: 0, color: 'var(--text-primary)' }}>
               {tab === 'signin' ? 'Sign In to FingTaj' : 'Create Free Account'}
             </h2>
           </div>
@@ -152,7 +199,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               transition: 'all 0.2s ease'
             }}
           >
-            Sign In
+            Sign In with Email
           </button>
           <button
             type="button"
@@ -211,166 +258,165 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
         )}
 
-        {/* Auth0 Universal Hosted Login / Sign Up Button */}
-        <div style={{ marginBottom: '16px' }}>
-          <button 
-            type="button"
-            onClick={handleAuth0HostedRedirect}
-            className="btn btn-primary"
-            style={{
-              width: '100%',
-              padding: '13px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              fontSize: '13.5px',
-              background: 'linear-gradient(135deg, var(--accent-cyan), #0284c7)',
-              color: '#03080f',
-              fontWeight: 800,
-              boxShadow: '0 4px 15px rgba(0, 245, 255, 0.25)'
-            }}
-          >
-            <Lock size={16} />
-            <span>
-              {tab === 'signin' 
-                ? 'Continue with Auth0 Universal Login ↗' 
-                : 'Sign Up with Auth0 Hosted Portal ↗'}
-            </span>
-          </button>
-        </div>
-
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          color: 'var(--text-muted)',
-          fontSize: '11px',
-          margin: '16px 0',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em'
-        }}>
-          <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
-          <span>Or Continue with Email</span>
-          <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
-        </div>
-
-        {/* Real Email Form */}
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {/* Real Direct Email & Password Form */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {tab === 'signup' && (
             <div>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>
+              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '5px', display: 'block', fontWeight: 600 }}>
                 Full Name
               </label>
-              <input 
-                type="text" 
-                placeholder="Your Full Name" 
-                value={name} 
-                onChange={e => setName(e.target.value)} 
-                className="input-field" 
-              />
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Aashutosh Jha" 
+                  value={name} 
+                  onChange={e => setName(e.target.value)} 
+                  className="input-field" 
+                  style={{ width: '100%', paddingLeft: '36px' }}
+                />
+                <UserCheck size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              </div>
             </div>
           )}
 
           <div>
-            <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>
+            <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '5px', display: 'block', fontWeight: 600 }}>
               Email Address
             </label>
-            <input 
-              type="email" 
-              placeholder="name@company.com" 
-              value={email} 
-              onChange={e => setEmail(e.target.value)} 
-              className="input-field" 
-              required 
-            />
+            <div style={{ position: 'relative' }}>
+              <input 
+                type="email" 
+                placeholder="name@fingtaj.com" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                className="input-field" 
+                style={{ width: '100%', paddingLeft: '36px' }}
+                required 
+              />
+              <Mail size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            </div>
           </div>
 
           <div>
-            <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', display: 'block' }}>
-              Password
-            </label>
-            <input 
-              type="password" 
-              placeholder={tab === 'signup' ? 'Min 8 chars with symbols' : 'Enter your password'} 
-              value={password} 
-              onChange={e => setPassword(e.target.value)} 
-              className="input-field" 
-              required={tab === 'signup'}
-            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
+              <label style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>
+                Password
+              </label>
+              {tab === 'signin' && (
+                <span style={{ fontSize: '11px', color: 'var(--accent-cyan)', cursor: 'pointer' }} onClick={() => setErrorMsg('For direct password assistance, write to admin@fingtaj.com')}>
+                  Forgot?
+                </span>
+              )}
+            </div>
+            <div style={{ position: 'relative' }}>
+              <input 
+                type={showPassword ? 'text' : 'password'} 
+                placeholder={tab === 'signup' ? 'Minimum 8 characters' : 'Enter account password'} 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+                className="input-field" 
+                style={{ width: '100%', paddingLeft: '36px', paddingRight: '36px' }}
+                required 
+              />
+              <Lock size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  padding: 0
+                }}
+              >
+                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
           </div>
 
+          {tab === 'signin' && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--text-secondary)' }}>
+              <input 
+                type="checkbox" 
+                id="remember" 
+                checked={rememberMe} 
+                onChange={e => setRememberMe(e.target.checked)} 
+                style={{ cursor: 'pointer' }}
+              />
+              <label htmlFor="remember" style={{ cursor: 'pointer' }}>Keep me logged in on this device</label>
+            </div>
+          )}
+
+          {/* Primary Action Button */}
           <button 
             type="submit" 
-            className="btn btn-secondary" 
+            className="btn btn-primary" 
             disabled={loading}
             style={{
               width: '100%',
-              padding: '12px',
-              marginTop: '4px',
-              fontWeight: 700,
+              padding: '13px',
+              marginTop: '6px',
+              fontWeight: 800,
+              fontSize: '14px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px'
+              gap: '8px',
+              background: 'linear-gradient(135deg, var(--accent-cyan), #0284c7)',
+              color: '#03080f',
+              boxShadow: '0 4px 15px rgba(0, 245, 255, 0.25)'
             }}
           >
             {loading ? (
-              'Authenticating with Auth0...'
+              <span>Authenticating...</span>
             ) : tab === 'signin' ? (
               <>
-                <span>Sign In via Auth0</span>
-                <ArrowRight size={14} />
+                <span>Sign In Directly</span>
+                <ArrowRight size={15} />
               </>
             ) : (
               <>
-                <ShieldCheck size={15} />
-                <span>Create Verified Auth0 Account</span>
+                <ShieldCheck size={16} />
+                <span>Create Account Directly</span>
               </>
             )}
           </button>
         </form>
 
         {/* Bottom Switcher */}
-        <div style={{ textAlign: 'center', marginTop: '18px', fontSize: '12px', color: 'var(--text-muted)' }}>
+        <div style={{ textAlign: 'center', marginTop: '18px', fontSize: '12.5px', color: 'var(--text-muted)' }}>
           {tab === 'signin' ? (
-            <span>New to FingTaj? <a href="#signup" onClick={(e) => { e.preventDefault(); handleTabChange('signup'); }} style={{ color: 'var(--accent-cyan)' }}>Create free account</a></span>
+            <span>New to FingTaj? <a href="#signup" onClick={(e) => { e.preventDefault(); handleTabChange('signup'); }} style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>Create free account</a></span>
           ) : (
-            <span>Already have an account? <a href="#signin" onClick={(e) => { e.preventDefault(); handleTabChange('signin'); }} style={{ color: 'var(--accent-cyan)' }}>Sign in</a></span>
+            <span>Already have an account? <a href="#signin" onClick={(e) => { e.preventDefault(); handleTabChange('signin'); }} style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>Sign in</a></span>
           )}
         </div>
 
-        {/* Auth0 Callback Setup Assistance */}
-        <div style={{ textAlign: 'center', marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)' }}>
+        {/* Discrete SSO / Auth0 Universal Link (Secondary, Not Forced) */}
+        <div style={{ textAlign: 'center', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border-subtle)' }}>
           <button 
             type="button" 
-            onClick={() => setShowAuth0Hint(!showAuth0Hint)}
-            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '11px', cursor: 'pointer', textDecoration: 'underline' }}
+            onClick={handleAuth0UniversalRedirect}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: 'var(--text-muted)', 
+              fontSize: '11.5px', 
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px'
+            }}
           >
-            {showAuth0Hint ? 'Hide Auth0 Settings Note' : 'Auth0 Callback Setting Info'}
+            <Shield size={12} />
+            <span>Or continue with Auth0 Universal Login / Social SSO ↗</span>
           </button>
         </div>
-
-        {showAuth0Hint && (
-          <div style={{
-            background: 'rgba(0, 245, 255, 0.05)',
-            border: '1px solid rgba(0, 245, 255, 0.2)',
-            borderRadius: '8px',
-            padding: '10px 14px',
-            marginTop: '10px',
-            fontSize: '11px',
-            color: 'var(--text-secondary)',
-            lineHeight: 1.5
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-cyan)', fontWeight: 700, marginBottom: '4px' }}>
-              <Shield size={13} /> Auth0 Allowed Callback URLs
-            </div>
-            When deploying on new domains or hosts, verify that the callback URL is registered in the Auth0 Application Settings:
-            <code style={{ display: 'block', background: 'rgba(0,0,0,0.5)', padding: '4px 6px', borderRadius: '4px', marginTop: '6px', wordBreak: 'break-all', color: 'var(--accent-cyan)' }}>
-              {window.location.origin}/callback
-            </code>
-          </div>
-        )}
 
       </div>
     </div>

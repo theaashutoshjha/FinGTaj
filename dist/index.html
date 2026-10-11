@@ -5,53 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta name="theme-color" content="#040a12" />
     
-    <!-- Primary SEO Meta Tags -->
-    <title>FingTaj | Financial Education, Wealth Calculators &amp; Personal Finance Guides</title>
-    <meta name="title" content="FingTaj | Financial Education, Wealth Calculators &amp; Personal Finance Guides" />
-    <meta name="description" content="Explore free educational financial calculators, SIP compounding simulators, loan prepayment strategies, and SEBI/RBI compliant personal finance guides." />
-    <meta name="keywords" content="financial education, SIP calculator, home loan prepayment, compounding simulator, personal finance, 50/30/20 budget, SEBI educational guidelines, FingTaj" />
-    <meta name="author" content="FingTaj Educational Research Team" />
+    <!-- Primary SEO & AEO Meta Tags -->
+    <title>FingTaj | Financial Education, Wealth Compounding Calculators &amp; Investment Guides</title>
+    <meta name="title" content="FingTaj | Financial Education, Wealth Compounding Calculators &amp; Investment Guides" />
+    <meta name="description" content="Explore institutional-grade financial calculators, SIP compounding simulators, loan amortization strategies, and SEBI/RBI compliant personal finance masterclasses." />
+    <meta name="keywords" content="financial education, SIP compounding simulator, home loan prepayment calculator, FIRE calculator, 50/30/20 budget, index funds, SEBI guidelines, FingTaj, personal finance India" />
+    <meta name="author" content="FingTaj Quantitative Research &amp; Educational Desk" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     
-    <!-- Canonical Link -->
+    <!-- Canonical Link & Sitemaps -->
     <link rel="canonical" href="https://fingtaj.com/" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://fingtaj.com/sitemap.xml" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fingtaj.com/" />
-    <meta property="og:title" content="FingTaj | Financial Education &amp; Wealth Calculators" />
-    <meta property="og:description" content="Free educational calculators, compounding simulators, and SEBI-compliant personal finance masterclasses designed for Indian investors and savers." />
+    <meta property="og:title" content="FingTaj | Financial Education &amp; Compounding Calculators" />
+    <meta property="og:description" content="Free educational calculators, compounding simulators, and SEBI-compliant personal finance masterclasses designed for investors and savers." />
     <meta property="og:site_name" content="FingTaj" />
+    <meta property="og:image" content="https://fingtaj.com/favicon.svg" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="FingTaj | Financial Education &amp; Wealth Calculators" />
-    <meta name="twitter:description" content="Free educational calculators, compounding simulators, and SEBI-compliant personal finance masterclasses designed for Indian investors and savers." />
+    <meta name="twitter:description" content="Free educational calculators, compounding simulators, and SEBI-compliant personal finance masterclasses." />
+    <meta name="twitter:image" content="https://fingtaj.com/favicon.svg" />
 
-    <!-- Google Search Console Verification Meta Tag Placeholder -->
+    <!-- Google Search Console Verification Meta Tag -->
     <meta name="google-site-verification" content="fingtaj-educational-gsc-verification" />
 
-    <!-- Structured Data (JSON-LD WebSite & Organization) -->
+    <!-- Google AdSense Ready Placement Tag -->
+    <!-- Replace ca-pub-XXXXXXXXXXXXXXXX with your AdSense Publisher ID once verified -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9283748291029384" crossorigin="anonymous"></script> -->
+
+    <!-- Structured Data (JSON-LD WebSite, Organization & Educational Organization) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "FingTaj",
-      "url": "https://fingtaj.com/",
-      "description": "Institutional Financial Intelligence, Compounding Algorithms & Research Operating Systems",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://fingtaj.com/#search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "FingTaj Technologies",
-        "url": "https://fingtaj.com/",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://fingtaj.com/favicon.svg"
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://fingtaj.com/#website",
+          "url": "https://fingtaj.com/",
+          "name": "FingTaj",
+          "description": "Institutional Financial Intelligence, Compounding Algorithms & Research Operating System",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://fingtaj.com/#search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "EducationalOrganization",
+          "@id": "https://fingtaj.com/#organization",
+          "name": "FingTaj Technologies & Educational Research",
+          "url": "https://fingtaj.com/",
+          "logo": "https://fingtaj.com/favicon.svg",
+          "email": "admin@fingtaj.com",
+          "knowsAbout": [
+            "Compounding Mathematics",
+            "Systematic Investment Plans (SIP)",
+            "Home Loan Amortization & Prepayment",
+            "Passive Index Funds & SPIVA Analysis",
+            "Indian Income Tax Act & Slabs",
+            "50/30/20 Household Budgeting"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Editorial & Support",
+            "email": "admin@fingtaj.com",
+            "availableLanguage": ["English", "Hindi"]
+          }
         }
-      }
+      ]
     }
     </script>
     
@@ -65,7 +93,7 @@
     
     <!-- Payments & Checkout -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script type="module" crossorigin src="/assets/index-DWv6RsOE.js"></script>
+    <script type="module" crossorigin src="/assets/index-DU6GKyIn.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-C4Y6ekPa.css">
   </head>
   <body>

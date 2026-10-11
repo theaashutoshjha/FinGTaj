@@ -54,14 +54,54 @@ Consider a salaried professional earning a net in-hand salary of Rs 1,00,000 per
 | Wants (30%) | Rs 30,000 | Dining: Rs 12,000; Hobbies/Shopping: Rs 10,000; Subscriptions/Movies: Rs 8,000 |
 | Wealth (20%) | Rs 20,000 | Nifty 50 Index SIP: Rs 12,000; Emergency liquid fund: Rs 5,000; PPF: Rs 3,000 |
 
-If expenses in the Needs category exceed 50 percent due to expensive urban rents, the excess should be deducted from the Wants bucket rather than sacrificing the 20 percent compounding wealth allocation.
+If expenses in the Needs category exceed 50 percent due to expensive urban rents in Tier-1 metro cities (such as Mumbai, Bengaluru, or Delhi NCR), the excess must be carved directly out of the Wants bucket rather than sacrificing the 20 percent compounding wealth allocation.
+
+---
+
+### Metro Reality Adjustment: The 60/20/20 & 70/20/10 Frameworks
+
+For many urban salaried earners, rent and unavoidable EMIs consume 60% to 70% of in-hand salary during early career stages. In such scenarios, adopt disciplined transitional frameworks:
+
+| Strategy | Needs Target | Wants Allocation | Wealth & Debt Paydown | Best Suited For |
+| :--- | :--- | :--- | :--- | :--- |
+| **Standard 50/30/20** | 50% | 30% | 20% | Moderate cost-of-living regions with zero high-interest debt |
+| **Metro 60/20/20** | 60% | 20% | 20% | Tier-1 cities where rent accounts for 35%+ of net take-home |
+| **Debt Crusher 70/10/20** | 70% | 10% | 20% (Accelerated Debt) | Individuals paying high-interest credit card or personal loan EMIs |
+
+---
+
+### The Pay-Yourself-First Automation Blueprint
+
+The fundamental psychological failure of traditional budgeting is treating savings as a residual leftover (Income - Expenses = Savings). Wealthy households invert this formula:
+
+**Income - Automated Compounding (20%) = Permitted Expenses (80%)**
+
+1. **Salary Day (T+0):** Paycheck credits primary checking account.
+2. **Automated Sweep (T+1):** Standing instruction automatically transfers 20% into separate index fund SIPs and liquid contingency reserves.
+3. **Living Ledger (T+2 to T+30):** The household manages all living expenses and lifestyle dining from the remaining 80% balance without guilt.
 
 ---
 
 ### Key Behavioral Rules for Long-Term Adherence
-- Automate transfers on salary day so investments leave the primary account before spending begins.
-- Conduct a quarterly subscription audit to eliminate unused recurring memberships.
-- Every annual increment or bonus should be split with at least 50 percent directed into compounding investments.
+- Automate transfers on salary day so investments leave the primary account before discretionary spending begins.
+- Conduct a quarterly recurring audit to identify and eliminate unused streaming subscriptions, gym memberships, and duplicate services.
+- Whenever an annual appraisal increment or performance bonus is received, allocate at least 50% of the increment into compounding investments before upgrading lifestyle.
+
+---
+
+### Frequently Asked Questions (FAQ)
+
+**Q1: Does debt repayment belong in the Needs or Savings bucket?**
+Minimum mandatory loan payments (such as your base home loan EMI or car loan EMI) belong strictly in the 50% Needs category because defaulting causes credit score destruction and legal notices. However, extra principal prepayments aimed at eliminating debt belong in the 20% Wealth/Savings bucket.
+
+**Q2: How should seasonal bonuses or irregular freelancer income be budgeted?**
+For irregular income earners, calculate the baseline 50% Needs budget using your lowest earning month over the trailing 12 months. When windfall months or bonuses occur, immediately channel 70% to 80% of the surplus into liquid emergency reserves or index funds.
+
+**Q3: Is the 50/30/20 rule calculated on Gross or Net Take-Home Salary?**
+The rule is strictly calculated on **Net Take-Home (In-Hand) Salary** after employer Provident Fund deductions and professional income tax withholdings have already been deducted at source.
+
+**Q4: What if unavoidable survival needs exceed 70% of take-home income?**
+If survival needs exceed 70%, standard expense trimming is mathematically insufficient. The household must pursue structural interventions: downsizing residence, subletting, refinancing expensive credit cards into low-cost balance transfers, or focusing intensely on secondary skill acquisition to increase primary gross income.
 
 Educational Notice: This framework is intended strictly for financial literacy and budgeting planning. FingTaj does not provide individualized tax or financial advisory.
 `

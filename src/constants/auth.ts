@@ -2,7 +2,7 @@
 
 export const AUTH0_CONFIG = {
   domain: 'dev-1iofcqlcwa1lvzvv.us.auth0.com',
-  clientId: '7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx',
+  clientId: 'mdXD45c448jB42N1B1EXd1Wy32AkBZjr',
   audience: 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com/api/v2/'
 };
 
@@ -10,7 +10,8 @@ export const AUTH0_CONFIG = {
 export const DEFAULT_ADMIN_EMAILS: readonly string[] = [
   'admin@fingtaj.com',
   'founder@fingtaj.com',
-  'investor@fingtaj.com'
+  'investor@fingtaj.com',
+  'aashutosh@fingtaj.com'
 ];
 
 /**

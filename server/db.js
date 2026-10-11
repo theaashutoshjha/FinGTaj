@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,19 +29,58 @@ const INITIAL_ARTICLES = [
     status: 'published',
     excerpt: 'Discover why time horizon outpaces market timing, why expense ratios erode 30% of wealth over 25 years, and how to harness index funds.',
     content: `
-      <h2>1. The Non-Linear Nature of Exponential Growth</h2>
-      <p>Albert Einstein famously remarked that compound interest is the eighth wonder of the world. Yet human intuition remains stubbornly linear. When an investor begins an investment journey of ₹10,000 per month at an assumed CAGR of 12%, the results over the first five years appear modest:</p>
-      <div class="glass-card" style="margin: 20px 0; border-left: 4px solid var(--accent-cyan); padding: 16px;">
-        <strong>5-Year Milestone Analysis:</strong>
-        <p>Total Capital Invested: ₹6,00,000 | Portfolio Value: ₹8,24,864 | Compound Gain: ₹2,24,864</p>
+      <h2>1. The Non-Linear Mathematics of Geometric Compounding</h2>
+      <p>Human intuition is inherently linear. When an individual earns ₹1,00,000 monthly, they anticipate that saving ₹10,000 per month will accumulate ₹1,20,000 after one year and ₹12,00,000 after a decade. While this additive arithmetic applies to stagnant cash, it fundamentally misunderstands exponential geometric compounding.</p>
+
+      <p>The standard compounding equation is:</p>
+      <div class="glass-card" style="margin: 20px 0; border-left: 4px solid var(--accent-cyan); padding: 18px; font-family: monospace;">
+        <strong>A = P × [((1 + r/n)^(n×t) - 1) / (r/n)] × (1 + r/n)</strong>
       </div>
-      <p>Many investors abandon systematic plans during this initial phase, falsely assuming that market growth is sluggish. However, compounding operates on a geometric curve. By year 20, the portfolio reaches <b>₹1 Crore</b>. By year 30, that same ₹10,000 monthly commitment expands into <b>₹3.53 Crore</b>, where over ₹3.17 Crore represents pure compound returns.</p>
-      <h2>2. The Lethal Cost of Expense Ratios</h2>
-      <p>A mutual fund with a 1.8% annual expense ratio sounds harmless. But over a 25-year horizon, that seemingly trivial 1.8% fee consumes more than <b>32% of your entire potential wealth</b>. Low-cost direct index funds with expense ratios below 0.15% guarantee that the compounding engine works for you, not the fund management house.</p>
-      <h2>3. Actionable Wealth Rules</h2>
-      <p>• <b>Rule 1:</b> Never pause an SIP during a market drawdown; that is when your capital purchases units at peak discount.<br/>
-      • <b>Rule 2:</b> Step up your SIP by just 10% each year with your annual salary raise to double your final terminal corpus.<br/>
-      • <b>Rule 3:</b> Reinvest all dividends automatically through Growth options.</p>
+
+      <h2>2. 30-Year Compounding Milestone Breakdown</h2>
+      <p>Here is how a systematic ₹10,000 monthly SIP at a historical 12% CAGR scales over three decades:</p>
+      <div style="overflow-x: auto; margin: 20px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; background: rgba(255,255,255,0.02); border-radius: 8px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-subtle); color: var(--accent-cyan);">
+              <th style="padding: 10px; text-align: left;">Horizon</th>
+              <th style="padding: 10px; text-align: left;">Invested Capital</th>
+              <th style="padding: 10px; text-align: left;">Portfolio Value</th>
+              <th style="padding: 10px; text-align: left;">Gain Share</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 10px;">Year 5</td>
+              <td style="padding: 10px;">₹6,00,000</td>
+              <td style="padding: 10px;">₹8,24,864</td>
+              <td style="padding: 10px;">27.2%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 10px;">Year 15</td>
+              <td style="padding: 10px;">₹18,00,000</td>
+              <td style="padding: 10px;">₹50,45,760</td>
+              <td style="padding: 10px;">64.3%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <td style="padding: 10px;">Year 30</td>
+              <td style="padding: 10px;">₹36,00,000</td>
+              <td style="padding: 10px;">₹3,52,99,138</td>
+              <td style="padding: 10px;"><b>89.8%</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>3. Fee Minimization & Expense Ratios</h2>
+      <p>A 1.75% active fund expense ratio consumes over 31% of total final corpus compared to a 0.15% direct index fund. On a ₹1.8 Crore terminal portfolio, that fee gap destroys over ₹57 Lakhs in compound wealth.</p>
+
+      <h2>4. Frequently Asked Questions (FAQ)</h2>
+      <h3>How does compounding differ from simple interest?</h3>
+      <p>Simple interest earns returns strictly on the principal; compound interest earns returns on both principal and accumulated past returns, producing exponential growth.</p>
+
+      <h3>Why is time in the market more critical than timing the market?</h3>
+      <p>Over 80% of wealth compounds in the final decade. Exiting the market interrupts the geometric curve and resets the exponential flywheel.</p>
     `,
     seo: {
       title: 'Mathematics of Compounding: Turn ₹10k/Month into ₹3.5 Crore | FingTaj',
@@ -458,6 +498,8 @@ class Database {
         if (!this.data.sources) this.data.sources = [];
         if (!this.data.jobs) this.data.jobs = [];
         if (!this.data.auditLogs) this.data.auditLogs = [];
+        if (!this.data.users) this.data.users = [];
+        if (!this.data.sessions) this.data.sessions = [];
       } else {
         this.data.articles = INITIAL_ARTICLES;
         this.save();
@@ -606,6 +648,108 @@ class Database {
 
   getAuditLogs() {
     return this.data.auditLogs || [];
+  }
+
+  // ==========================================
+  // DIRECT USER & SESSION AUTHENTICATION
+  // ==========================================
+  findUserByEmail(email) {
+    if (!this.data.users) this.data.users = [];
+    const normalized = String(email || '').trim().toLowerCase();
+    return this.data.users.find(u => u.email.toLowerCase() === normalized) || null;
+  }
+
+  createUser({ email, password, name, auth0Id }) {
+    if (!this.data.users) this.data.users = [];
+    const cleanEmail = String(email).trim().toLowerCase();
+    
+    // Check if user already exists
+    const existing = this.findUserByEmail(cleanEmail);
+    if (existing) {
+      if (password) {
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+        existing.salt = salt;
+        existing.hash = hash;
+      }
+      if (name) existing.name = name;
+      if (auth0Id) existing.auth0Id = auth0Id;
+      existing.updatedAt = new Date().toISOString();
+      this.save();
+      return existing;
+    }
+
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = password ? crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex') : null;
+    
+    const newUser = {
+      id: 'usr-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
+      auth0Id: auth0Id || null,
+      email: cleanEmail,
+      name: name || cleanEmail.split('@')[0],
+      salt,
+      hash,
+      emailVerified: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    this.data.users.push(newUser);
+    this.save();
+    return newUser;
+  }
+
+  verifyUserPassword(email, password) {
+    const user = this.findUserByEmail(email);
+    if (!user) return null;
+    if (!user.salt || !user.hash) {
+      // If user was created without password hash, allow setting password or return null
+      return null;
+    }
+    const checkHash = crypto.pbkdf2Sync(password, user.salt, 1000, 64, 'sha512').toString('hex');
+    if (checkHash === user.hash) {
+      return user;
+    }
+    return null;
+  }
+
+  createSession(user) {
+    if (!this.data.sessions) this.data.sessions = [];
+    const token = crypto.randomBytes(32).toString('hex');
+    const session = {
+      token,
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
+    };
+    this.data.sessions.push(session);
+    if (this.data.sessions.length > 500) this.data.sessions.shift();
+    this.save();
+    return token;
+  }
+
+  getSession(token) {
+    if (!token || !this.data.sessions) return null;
+    const session = this.data.sessions.find(s => s.token === token);
+    if (!session) return null;
+    if (new Date(session.expiresAt) < new Date()) {
+      this.destroySession(token);
+      return null;
+    }
+    const user = this.data.users?.find(u => u.id === session.userId) || {
+      id: session.userId,
+      email: session.email,
+      name: session.name
+    };
+    return user;
+  }
+
+  destroySession(token) {
+    if (!token || !this.data.sessions) return;
+    this.data.sessions = this.data.sessions.filter(s => s.token !== token);
+    this.save();
   }
 }
 

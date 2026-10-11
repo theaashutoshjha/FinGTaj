@@ -106,11 +106,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             © {new Date().getFullYear()} FingTaj Education. All Rights Reserved. Contact: <b>admin@fingtaj.com</b>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-            <a href="#about" onClick={(e) => { e.preventDefault(); onNavigate('about'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>About FingTaj</a>
-            <a href="#contact" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact Us</a>
-            <a href="#privacy" onClick={(e) => { e.preventDefault(); onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Privacy Policy</a>
-            <a href="#terms" onClick={(e) => { e.preventDefault(); onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Terms &amp; Disclaimers</a>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px' }}>
+            <a href="#about" onClick={(e) => { e.preventDefault(); window.location.hash = 'about'; onNavigate('about'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>About FingTaj</a>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); window.location.hash = 'contact'; onNavigate('contact'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact Us</a>
+            <a href="#privacy" onClick={(e) => { e.preventDefault(); window.location.hash = 'privacy'; onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Privacy Policy</a>
+            <a href="#terms" onClick={(e) => { e.preventDefault(); window.location.hash = 'terms'; onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Terms of Service</a>
+            <a href="#disclaimer" onClick={(e) => { e.preventDefault(); window.location.hash = 'disclaimer'; onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Financial Disclaimer</a>
+            <a href="#editorial" onClick={(e) => { e.preventDefault(); window.location.hash = 'editorial'; onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Editorial Policy</a>
+            <a href="#cookies" onClick={(e) => { e.preventDefault(); window.location.hash = 'cookies'; onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Cookie Policy</a>
+            <a href="#dmca" onClick={(e) => { e.preventDefault(); window.location.hash = 'dmca'; onNavigate('policy'); }} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>DMCA Notice</a>
+            <a href="/ads.txt" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Ads.txt</a>
             <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Sitemap XML</a>
             <a href="/robots.txt" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Robots.txt</a>
           </div>

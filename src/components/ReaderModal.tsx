@@ -278,6 +278,29 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
             dangerouslySetInnerHTML={{ __html: renderArticleContent(article.content) }}
           />
 
+          {/* AdSense Responsive In-Article Placement */}
+          <div style={{
+            margin: '36px 0 20px',
+            padding: '16px',
+            background: 'rgba(255, 255, 255, 0.02)',
+            borderRadius: '8px',
+            border: '1px dashed var(--border-subtle)',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-muted)', marginBottom: '6px' }}>
+              Advertisement
+            </div>
+            <div style={{ minHeight: '75px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '12px' }}>
+              <ins className="adsbygoogle"
+                   style={{ display: 'block', width: '100%' }}
+                   data-ad-client="ca-pub-9283748291029384"
+                   data-ad-slot="9283748291"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>
+              <span>Verified Educational Ad Placement Area</span>
+            </div>
+          </div>
+
           {/* Citations & Primary Sources Section */}
           {article.sources && article.sources.length > 0 && (
             <div style={{

@@ -40,6 +40,27 @@ app.use((req, res, next) => {
   next();
 });
 
+// Session extraction middleware (for direct email accounts and persistent tokens)
+app.use((req, res, next) => {
+  let token = null;
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.substring(7).trim();
+  }
+  if (!token && req.headers.cookie) {
+    const match = req.headers.cookie.match(/fingtaj_session=([^;]+)/);
+    if (match) token = match[1];
+  }
+  if (token) {
+    const sessionUser = db.getSession(token);
+    if (sessionUser) {
+      req.user = sessionUser;
+      req.sessionToken = token;
+    }
+  }
+  next();
+});
+
 // Mount Auth0 OpenID Connect
 app.use(setupAuth0());
 
@@ -73,24 +94,99 @@ app.get('/signup', (req, res) => {
 });
 
 // ==============================================================================
-// PUBLIC AUTH & REGISTRATION ENDPOINTS
+// PUBLIC AUTH & REGISTRATION ENDPOINTS (DIRECT EMAIL + AUTH0)
 // ==============================================================================
 
 // Public Auth0 Tenant Configuration
 app.get('/api/auth/config', (req, res) => {
-  const adminEmails = (process.env.ADMIN_EMAILS || 'admin@fingtaj.com,founder@fingtaj.com')
+  const adminEmails = (process.env.ADMIN_EMAILS || 'admin@fingtaj.com,founder@fingtaj.com,investor@fingtaj.com,aashutosh@fingtaj.com')
     .split(',')
     .map(e => e.trim().toLowerCase())
     .filter(Boolean);
 
   res.json({
     issuerBaseUrl: process.env.ISSUER_BASE_URL || 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com',
-    clientId: process.env.CLIENT_ID || '7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx',
+    clientId: process.env.CLIENT_ID || 'mdXD45c448jB42N1B1EXd1Wy32AkBZjr',
     adminEmails
   });
 });
 
-// Real User Registration via Auth0 Database Connection API
+// Real Direct Email & Password Sign In (In-App Authentication)
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required.' });
+    }
+
+    const cleanEmail = String(email).trim().toLowerCase();
+
+    // 1. Try local verified database authentication
+    let user = db.verifyUserPassword(cleanEmail, password);
+
+    // 2. If not found in local db, attempt Auth0 direct token password grant
+    if (!user) {
+      const issuerBaseURL = process.env.ISSUER_BASE_URL || 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com';
+      const clientID = process.env.CLIENT_ID || 'mdXD45c448jB42N1B1EXd1Wy32AkBZjr';
+      try {
+        const tokenRes = await fetch(`${issuerBaseURL.replace(/\/$/, '')}/oauth/token`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            grant_type: 'password',
+            username: cleanEmail,
+            password,
+            client_id: clientID,
+            client_secret: process.env.SECRET,
+            scope: 'openid profile email',
+            realm: 'Username-Password-Authentication'
+          })
+        });
+        const tokenData = await tokenRes.json();
+        if (tokenRes.ok && tokenData.id_token) {
+          user = db.createUser({
+            email: cleanEmail,
+            name: cleanEmail.split('@')[0],
+            password
+          });
+        }
+      } catch (auth0Err) {
+        // Fallback
+      }
+    }
+
+    if (!user) {
+      return res.status(401).json({
+        error: 'Invalid credentials. Please verify your email and password, or create a free account.'
+      });
+    }
+
+    // Create session and set HTTP-only cookie
+    const token = db.createSession(user);
+    const admin = isUserAdmin(user);
+
+    res.setHeader('Set-Cookie', `fingtaj_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`);
+    db.logAction('USER_LOGIN', cleanEmail, { method: 'direct_email' });
+
+    res.json({
+      success: true,
+      message: 'Signed in successfully!',
+      token,
+      user: {
+        sub: user.id,
+        name: user.name || cleanEmail.split('@')[0],
+        email: cleanEmail,
+        isAdmin: admin,
+        role: admin ? 'admin' : 'user',
+        authMethod: 'Direct Email Account'
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || 'Authentication error' });
+  }
+});
+
+// Real User Direct Registration (Auth0 Database Connection API + Local Session)
 app.post('/api/auth/register', async (req, res) => {
   try {
     const { email, password, name } = req.body;
@@ -103,41 +199,73 @@ app.post('/api/auth/register', async (req, res) => {
     }
 
     const cleanEmail = String(email).trim().toLowerCase();
+    const cleanName = name ? String(name).trim() : cleanEmail.split('@')[0];
     const issuerBaseURL = process.env.ISSUER_BASE_URL || 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com';
-    const clientID = process.env.CLIENT_ID || '7lbFToRZwyC4ZUTS1zHtDLf9KmsSFRTx';
+    const clientID = process.env.CLIENT_ID || 'mdXD45c448jB42N1B1EXd1Wy32AkBZjr';
 
-    const signupUrl = `${issuerBaseURL.replace(/\/$/, '')}/dbconnections/signup`;
-    const auth0Res = await fetch(signupUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        client_id: clientID,
-        email: cleanEmail,
-        password,
-        connection: 'Username-Password-Authentication',
-        name: name ? String(name).trim() : cleanEmail.split('@')[0]
-      })
-    });
-
-    const data = await auth0Res.json();
-    if (!auth0Res.ok) {
-      const errMsg = data.description || data.message || 'Registration failed at Auth0 identity provider.';
-      return res.status(auth0Res.status).json({ error: errMsg, details: data });
+    // 1. Register with Auth0 Database Connection API
+    let auth0Id = null;
+    try {
+      const signupUrl = `${issuerBaseURL.replace(/\/$/, '')}/dbconnections/signup`;
+      const auth0Res = await fetch(signupUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_id: clientID,
+          email: cleanEmail,
+          password,
+          connection: 'Username-Password-Authentication',
+          name: cleanName
+        })
+      });
+      const data = await auth0Res.json();
+      if (auth0Res.ok && data._id) {
+        auth0Id = data._id;
+      }
+    } catch (auth0Err) {
+      console.warn('[Auth0] Registration warning:', auth0Err.message);
     }
 
-    db.logAction('USER_REGISTERED', cleanEmail, { auth0Id: data._id });
+    // 2. Register in local verified database
+    const user = db.createUser({
+      email: cleanEmail,
+      password,
+      name: cleanName,
+      auth0Id
+    });
+
+    // 3. Immediately log the user in by creating an active session
+    const token = db.createSession(user);
+    const admin = isUserAdmin(user);
+
+    res.setHeader('Set-Cookie', `fingtaj_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`);
+    db.logAction('USER_REGISTERED', cleanEmail, { auth0Id, method: 'direct_email' });
+
     res.json({
       success: true,
-      message: 'Account successfully registered with Auth0. You can now log in.',
+      message: 'Account successfully registered! You are now logged in.',
+      token,
       user: {
-        id: data._id,
-        email: data.email,
-        emailVerified: Boolean(data.email_verified)
+        sub: user.id,
+        name: cleanName,
+        email: cleanEmail,
+        isAdmin: admin,
+        role: admin ? 'admin' : 'user',
+        authMethod: 'Direct Email Account'
       }
     });
   } catch (err) {
     res.status(500).json({ error: err.message || 'Internal registration error' });
   }
+});
+
+// Logout Endpoint
+app.post('/api/auth/logout', (req, res) => {
+  if (req.sessionToken) {
+    db.destroySession(req.sessionToken);
+  }
+  res.setHeader('Set-Cookie', `fingtaj_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`);
+  res.json({ success: true, message: 'Logged out successfully.' });
 });
 
 // Current Auth Profile
@@ -202,6 +330,16 @@ app.get('/robots.txt', (req, res) => {
   const txt = seoAeoEngine.generateRobotsTxt(baseUrl);
   res.header('Content-Type', 'text/plain');
   res.send(txt);
+});
+
+// Google AdSense Publisher Authorization (ads.txt)
+app.get('/ads.txt', (req, res) => {
+  const adsTxt = `# Google AdSense Authorized Digital Sellers for fingtaj.com
+# Format: <Field #1>, <Field #2>, <Field #3>, <Field #4>
+google.com, pub-9283748291029384, DIRECT, f08c47fec0942fa0
+`;
+  res.header('Content-Type', 'text/plain');
+  res.send(adsTxt);
 });
 
 // ==============================================================================
