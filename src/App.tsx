@@ -43,6 +43,10 @@ export default function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/contact" element={<Contact />} />
+            {/* Compatibility & SEO Aliases */}
+            <Route path="/calculators" element={<Home />} />
+            <Route path="/disclaimer" element={<TermsOfService />} />
+            <Route path="/author/:slug" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

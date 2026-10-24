@@ -83,12 +83,12 @@ export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.
       <header style="padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #080e17;">
         <a href="/" style="font-size: 24px; font-weight: 800; color: #00f5ff; text-decoration: none;">FinG<span style="color: #fff;">Taj</span></a>
         <nav style="display: flex; gap: 20px;">
-          <a href="/trading" style="color: #cbd5e1; text-decoration: none;">Investing</a>
-          <a href="/finance" style="color: #cbd5e1; text-decoration: none;">Personal Finance</a>
-          <a href="/loans" style="color: #cbd5e1; text-decoration: none;">Loans & EMIs</a>
-          <a href="/calculators" style="color: #00f5ff; text-decoration: none; font-weight: 600;">Calculators</a>
-          <a href="/academy" style="color: #cbd5e1; text-decoration: none;">Academy</a>
+          <a href="/sip-calculator" style="color: #cbd5e1; text-decoration: none;">SIP Wealth</a>
+          <a href="/loan-emi-calculator" style="color: #cbd5e1; text-decoration: none;">Loan EMI</a>
+          <a href="/income-tax-calculator" style="color: #cbd5e1; text-decoration: none;">Income Tax</a>
+          <a href="/ppf-calculator" style="color: #cbd5e1; text-decoration: none;">PPF Scheme</a>
           <a href="/about" style="color: #cbd5e1; text-decoration: none;">About</a>
+          <a href="/contact" style="color: #00f5ff; text-decoration: none; font-weight: 600;">Contact</a>
         </nav>
       </header>
 
@@ -459,12 +459,11 @@ export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.
       <header style="padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #080e17;">
         <a href="/" style="font-size: 24px; font-weight: 800; color: #00f5ff; text-decoration: none;">FinG<span style="color: #fff;">Taj</span></a>
         <nav style="display: flex; gap: 20px;">
-          <a href="/trading" style="color: #cbd5e1; text-decoration: none;">Investing</a>
-          <a href="/finance" style="color: #cbd5e1; text-decoration: none;">Personal Finance</a>
-          <a href="/loans" style="color: #cbd5e1; text-decoration: none;">Loans & EMIs</a>
-          <a href="/calculators" style="color: #cbd5e1; text-decoration: none;">Calculators</a>
-          <a href="/academy" style="color: #cbd5e1; text-decoration: none;">Academy</a>
+          <a href="/sip-calculator" style="color: #cbd5e1; text-decoration: none;">SIP Wealth</a>
+          <a href="/loan-emi-calculator" style="color: #cbd5e1; text-decoration: none;">Loan EMI</a>
+          <a href="/income-tax-calculator" style="color: #cbd5e1; text-decoration: none;">Income Tax</a>
           <a href="/about" style="color: #cbd5e1; text-decoration: none;">About</a>
+          <a href="/contact" style="color: #00f5ff; text-decoration: none; font-weight: 600;">Contact</a>
         </nav>
       </header>
 
@@ -605,12 +604,11 @@ export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.
       <header style="padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #080e17;">
         <a href="/" style="font-size: 24px; font-weight: 800; color: #00f5ff; text-decoration: none;">FinG<span style="color: #fff;">Taj</span></a>
         <nav style="display: flex; gap: 20px;">
-          <a href="/trading" style="color: #cbd5e1; text-decoration: none;">Investing</a>
-          <a href="/finance" style="color: #cbd5e1; text-decoration: none;">Personal Finance</a>
-          <a href="/loans" style="color: #cbd5e1; text-decoration: none;">Loans & EMIs</a>
-          <a href="/calculators" style="color: #cbd5e1; text-decoration: none;">Calculators</a>
-          <a href="/academy" style="color: #cbd5e1; text-decoration: none;">Academy</a>
+          <a href="/sip-calculator" style="color: #cbd5e1; text-decoration: none;">SIP Wealth</a>
+          <a href="/loan-emi-calculator" style="color: #cbd5e1; text-decoration: none;">Loan EMI</a>
+          <a href="/income-tax-calculator" style="color: #cbd5e1; text-decoration: none;">Income Tax</a>
           <a href="/about" style="color: #cbd5e1; text-decoration: none;">About</a>
+          <a href="/contact" style="color: #00f5ff; text-decoration: none; font-weight: 600;">Contact</a>
         </nav>
       </header>
 
@@ -627,8 +625,8 @@ export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.
             Transparent financial education backed by mathematical equations, worked scenario matrices, and compliance with Indian regulatory frameworks (RBI, SEBI, CBDT Section 112A).
           </p>
           <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-            <a href="/calculators/sip" style="padding: 12px 24px; background: #00f5ff; color: #000; font-weight: 700; border-radius: 8px; text-decoration: none;">Launch Financial Calculators</a>
-            <a href="/trading" style="padding: 12px 24px; background: rgba(255,255,255,0.05); color: #fff; font-weight: 600; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); text-decoration: none;">Explore Educational Guides</a>
+            <a href="/sip-calculator" style="padding: 12px 24px; background: #00f5ff; color: #000; font-weight: 700; border-radius: 8px; text-decoration: none;">Launch Financial Calculators</a>
+            <a href="/about" style="padding: 12px 24px; background: rgba(255,255,255,0.05); color: #fff; font-weight: 600; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); text-decoration: none;">Institutional Governance</a>
           </div>
         </section>
 

@@ -1,6 +1,81 @@
 {
   "articles": [
     {
+      "id": "art-1792864229503",
+      "slug": "show-hn-argus--open-source-security-platform-to-pr",
+      "tag": "TECH • Institutional Guide",
+      "category": "tech",
+      "title": "Show HN: Argus- open source security platform to protect against agentic attacks",
+      "readTime": "3 Min Read",
+      "author": "FingTaj Research Desk",
+      "authorBio": "Institutional Quantitative Research Desk specializing in compounding mathematics, asset allocation, and fintech architecture.",
+      "publishedAt": null,
+      "updatedAt": "2026-10-24T17:50:29.503Z",
+      "status": "draft",
+      "excerpt": "In-depth institutional guide on show hn: argus- open source security platform to protect against agentic attacks. Learn mathematical frameworks, risk mitigations, and execution blueprints.",
+      "content": "\n        <h2>1. Executive Summary & Core Mechanism</h2>\n        <p>Readers seek institutional, mathematically verifiable guidance on \"Show HN: Argus- open source security platform to protect against agentic attacks\" with clear formulas and step-by-step action items.</p>\n        <div class=\"glass-card\" style=\"margin: 20px 0; border-left: 4px solid var(--accent-cyan); padding: 18px;\">\n          <strong>Institutional Milestone Rule:</strong>\n          <p style=\"margin: 6px 0 0;\">Empirical longitudinal analysis across modern market cycles confirms that asset allocation, fee minimization, and systematic rebalancing dictate over 90% of total wealth accumulation variance over multi-decade horizons.</p>\n        </div>\n\n        <h2>2. Quantitative Breakdown and Mathematical Framework</h2>\n        <p>In analyzing \"Show HN: Argus- open source security platform to protect against agentic attacks\", institutions evaluate both upside participation and downside variance. By applying disciplined mathematical allocations rather than reactionary market timing, long-term investors eliminate destructive behavioural drag and friction costs.</p>\n\n        <div style=\"overflow-x: auto; margin: 24px 0;\">\n          <table style=\"width: 100%; border-collapse: collapse; font-size: 14px; background: rgba(255,255,255,0.02); border-radius: 8px;\">\n            <thead>\n              <tr style=\"border-bottom: 2px solid var(--border-subtle); color: var(--accent-cyan);\">\n                <th style=\"padding: 10px 14px; text-align: left;\">Time Horizon</th>\n                <th style=\"padding: 10px 14px; text-align: left;\">Systematic Capital</th>\n                <th style=\"padding: 10px 14px; text-align: left;\">Compounded Portfolio</th>\n                <th style=\"padding: 10px 14px; text-align: left;\">Effective Multiplier</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr style=\"border-bottom: 1px solid rgba(255,255,255,0.06);\">\n                <td style=\"padding: 10px 14px;\">5 Years</td>\n                <td style=\"padding: 10px 14px;\">₹6,00,000</td>\n                <td style=\"padding: 10px 14px;\">₹8,24,864</td>\n                <td style=\"padding: 10px 14px;\">1.37x</td>\n              </tr>\n              <tr style=\"border-bottom: 1px solid rgba(255,255,255,0.06);\">\n                <td style=\"padding: 10px 14px;\">15 Years</td>\n                <td style=\"padding: 10px 14px;\">₹18,00,000</td>\n                <td style=\"padding: 10px 14px;\">₹50,45,760</td>\n                <td style=\"padding: 10px 14px;\">2.80x</td>\n              </tr>\n              <tr style=\"border-bottom: 1px solid rgba(255,255,255,0.06);\">\n                <td style=\"padding: 10px 14px;\">25 Years</td>\n                <td style=\"padding: 10px 14px;\">₹30,00,000</td>\n                <td style=\"padding: 10px 14px;\">₹1,89,76,350</td>\n                <td style=\"padding: 10px 14px;\">6.32x</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>\n\n        <h2>3. Institutional Implementation Protocol</h2>\n        <p>• <b>Protocol 1: Friction Audit:</b> Audit and eliminate direct and indirect expense ratio leakage exceeding 0.20% per annum.<br/>\n        • <b>Protocol 2: Pre-Commitment Rule:</b> Enforce automated, pre-committed cashflow mandates scheduled immediately upon income arrival.<br/>\n        • <b>Protocol 3: Drawdown Discipline:</b> Never pause systematic accumulations during broad-market corrections when asset valuations offer peak margin of safety.</p>\n\n        <h2>4. Statutory & Regulatory Framework</h2>\n        <p>Investors must align systematic wealth accumulation strategies with statutory tax frameworks under Section 112A (Long-Term Capital Gains exemptions up to ₹1.25 Lakh annually) and Section 80CCD(2) employer contributions for optimal after-tax compounding.</p>\n\n        <h2>5. Frequently Asked Questions (FAQ)</h2>\n        <h3>How does systematic execution outperform market timing?</h3>\n        <p>Systematic allocation removes human emotional bias and enforces Rupee-Cost Averaging, buying more units when prices fall and fewer when markets are elevated.</p>\n\n        <h3>What role do expense ratios play over a 25-year horizon?</h3>\n        <p>An ongoing fee difference of 1.5% between active and direct passive funds consumes over 30% of total terminal wealth due to lost compounding upon forgone capital.</p>\n      ",
+      "seo": {
+        "title": "Show HN: Argus- open source security platform to protec | FingTaj",
+        "description": "In-depth institutional guide on show hn: argus- open source security platform to protect against agentic attacks. Learn mathematical frameworks, risk mitigations, and execution blueprints.",
+        "keywords": [
+          "show hn: argus-",
+          "mathematical models",
+          "portfolio optimization",
+          "institutional finance"
+        ],
+        "canonicalUrl": "https://fingtaj.com/articles/show-hn-argus--open-source-security-platform-to-pr",
+        "score": 82
+      },
+      "aeo": {
+        "primaryQuestion": "What is the foundational economic mechanism behind Show HN: Argus- open source security platform to protect against agentic attacks?",
+        "directAnswer": "Understanding Show HN: Argus- open source security platform to protect against agentic attacks requires focusing on verified empirical evidence, expense ratio minimization, and long-term geometric compounding rather than short-term market speculation.",
+        "keyTakeaways": [
+          "Prioritize friction and expense ratio elimination.",
+          "Enforce automated systematic allocation rules.",
+          "Anchor decisions to verified primary source data."
+        ],
+        "score": 100
+      },
+      "sources": [
+        {
+          "title": "Hacker News Top Technology",
+          "url": "https://github.com/thomasunise/argus",
+          "publishedDate": "Sat, 24 Oct 2026 17:13:57 +0000",
+          "snippet": "Historical performance indicates non-linear returns when horizon exceeds 10 years."
+        }
+      ],
+      "originalityScore": 0,
+      "originalityReport": {
+        "passed": false,
+        "originalityScore": 0,
+        "duplicateTitleFound": true,
+        "maxInternalSimilarity": 100,
+        "mostSimilarArticle": "Show HN: Argus- open source security platform to protect against agentic attacks",
+        "sourceOverlapPercent": 0,
+        "wordCount": 267,
+        "isThinContent": true,
+        "notes": "Originality check failed: Duplicate title detected. Internal similarity 100% exceeds 25% threshold. Article contains thin content (<300 words)."
+      },
+      "factVerificationPassed": true,
+      "factVerificationReport": {
+        "passed": true,
+        "sampleExtractedMetrics": [
+          "90%",
+          "₹6,00,000",
+          "₹8,24,864",
+          "₹18,00,000",
+          "₹50,45,760",
+          "₹30,00,000",
+          "₹1,89,76,350",
+          "0.20%"
+        ],
+        "evidenceCount": 1,
+        "status": "Verified against authoritative primary evidence"
+      },
+      "aiProvider": "Deterministic Institutional Synthesis Engine (Offline Mode)",
+      "createdAt": "2026-10-24T17:50:29.503Z"
+    },
+    {
       "id": "art-1792863899229",
       "slug": "show-hn-argus--open-source-security-platform-to-pr",
       "tag": "TECH • Institutional Guide",
@@ -4438,7 +4513,7 @@
             "url": "https://github.com/thomasunise/argus",
             "title": "Hacker News Top Technology",
             "publishedDate": "Sat, 24 Oct 2026 17:13:57 +0000",
-            "accessDate": "2026-10-24T17:44:59.202Z",
+            "accessDate": "2026-10-24T17:50:29.476Z",
             "claims": [
               "Historical performance indicates non-linear returns when horizon exceeds 10 years.",
               "Transaction costs, expense ratios, and tax leakage significantly reduce compound net yield.",
@@ -4446,7 +4521,7 @@
             ]
           }
         ],
-        "createdAt": "2026-10-24T17:44:59.202Z"
+        "createdAt": "2026-10-24T17:50:29.476Z"
       }
     },
     {
@@ -5071,6 +5146,26 @@
   "sources": [],
   "jobs": [
     {
+      "id": "job-1792864229459-mpr5",
+      "createdAt": "2026-10-24T17:50:29.459Z",
+      "status": "completed",
+      "type": "full_pipeline",
+      "triggeredBy": "test_suite",
+      "step": "DRAFT_SAVED",
+      "logs": [
+        "Job started. Idempotency protection active.",
+        "[17:50:29] [RESEARCH] Researching topic: \"Show HN: Argus- open source security platform to protect against agentic attacks\"",
+        "[17:50:29] [BRIEF_CREATED] Research brief constructed with verified citations.",
+        "[17:50:29] [GENERATE] Generating comprehensive institutional article...",
+        "[17:50:29] [DRAFT_SAVED] Draft saved (ID: art-1792864229503) with live SEO/AEO audits.",
+        "[17:50:29] [AUDITED] Audit Scores: Originality=0%, SEO=82/100, AEO=100/100, Facts=PASSED",
+        "[17:50:29] [DRAFT_SAVED] Article retained in drafts for editorial review and approval."
+      ],
+      "updatedAt": "2026-10-24T17:50:29.526Z",
+      "articleId": "art-1792864229503",
+      "published": false
+    },
+    {
       "id": "job-1792863899186-k8t3",
       "createdAt": "2026-10-24T17:44:59.186Z",
       "status": "completed",
@@ -5361,6 +5456,16 @@
     "monthlyQuotaMax": 1000
   },
   "auditLogs": [
+    {
+      "id": "log-1792864229521",
+      "timestamp": "2026-10-24T17:50:29.521Z",
+      "action": "CREATE_DRAFT_ARTICLE",
+      "userEmail": "test_suite",
+      "details": {
+        "articleId": "art-1792864229503",
+        "title": "Show HN: Argus- open source security platform to protect against agentic attacks"
+      }
+    },
     {
       "id": "log-1792863899246",
       "timestamp": "2026-10-24T17:44:59.246Z",
