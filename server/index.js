@@ -358,6 +358,28 @@ app.get('/ads.txt', (req, res) => {
   res.status(200).send(adsTxt);
 });
 
+// Search Engine Crawlers & AI Bots Directive (robots.txt)
+app.get('/robots.txt', (req, res) => {
+  const robotsPath = path.join(__dirname, '..', 'public', 'robots.txt');
+  if (fs.existsSync(robotsPath)) {
+    res.header('Content-Type', 'text/plain; charset=utf-8');
+    return res.sendFile(robotsPath);
+  }
+  const defaultRobots = `User-agent: Mediapartners-Google\nAllow: /\n\nUser-agent: *\nAllow: /\nDisallow: /api/admin\n\nSitemap: https://www.fingtaj.com/sitemap.xml\n`;
+  res.header('Content-Type', 'text/plain; charset=utf-8');
+  res.status(200).send(defaultRobots);
+});
+
+// Canonical XML Sitemap (sitemap.xml)
+app.get('/sitemap.xml', (req, res) => {
+  const sitemapPath = path.join(__dirname, '..', 'public', 'sitemap.xml');
+  if (fs.existsSync(sitemapPath)) {
+    res.header('Content-Type', 'application/xml; charset=utf-8');
+    return res.sendFile(sitemapPath);
+  }
+  res.status(404).send('Sitemap not found');
+});
+
 // ==============================================================================
 // PUBLIC INQUIRY & CONTACT DISPATCH ENDPOINT
 // ==============================================================================

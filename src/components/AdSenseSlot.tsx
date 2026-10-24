@@ -114,31 +114,6 @@ export const AdSenseSlot: React.FC<AdSenseSlotProps> = ({
           data-ad-layout={format === 'in-article' ? 'in-article' : undefined}
           data-full-width-responsive="true"
         />
-
-        {/* Fallback / Verification Area visible during review or before live fill */}
-        <div 
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '4px',
-            color: 'var(--text-muted)',
-            fontSize: '11px',
-            pointerEvents: 'none',
-            opacity: 0.85
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-cyan)', fontSize: '11.5px', fontWeight: 600 }}>
-            <span>✦</span>
-            <span>Google AdSense Verified Ad Unit</span>
-          </div>
-          <div style={{ fontSize: '10.5px' }}>
-            ID: ca-pub-3594420471814241 • Slot: {slotId}
-          </div>
-        </div>
       </div>
     </div>
   );
