@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function TermsOfService() {
+  useEffect(() => {
+    document.title = 'Terms of Service & Statutory YMYL Disclaimers — FingTaj';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', 'FingTaj Terms of Service: Non-advisory statutory disclaimers, permitted educational use, and Chennai jurisdiction.');
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://www.fingtaj.com/terms-of-service');
+  }, []);
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 text-slate-300">
       {/* Title & Badge */}

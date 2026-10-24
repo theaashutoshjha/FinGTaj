@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function About() {
+  useEffect(() => {
+    document.title = 'About FingTaj — Institutional Financial Engine & E-E-A-T Authorship';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', 'Learn about FingTaj, our zero-telemetry computational philosophy, and founder Ashutosh Kumar R in Chennai, Tamil Nadu.');
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://www.fingtaj.com/about');
+  }, []);
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 text-slate-300">
       {/* Title & Badge */}

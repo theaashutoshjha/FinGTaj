@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface SubmissionResult {
   trackingId: string;
@@ -11,6 +11,14 @@ interface SubmissionResult {
 }
 
 export default function Contact() {
+  useEffect(() => {
+    document.title = 'Contact Engineering Desk & Grievance Officer — FingTaj';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', 'Reach FingTaj engineering desk for calculation feedback, statutory formula variances, and Grievance Officer inquiries with 24-48h SLA.');
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://www.fingtaj.com/contact');
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

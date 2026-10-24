@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function PrivacyPolicy() {
+  useEffect(() => {
+    document.title = 'Privacy Policy & DART Cookie Governance — FingTaj';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', 'FingTaj Privacy Policy: Google AdSense DART cookies, zero-telemetry RAM processing, and Indian DPDP Act 2023 compliance.');
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://www.fingtaj.com/privacy-policy');
+  }, []);
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 text-slate-300">
       {/* Title & Badge */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Copy, Check, Calculator, ShieldCheck, BookOpen, Home } from 'lucide-react';
 
@@ -52,6 +52,19 @@ export default function CalculatorLayout({
   const toggleFaq = (idx: number) => {
     setOpenFaqIndex(openFaqIndex === idx ? null : idx);
   };
+
+  // Dynamic Page Title & Canonical SEO Synchronization (Checks 018, 042, 091, 098)
+  useEffect(() => {
+    document.title = `${title} — Statutory Financial Calculator | FingTaj`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', subtitle);
+    }
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', window.location.href.split('?')[0]);
+    }
+  }, [title, subtitle]);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 sm:py-12">

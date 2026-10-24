@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Home, ArrowLeft, Search, HelpCircle } from 'lucide-react';
 
 export default function NotFound() {
+  useEffect(() => {
+    document.title = '404 Page Not Found — FingTaj';
+  }, []);
   const popularTools = [
     { name: 'SIP Wealth Calculator', path: '/sip-calculator' },
     { name: 'Home Loan EMI Calculator', path: '/loan-emi-calculator' },

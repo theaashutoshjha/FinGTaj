@@ -1,7 +1,8 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import CookieBanner from './components/CookieBanner';
 import Home from './pages/Home';
 import About from './pages/About';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -21,10 +22,20 @@ import GratuityCalculator from './pages/GratuityCalculator';
 import CapitalGainsCalculator from './pages/CapitalGainsCalculator';
 import Section44adaCalculator from './pages/Section44adaCalculator';
 
+// Scroll to top automatically on route transitions
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100">
+      <ScrollToTop />
+      <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 relative">
         <Navbar />
         <main className="flex-grow">
           <Routes>
@@ -51,6 +62,7 @@ export default function App() {
           </Routes>
         </main>
         <Footer />
+        <CookieBanner />
       </div>
     </BrowserRouter>
   );

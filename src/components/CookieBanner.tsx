@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { ShieldCheck, X } from 'lucide-react';
 
-interface CookieBannerProps {
-  onOpenPrivacy: () => void;
-}
-
-export const CookieBanner: React.FC<CookieBannerProps> = ({ onOpenPrivacy }) => {
+export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem('fingtaj_cookie_consent');
     if (!consent) {
-      // Delay slightly for smooth page load UX
-      const t = setTimeout(() => setVisible(true), 1200);
-      return () => clearTimeout(t);
+      // Delay slightly for smooth page presentation
+      const timer = setTimeout(() => setVisible(true), 1200);
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -30,57 +27,47 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ onOpenPrivacy }) => 
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: '24px',
-      left: '24px',
-      right: '24px',
-      maxWidth: '620px',
-      margin: '0 auto',
-      background: 'rgba(8, 14, 23, 0.96)',
-      backdropFilter: 'blur(20px)',
-      WebkitBackdropFilter: 'blur(20px)',
-      border: '1px solid var(--border-subtle)',
-      borderRadius: '16px',
-      padding: '20px 24px',
-      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 245, 255, 0.1)',
-      zIndex: 999,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '14px',
-      animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <ShieldCheck size={18} color="var(--accent-cyan)" />
-          <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
-            Cryptographic Privacy &amp; Cookie Consent
-          </span>
+    <div
+      role="region"
+      aria-label="Cookie and Privacy Consent"
+      className="fixed bottom-4 left-4 right-4 max-w-xl mx-auto z-50 bg-slate-900/95 border border-slate-700/80 rounded-2xl p-5 shadow-2xl backdrop-blur-xl text-slate-300 animate-in fade-in slide-in-from-bottom-4 duration-300"
+    >
+      <div className="flex items-start justify-between gap-3 mb-2.5">
+        <div className="flex items-center gap-2 text-white font-bold text-sm">
+          <ShieldCheck size={18} className="text-cyan-400 shrink-0" />
+          <span>Zero-Telemetry & Cookie Consent</span>
         </div>
-        <button className="btn-icon" onClick={handleDecline} style={{ padding: '4px' }}>
-          <X size={14} />
+        <button
+          onClick={handleDecline}
+          aria-label="Close consent banner"
+          className="text-slate-400 hover:text-white p-1 rounded-md transition"
+        >
+          <X size={16} />
         </button>
       </div>
 
-      <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
-        FingTaj uses strictly necessary session cookies for Auth0 OpenID Connect authentication and anonymous telemetry to maintain platform reliability. We never sell your personal data.{' '}
-        <a 
-          href="#privacy" 
-          onClick={(e) => { e.preventDefault(); onOpenPrivacy(); }} 
-          style={{ color: 'var(--accent-cyan)', textDecoration: 'underline' }}
-        >
-          Review our Privacy Policy
-        </a>.
+      <p className="text-xs text-slate-400 leading-relaxed mb-4">
+        FingTaj evaluates all mathematical calculations strictly in your browser's local memory with zero server telemetry. We and third-party partners (including Google AdSense) use standard cookies to analyze traffic and deliver contextual advertisements in accordance with our{' '}
+        <Link to="/privacy-policy" className="text-cyan-400 underline hover:text-cyan-300">
+          Privacy Policy
+        </Link>{' '}
+        and Indian DPDP Act 2023 regulations.
       </p>
 
-      <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-        <button className="btn btn-secondary" onClick={handleDecline} style={{ fontSize: '12px', padding: '6px 14px' }}>
+      <div className="flex items-center justify-end gap-2.5 text-xs font-semibold">
+        <button
+          onClick={handleDecline}
+          className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
+        >
           Essential Only
         </button>
-        <button className="btn btn-primary" onClick={handleAccept} style={{ fontSize: '12px', padding: '6px 18px' }}>
-          Accept All Cookies ↗
+        <button
+          onClick={handleAccept}
+          className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 font-bold transition shadow-md shadow-cyan-500/20"
+        >
+          Accept Cookies
         </button>
       </div>
     </div>
   );
-};
+}
