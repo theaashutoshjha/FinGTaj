@@ -1,102 +1,72 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <meta name="theme-color" content="#040a12" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FingTaj — Institutional-Grade Statutory Financial Calculators for India</title>
+    <meta name="title" content="FingTaj — Statutory Financial Calculators for India" />
+    <meta name="description" content="High-precision client-side Indian financial calculators. Compute SIP wealth, Home Loan EMI, Income Tax (Section 115BAC), Gratuity, and Capital Gains with zero data collection." />
+    <link rel="canonical" href="https://www.fingtaj.com/" />
     
-    <!-- Primary SEO & AEO Meta Tags -->
-    <title>FingTaj | Financial Education, Wealth Compounding Calculators &amp; Investment Guides</title>
-    <meta name="title" content="FingTaj | Financial Education, Wealth Compounding Calculators &amp; Investment Guides" />
-    <meta name="description" content="Explore institutional-grade financial calculators, SIP compounding simulators, loan amortization strategies, and SEBI/RBI compliant personal finance masterclasses." />
-    <meta name="keywords" content="financial education, SIP compounding simulator, home loan prepayment calculator, FIRE calculator, 50/30/20 budget, index funds, SEBI guidelines, FingTaj, personal finance India" />
-    <meta name="author" content="FingTaj Quantitative Research &amp; Educational Desk" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    
-    <!-- Canonical Link & Sitemaps -->
-    <link rel="canonical" href="https://fingtaj.com/" />
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://fingtaj.com/sitemap.xml" />
-    
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://fingtaj.com/" />
-    <meta property="og:title" content="FingTaj | Financial Education &amp; Compounding Calculators" />
-    <meta property="og:description" content="Free educational calculators, compounding simulators, and SEBI-compliant personal finance masterclasses designed for investors and savers." />
-    <meta property="og:site_name" content="FingTaj" />
-    <meta property="og:image" content="https://fingtaj.com/favicon.svg" />
+    <meta property="og:url" content="https://www.fingtaj.com/" />
+    <meta property="og:title" content="FingTaj — Statutory Financial Calculators for India" />
+    <meta property="og:description" content="Accurate, zero-telemetry statutory financial calculators for Indian investors and taxpayers." />
+    <meta property="og:image" content="https://www.fingtaj.com/og-image.png" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.fingtaj.com/" />
+    <meta property="twitter:title" content="FingTaj — Statutory Financial Calculators" />
+    <meta property="twitter:description" content="High-precision client-side financial computation engine." />
+    <meta property="twitter:image" content="https://www.fingtaj.com/og-image.png" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FingTaj | Financial Education &amp; Wealth Calculators" />
-    <meta name="twitter:description" content="Free educational calculators, compounding simulators, and SEBI-compliant personal finance masterclasses." />
-    <meta name="twitter:image" content="https://fingtaj.com/favicon.svg" />
+    <!-- Google AdSense Account Verification -->
+    <meta name="google-adsense-account" content="ca-pub-3594420471814241" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3594420471814241" crossorigin="anonymous"></script>
 
-    <!-- Google Search Console Verification Meta Tag -->
-    <meta name="google-site-verification" content="fingtaj-educational-gsc-verification" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Google AdSense Ready Placement Tag -->
-    <!-- Replace ca-pub-XXXXXXXXXXXXXXXX with your AdSense Publisher ID once verified -->
-    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9283748291029384" crossorigin="anonymous"></script> -->
-
-    <!-- Structured Data (JSON-LD WebSite, Organization & Educational Organization) -->
+    <!-- JSON-LD Structured Data Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "WebSite",
-          "@id": "https://fingtaj.com/#website",
-          "url": "https://fingtaj.com/",
-          "name": "FingTaj",
-          "description": "Institutional Financial Intelligence, Compounding Algorithms & Research Operating System",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://fingtaj.com/#search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
+          "@type": "WebApplication",
+          "@id": "https://www.fingtaj.com/#webapp",
+          "name": "FingTaj Financial Engine",
+          "url": "https://www.fingtaj.com",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
           }
         },
         {
-          "@type": "EducationalOrganization",
-          "@id": "https://fingtaj.com/#organization",
-          "name": "FingTaj Technologies & Educational Research",
-          "url": "https://fingtaj.com/",
-          "logo": "https://fingtaj.com/favicon.svg",
-          "email": "admin@fingtaj.com",
-          "knowsAbout": [
-            "Compounding Mathematics",
-            "Systematic Investment Plans (SIP)",
-            "Home Loan Amortization & Prepayment",
-            "Passive Index Funds & SPIVA Analysis",
-            "Indian Income Tax Act & Slabs",
-            "50/30/20 Household Budgeting"
-          ],
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "Editorial & Support",
-            "email": "admin@fingtaj.com",
-            "availableLanguage": ["English", "Hindi"]
+          "@type": "FinancialService",
+          "@id": "https://www.fingtaj.com/#service",
+          "name": "FingTaj",
+          "url": "https://www.fingtaj.com",
+          "logo": "https://www.fingtaj.com/favicon.svg",
+          "description": "Institutional-grade financial calculations and statutory tax modeling.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Chennai",
+            "addressRegion": "Tamil Nadu",
+            "addressCountry": "IN"
           }
         }
       ]
     }
     </script>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%230284c7'/><text x='50' y='68' font-size='56' font-family='sans-serif' font-weight='900' fill='white' text-anchor='middle'>F</text></svg>" />
-    
-    <!-- Google Fonts Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    
-    <!-- Payments & Checkout -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script type="module" crossorigin src="/assets/index-DU6GKyIn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C4Y6ekPa.css">
+    <script type="module" crossorigin src="/assets/index-Kj0sfpk9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DDSPTl8M.css">
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-cyan-500 selection:text-black">
+    <div id="root"></div>
   </body>
 </html>

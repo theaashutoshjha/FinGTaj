@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Article } from '../types';
-import { X, Bookmark, Share2, Clock, Check, ShieldCheck, UserCheck, Calendar, BookOpen } from 'lucide-react';
+import { X, Bookmark, Share2, Clock, Check, ShieldCheck, UserCheck, Calendar, BookOpen, ChevronRight, ArrowRight } from 'lucide-react';
+import { AdSenseSlot } from './AdSenseSlot';
 
 interface ReaderModalProps {
   article: Article | null;
   onClose: () => void;
   isBookmarked: boolean;
   onToggleBookmark: () => void;
+  onSelectArticle?: (article: Article) => void;
+  allArticles?: Article[];
 }
 
 // Markdown parser helper for long-form educational articles
@@ -58,7 +61,9 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
   article,
   onClose,
   isBookmarked,
-  onToggleBookmark
+  onToggleBookmark,
+  onSelectArticle,
+  allArticles = []
 }) => {
   const [copied, setCopied] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -80,7 +85,7 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
   if (!article) return null;
 
   const handleShare = () => {
-    const url = `${window.location.origin}/#${article.slug}`;
+    const url = `${window.location.origin}/articles/${article.slug}`;
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -278,28 +283,8 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
             dangerouslySetInnerHTML={{ __html: renderArticleContent(article.content) }}
           />
 
-          {/* AdSense Responsive In-Article Placement */}
-          <div style={{
-            margin: '36px 0 20px',
-            padding: '16px',
-            background: 'rgba(255, 255, 255, 0.02)',
-            borderRadius: '8px',
-            border: '1px dashed var(--border-subtle)',
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-muted)', marginBottom: '6px' }}>
-              Advertisement
-            </div>
-            <div style={{ minHeight: '75px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '12px' }}>
-              <ins className="adsbygoogle"
-                   style={{ display: 'block', width: '100%' }}
-                   data-ad-client="ca-pub-9283748291029384"
-                   data-ad-slot="9283748291"
-                   data-ad-format="auto"
-                   data-full-width-responsive="true"></ins>
-              <span>Verified Educational Ad Placement Area</span>
-            </div>
-          </div>
+          {/* Google AdSense Policy-Compliant In-Article Placement */}
+          <AdSenseSlot format="in-article" slotId="9283748291" />
 
           {/* Citations & Primary Sources Section */}
           {article.sources && article.sources.length > 0 && (
@@ -323,6 +308,128 @@ export const ReaderModal: React.FC<ReaderModalProps> = ({
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {/* Author E-E-A-T Bio Box */}
+          <div style={{
+            marginTop: '32px',
+            marginBottom: '24px',
+            padding: '20px 24px',
+            borderRadius: '12px',
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid var(--border-subtle)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '18px',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{
+              width: '54px',
+              height: '54px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald))',
+              padding: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}>
+              <div style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                background: '#0d1117',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 800,
+                color: 'var(--accent-cyan)'
+              }}>
+                {(article.author || 'F').charAt(0)}
+              </div>
+            </div>
+            <div style={{ flex: 1, minWidth: '220px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <span style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  Written &amp; Fact-Checked by {article.author || 'FingTaj Research Desk'}
+                </span>
+                <span style={{ fontSize: '11px', color: 'var(--accent-emerald)', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                  <ShieldCheck size={12} /> Verified
+                </span>
+              </div>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '0 0 8px 0', lineHeight: 1.5 }}>
+                {article.authorBio || 'Certified financial research team specializing in Indian capital markets, SEBI guidelines, and quantitative wealth engineering.'}
+              </p>
+              <a 
+                href="/author/aashutosh-jha"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onClose();
+                  window.history.pushState({}, '', '/author/aashutosh-jha');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                }}
+                style={{ fontSize: '12px', color: 'var(--accent-cyan)', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+              >
+                View Full Author Credentials &amp; Published Research <ArrowRight size={12} />
+              </a>
+            </div>
+          </div>
+
+          {/* Google AdSense Horizontal End-of-Article Slot */}
+          <AdSenseSlot format="horizontal" slotId="9283748292" />
+
+          {/* Related Educational Guides */}
+          {allArticles && allArticles.length > 0 && (
+            <div style={{ marginTop: '36px', paddingTop: '24px', borderTop: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                  Recommended Financial Masterclasses
+                </div>
+                <span className="badge badge-cyan" style={{ textTransform: 'uppercase' }}>
+                  {article.category}
+                </span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+                {allArticles
+                  .filter(a => a.id !== article.id && a.category === article.category)
+                  .slice(0, 3)
+                  .map(rel => (
+                    <div
+                      key={rel.id}
+                      onClick={() => onSelectArticle && onSelectArticle(rel)}
+                      style={{
+                        padding: '16px',
+                        borderRadius: '10px',
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        border: '1px solid var(--border-subtle)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between'
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.borderColor = 'var(--accent-cyan)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.4 }}>
+                        {rel.title}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-muted)' }}>
+                        <span>{rel.readTime}</span>
+                        <span style={{ color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '3px', fontWeight: 600 }}>
+                          Read <ArrowRight size={11} />
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           )}
 

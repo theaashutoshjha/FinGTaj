@@ -38,16 +38,16 @@ export const StoreSection: React.FC<StoreSectionProps> = ({
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-            <span className="badge badge-gold">
+            <span className="badge badge-cyan">
               <ShoppingBag size={13} />
-              FingTaj Official Store
+              Educational Research Templates
             </span>
           </div>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', marginBottom: '12px' }}>
-            Digital Wealth <span className="text-gradient">Operating Systems</span>
+            Supplementary Worksheets &amp; <span className="text-gradient">Study Models</span>
           </h2>
           <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto', fontSize: '15px' }}>
-            Tested, formula-driven financial spreadsheets and institutional blueprints. Instantly delivered with lifetime updates and zero macro vulnerabilities.
+            Open-formula financial spreadsheets and academic study models designed to accompany our educational research literature. Instant delivery, zero macros, open formulas.
           </p>
 
           {/* Filter Pills */}
@@ -138,15 +138,10 @@ export const StoreSection: React.FC<StoreSectionProps> = ({
                   borderRadius: '8px',
                   fontSize: '11px',
                   color: 'var(--accent-cyan)',
-                  marginBottom: '14px',
+                  marginBottom: '20px',
                   border: '1px solid var(--border-subtle)'
                 }}>
                   {p.specs}
-                </div>
-
-                <div style={{ fontSize: '12px', color: 'var(--accent-amber)', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Star size={13} fill="var(--accent-amber)" color="var(--accent-amber)" />
-                  <span>{p.rating}</span>
                 </div>
               </div>
 

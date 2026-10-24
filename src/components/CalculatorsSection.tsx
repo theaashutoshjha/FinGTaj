@@ -12,13 +12,35 @@ import {
   PieChart
 } from 'lucide-react';
 
+import { CalculatorGuideSection } from './CalculatorGuideSection';
+
 interface CalculatorsSectionProps {
   currency: Currency;
   rateUSD: number;
+  initialCalc?: string;
+  onSelectCalc?: (id: string) => void;
 }
 
-export const CalculatorsSection: React.FC<CalculatorsSectionProps> = ({ currency, rateUSD }) => {
-  const [activeCalc, setActiveCalc] = useState<string>('sip');
+export const CalculatorsSection: React.FC<CalculatorsSectionProps> = ({ 
+  currency, 
+  rateUSD,
+  initialCalc = 'sip',
+  onSelectCalc
+}) => {
+  const [activeCalc, setActiveCalc] = useState<string>(initialCalc);
+
+  React.useEffect(() => {
+    if (initialCalc) {
+      setActiveCalc(initialCalc);
+    }
+  }, [initialCalc]);
+
+  const handleSwitchCalc = (id: string) => {
+    setActiveCalc(id);
+    if (onSelectCalc) {
+      onSelectCalc(id);
+    }
+  };
 
   // Format money helper
   const formatMoney = (inr: number) => {
@@ -202,7 +224,7 @@ export const CalculatorsSection: React.FC<CalculatorsSectionProps> = ({ currency
             return (
               <button
                 key={c.id}
-                onClick={() => setActiveCalc(c.id)}
+                onClick={() => handleSwitchCalc(c.id)}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -593,6 +615,11 @@ export const CalculatorsSection: React.FC<CalculatorsSectionProps> = ({ currency
             </div>
           )}
 
+        </div>
+
+        {/* Long-form Educational Guide (Mathematical Methodology, Scenario Matrix, Tax Analysis, FAQ & Schema) */}
+        <div style={{ maxWidth: '960px', margin: '32px auto 0' }}>
+          <CalculatorGuideSection calcId={activeCalc === 'stepup' ? 'step-up' : activeCalc} />
         </div>
       </div>
     </section>

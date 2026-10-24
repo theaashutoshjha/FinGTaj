@@ -1,41 +1,7 @@
-# FingTaj Financial Intelligence & Research Operating System
-# Google AdSense Crawler Authorization
 User-agent: Mediapartners-Google
 Allow: /
 
-User-agent: AdsBot-Google
-Allow: /
-
-User-agent: AdsBot-Google-Mobile
-Allow: /
-
-# Google Search Engine Crawler
-User-agent: Googlebot
-Allow: /
-Allow: /articles/
-Allow: /assets/
-
-# AI Search & Answer Engine Crawlers (AEO)
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-# General Search Engines
 User-agent: *
 Allow: /
-Allow: /articles/
-Allow: /assets/
 
-# Disallow Private Administrative Endpoints
-Disallow: /admin
-Disallow: /api/admin/
-Disallow: /api/auth/
-Disallow: /callback
-
-# Canonical XML Sitemap
-Sitemap: https://fingtaj.com/sitemap.xml
+Sitemap: https://www.fingtaj.com/sitemap.xml

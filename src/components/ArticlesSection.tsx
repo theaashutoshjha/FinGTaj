@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Article } from '../types';
 import { ARTICLES } from '../data/articles';
-import { BookOpen, Bookmark, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
+import { BookOpen, Bookmark, Clock, ArrowRight, ShieldCheck, User } from 'lucide-react';
 
 interface ArticlesSectionProps {
   onOpenArticle: (article: Article) => void;
@@ -9,6 +9,12 @@ interface ArticlesSectionProps {
   onToggleBookmark: (articleId: string) => void;
   initialCategory?: 'all' | 'trading' | 'finance' | 'loans' | 'tech';
   articles?: Article[];
+  limit?: number;
+  hideFilters?: boolean;
+  customBadge?: string;
+  customTitle?: string;
+  customSubtitle?: string;
+  onViewAll?: () => void;
 }
 
 export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
@@ -16,10 +22,16 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
   savedArticleIds,
   onToggleBookmark,
   initialCategory = 'all',
-  articles
+  articles,
+  limit,
+  hideFilters = false,
+  customBadge,
+  customTitle,
+  customSubtitle,
+  onViewAll
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
-  const [visibleCount, setVisibleCount] = useState<number>(12);
+  const [visibleCount, setVisibleCount] = useState<number>(limit || 12);
 
   const articleList = articles && articles.length > 0 ? articles : ARTICLES;
   const filtered = articleList.filter(a => {
@@ -27,68 +39,74 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
     return a.category === selectedCategory;
   });
 
-  const displayedArticles = filtered.slice(0, visibleCount);
+  const displayedArticles = limit ? filtered.slice(0, limit) : filtered.slice(0, visibleCount);
 
   return (
-    <section style={{ padding: '60px 0' }} id="articles">
+    <section style={{ padding: '50px 0' }} id="articles">
       <div className="wrap">
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
             <span className="badge badge-cyan">
               <BookOpen size={13} />
-              Educational Financial Library
+              {customBadge || 'Educational Financial Research Library'}
             </span>
           </div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', marginBottom: '12px' }}>
-            Comprehensive Financial <span className="text-gradient">Education</span>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 40px)', marginBottom: '12px' }}>
+            {customTitle ? (
+              <span dangerouslySetInnerHTML={{ __html: customTitle }} />
+            ) : (
+              <>Latest Market &amp; Educational <span className="text-gradient">Guides</span></>
+            )}
           </h2>
           <p style={{ color: 'var(--text-secondary)', maxWidth: '680px', margin: '0 auto', fontSize: '15px', lineHeight: 1.6 }}>
-            In-depth guides on index investing, corporate valuations, tax optimization, debt management, and digital banking security. Provided strictly for educational awareness in compliance with SEBI, RBI, and IRDAI standards.
+            {customSubtitle || 'Independently researched guides on compounding mathematics, passive index funds, tax optimization, debt management, and digital banking security.'}
           </p>
 
-          {/* Category Filter Tabs */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '8px',
-            justifyContent: 'center',
-            marginTop: '28px'
-          }}>
-            {[
-              { id: 'all', label: `All Disciplines (${articleList.length})` },
-              { id: 'trading', label: `Trading & Equity (${articleList.filter(a => a.category === 'trading').length})` },
-              { id: 'finance', label: `Personal Finance & Tax (${articleList.filter(a => a.category === 'finance').length})` },
-              { id: 'loans', label: `Loans & Amortization (${articleList.filter(a => a.category === 'loans').length})` },
-              { id: 'tech', label: `Fintech & Security (${articleList.filter(a => a.category === 'tech').length})` }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setSelectedCategory(tab.id);
-                  setVisibleCount(12);
-                }}
-                style={{
-                  padding: '8px 18px',
-                  borderRadius: 'var(--radius-full)',
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  border: selectedCategory === tab.id ? 'none' : '1px solid var(--border-subtle)',
-                  background: selectedCategory === tab.id ? 'var(--gradient-brand)' : 'rgba(255, 255, 255, 0.05)',
-                  color: selectedCategory === tab.id ? '#03080f' : 'var(--text-secondary)',
-                  boxShadow: selectedCategory === tab.id ? '0 0 15px rgba(0, 245, 255, 0.35)' : 'none',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          {/* Category Filter Tabs (if not hidden) */}
+          {!hideFilters && (
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '8px',
+              justifyContent: 'center',
+              marginTop: '24px'
+            }}>
+              {[
+                { id: 'all', label: `All Disciplines (${articleList.length})` },
+                { id: 'trading', label: `Investing & Equity (${articleList.filter(a => a.category === 'trading').length})` },
+                { id: 'finance', label: `Personal Finance & Tax (${articleList.filter(a => a.category === 'finance').length})` },
+                { id: 'loans', label: `Loans & Amortization (${articleList.filter(a => a.category === 'loans').length})` },
+                { id: 'tech', label: `Fintech & Security (${articleList.filter(a => a.category === 'tech').length})` }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setSelectedCategory(tab.id);
+                    setVisibleCount(limit || 12);
+                  }}
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: 'var(--radius-full)',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    border: selectedCategory === tab.id ? 'none' : '1px solid var(--border-subtle)',
+                    background: selectedCategory === tab.id ? 'var(--gradient-brand)' : 'rgba(255, 255, 255, 0.05)',
+                    color: selectedCategory === tab.id ? '#03080f' : 'var(--text-secondary)',
+                    boxShadow: selectedCategory === tab.id ? '0 0 15px rgba(0, 245, 255, 0.35)' : 'none',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Regulatory Disclosure Banner */}
+        {/* Regulatory Notice Banner */}
         <div style={{
           background: 'rgba(0, 245, 255, 0.03)',
           border: '1px solid rgba(0, 245, 255, 0.12)',
@@ -103,11 +121,11 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
         }}>
           <ShieldCheck size={18} color="var(--accent-cyan)" style={{ flexShrink: 0 }} />
           <span>
-            <strong>Educational Notice:</strong> FingTaj is an independent educational portal, not a SEBI registered investment advisor or broker. All case studies, calculations, and content are provided solely for financial literacy and conceptual research.
+            <strong>Educational Disclosure:</strong> FingTaj is an independent educational portal, not a SEBI registered investment advisor or broker. All case studies and calculations are provided solely for financial literacy.
           </span>
         </div>
 
-        {/* Articles Grid */}
+        {/* Articles 3-Column Responsive Grid */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
@@ -142,7 +160,7 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                     <span style={{
                       fontSize: '11px',
-                      fontWeight: 700,
+                      fontWeight: 800,
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
                       color: tagColor
@@ -156,7 +174,7 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                       }}
                       className="btn-icon"
                       style={{ width: '32px', height: '32px' }}
-                      title={isBookmarked ? "Remove Bookmark" : "Save to My Hub"}
+                      title={isBookmarked ? "Remove Bookmark" : "Save Guide"}
                     >
                       <Bookmark 
                         size={14} 
@@ -175,31 +193,50 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
                   </p>
                 </div>
 
-                {/* Meta info & Read CTA */}
+                {/* Author Byline & Meta info */}
                 <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
                   borderTop: '1px solid var(--border-subtle)',
                   paddingTop: '16px'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: 'var(--text-muted)' }}>
-                      <Clock size={13} />
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <User size={12} color="var(--accent-cyan)" />
+                      <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>{art.author || 'FingTaj Research Desk'}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Clock size={12} />
                       <span>{art.readTime}</span>
                     </div>
                   </div>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    Read Guide <ArrowRight size={14} />
-                  </span>
+
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      Read Guide <ArrowRight size={14} />
+                    </span>
+                  </div>
                 </div>
               </article>
             );
           })}
         </div>
 
-        {/* Load More Button */}
-        {visibleCount < filtered.length && (
+        {/* Load More or View All CTA */}
+        {limit && onViewAll ? (
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <button
+              onClick={onViewAll}
+              className="btn btn-primary"
+              style={{
+                padding: '12px 32px',
+                fontSize: '14px',
+                fontWeight: 700,
+                borderRadius: 'var(--radius-full)'
+              }}
+            >
+              Explore All 80 Financial Guides &amp; Research Portals ↗
+            </button>
+          </div>
+        ) : !limit && visibleCount < filtered.length ? (
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
             <button
               onClick={() => setVisibleCount(prev => prev + 12)}
@@ -214,7 +251,7 @@ export const ArticlesSection: React.FC<ArticlesSectionProps> = ({
               Load More Guides ({filtered.length - visibleCount} remaining)
             </button>
           </div>
-        )}
+        ) : null}
 
       </div>
     </section>

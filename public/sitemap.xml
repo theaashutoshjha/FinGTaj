@@ -1,247 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-
-  <!-- Core Landing & Learning Portals -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://fingtaj.com/</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://www.fingtaj.com/</loc>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#trading</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://www.fingtaj.com/sip-calculator</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#finance</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://www.fingtaj.com/loan-emi-calculator</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#loans</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://www.fingtaj.com/income-tax-calculator</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#calculators</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/#academy</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/#store</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Google AdSense Required Trust & Policy Pages -->
-  <url>
-    <loc>https://fingtaj.com/#about</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.fingtaj.com/ppf-calculator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#contact</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.fingtaj.com/inflation-adjusted-return-calculator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#privacy</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.fingtaj.com/fd-calculator</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#terms</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.fingtaj.com/hra-calculator</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#disclaimer</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.fingtaj.com/gratuity-calculator</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#editorial</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.fingtaj.com/capital-gains-tax-calculator</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/#cookies</loc>
-    <lastmod>2026-03-30</lastmod>
+    <loc>https://www.fingtaj.com/section-44ada-calculator</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fingtaj.com/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
-  <!-- Compounding & Equity Investment Guides -->
   <url>
-    <loc>https://fingtaj.com/articles/compounding</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://www.fingtaj.com/privacy-policy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/articles/index-funds</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://www.fingtaj.com/terms-of-service</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://fingtaj.com/articles/step-up-sip-wealth-accelerator-guide</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <loc>https://www.fingtaj.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
-  <url>
-    <loc>https://fingtaj.com/articles/direct-vs-regular-mutual-funds-commission-loss</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/etf-vs-mutual-funds-complete-guide</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/nifty-50-vs-nifty-next-50-portfolio-allocation</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/systematic-withdrawal-plan-swp-monthly-income</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Personal Finance, Tax & Budgeting Guides -->
-  <url>
-    <loc>https://fingtaj.com/articles/50-30-20-budgeting-framework-financial-freedom</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/emergency-fund-blueprint-financial-security</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/old-vs-new-tax-regime-complete-guide</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/sovereign-gold-bonds-vs-physical-gold</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/term-insurance-vs-endowment-policy-truth</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/nps-national-pension-system-tax-and-wealth</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/high-yield-savings-vs-fixed-deposits</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Loans, Amortization & Debt Optimization Guides -->
-  <url>
-    <loc>https://fingtaj.com/articles/home-loan-prepayment-strategy-save-lakhs</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/cibil-score-repair-guide-step-by-step</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/car-loan-depreciation-trap-how-to-finance</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/personal-loan-debt-consolidation-blueprint</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/education-loan-repayment-and-tax-benefit-80e</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/balance-transfer-home-loan-when-to-switch</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Financial Technology & Security Guides -->
-  <url>
-    <loc>https://fingtaj.com/articles/ai-algorithmic-trading-truth-vs-hype</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/blockchain-defi-yield-farming-risks-rewards</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/cybersecurity-safeguard-demat-banking-accounts</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://fingtaj.com/articles/fintech-upi-credit-lines-revolution</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
 </urlset>

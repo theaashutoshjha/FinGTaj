@@ -165,16 +165,30 @@ export class SeoAeoEngine {
 
     const corePages = [
       { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'daily' },
-      { loc: `${baseUrl}/#trading`, priority: '0.8', changefreq: 'weekly' },
-      { loc: `${baseUrl}/#finance`, priority: '0.8', changefreq: 'weekly' },
-      { loc: `${baseUrl}/#loans`, priority: '0.8', changefreq: 'weekly' },
-      { loc: `${baseUrl}/#calculators`, priority: '0.9', changefreq: 'weekly' },
-      { loc: `${baseUrl}/#store`, priority: '0.7', changefreq: 'weekly' },
-      { loc: `${baseUrl}/#academy`, priority: '0.7', changefreq: 'weekly' },
-      { loc: `${baseUrl}/about`, priority: '0.6', changefreq: 'monthly' },
-      { loc: `${baseUrl}/contact`, priority: '0.5', changefreq: 'monthly' },
-      { loc: `${baseUrl}/privacy`, priority: '0.4', changefreq: 'monthly' },
-      { loc: `${baseUrl}/terms`, priority: '0.4', changefreq: 'monthly' }
+      { loc: `${baseUrl}/calculators`, priority: '0.9', changefreq: 'weekly' },
+      { loc: `${baseUrl}/calculators/sip`, priority: '0.9', changefreq: 'weekly' },
+      { loc: `${baseUrl}/calculators/emi`, priority: '0.9', changefreq: 'weekly' },
+      { loc: `${baseUrl}/calculators/fire`, priority: '0.9', changefreq: 'weekly' },
+      { loc: `${baseUrl}/calculators/step-up`, priority: '0.9', changefreq: 'weekly' },
+      { loc: `${baseUrl}/calculators/budget`, priority: '0.9', changefreq: 'weekly' },
+      { loc: `${baseUrl}/calculators/inflation`, priority: '0.9', changefreq: 'weekly' },
+      { loc: `${baseUrl}/trading`, priority: '0.8', changefreq: 'weekly' },
+      { loc: `${baseUrl}/finance`, priority: '0.8', changefreq: 'weekly' },
+      { loc: `${baseUrl}/loans`, priority: '0.8', changefreq: 'weekly' },
+      { loc: `${baseUrl}/tech`, priority: '0.8', changefreq: 'weekly' },
+      { loc: `${baseUrl}/academy`, priority: '0.8', changefreq: 'weekly' },
+      { loc: `${baseUrl}/author/aashutosh-jha`, priority: '0.7', changefreq: 'monthly' },
+      { loc: `${baseUrl}/author/fingtaj-research-team`, priority: '0.7', changefreq: 'monthly' },
+      { loc: `${baseUrl}/about`, priority: '0.7', changefreq: 'monthly' },
+      { loc: `${baseUrl}/contact`, priority: '0.7', changefreq: 'monthly' },
+      { loc: `${baseUrl}/privacy-policy`, priority: '0.5', changefreq: 'monthly' },
+      { loc: `${baseUrl}/privacy`, priority: '0.5', changefreq: 'monthly' },
+      { loc: `${baseUrl}/terms-of-service`, priority: '0.5', changefreq: 'monthly' },
+      { loc: `${baseUrl}/terms`, priority: '0.5', changefreq: 'monthly' },
+      { loc: `${baseUrl}/disclaimer`, priority: '0.5', changefreq: 'monthly' },
+      { loc: `${baseUrl}/editorial`, priority: '0.5', changefreq: 'monthly' },
+      { loc: `${baseUrl}/cookies`, priority: '0.5', changefreq: 'monthly' },
+      { loc: `${baseUrl}/dmca`, priority: '0.5', changefreq: 'monthly' }
     ];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;

@@ -15,6 +15,7 @@ import { researchEngine } from './researchEngine.js';
 import { articleGenerator } from './articleGenerator.js';
 import { seoAeoEngine } from './seoAeoEngine.js';
 import { scheduler } from './scheduler.js';
+import { renderCrawlerHtml } from './ssrRenderer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +23,21 @@ const DIST_DIR = path.join(__dirname, '..', 'dist');
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// 301 Canonical Host & Protocol Redirect (http -> https, www. -> apex domain)
+app.use((req, res, next) => {
+  const host = (req.headers.host || '').toLowerCase();
+  const isWww = host.startsWith('www.');
+  const proto = req.headers['x-forwarded-proto'];
+  const isHttp = proto === 'http';
+
+  if (isWww || (isHttp && process.env.NODE_ENV === 'production')) {
+    const cleanHost = host.replace(/^www\./, '');
+    const cleanUrl = `https://${cleanHost}${req.originalUrl}`;
+    return res.redirect(301, cleanUrl);
+  }
+  next();
+});
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -31,7 +47,7 @@ app.use(cors({
   credentials: true
 }));
 
-// Security Headers
+// Security & AdSense Crawler Authorization Headers
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
@@ -334,12 +350,9 @@ app.get('/robots.txt', (req, res) => {
 
 // Google AdSense Publisher Authorization (ads.txt)
 app.get('/ads.txt', (req, res) => {
-  const adsTxt = `# Google AdSense Authorized Digital Sellers for fingtaj.com
-# Format: <Field #1>, <Field #2>, <Field #3>, <Field #4>
-google.com, pub-9283748291029384, DIRECT, f08c47fec0942fa0
-`;
-  res.header('Content-Type', 'text/plain');
-  res.send(adsTxt);
+  const adsTxt = `google.com, pub-3594420471814241, DIRECT, f08c47fec0942fa0\n`;
+  res.header('Content-Type', 'text/plain; charset=utf-8');
+  res.status(200).send(adsTxt);
 });
 
 // ==============================================================================
@@ -514,9 +527,27 @@ app.get('/api/admin/logs', requireAdmin, (req, res) => {
 
 if (fs.existsSync(DIST_DIR)) {
   app.use(express.static(DIST_DIR));
+
+  const indexPath = path.join(DIST_DIR, 'index.html');
+
   app.get('/{*splat}', (req, res) => {
-    // If not handled by api/sitemap/robots/auth, serve SPA
-    res.sendFile(path.join(DIST_DIR, 'index.html'));
+    const rawPath = req.path || '';
+    const baseUrl = process.env.BASE_URL || 'https://fingtaj.com';
+
+    let baseHtml = '';
+    try {
+      baseHtml = fs.readFileSync(indexPath, 'utf-8');
+    } catch {
+      return res.sendFile(indexPath);
+    }
+
+    try {
+      const renderedHtml = renderCrawlerHtml(rawPath, baseHtml, baseUrl);
+      return res.send(renderedHtml);
+    } catch (err) {
+      console.error('[SSR] Error rendering crawler HTML, falling back:', err);
+      return res.send(baseHtml);
+    }
   });
 } else {
   app.get('/', (req, res) => {

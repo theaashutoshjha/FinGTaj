@@ -9,7 +9,7 @@ export interface Product {
   priceINR: number;
   origPriceINR: number;
   specs: string;
-  rating: string;
+  rating?: string;
   downloadFile: string;
 }
 
