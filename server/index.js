@@ -24,16 +24,19 @@ const DIST_DIR = path.join(__dirname, '..', 'dist');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// 301 Canonical Host & Protocol Redirect (http -> https, www. -> apex domain)
+// 301 Canonical Host & Protocol Redirect (Checks 001-004: HTTP -> HTTPS, apex -> www.fingtaj.com)
 app.use((req, res, next) => {
   const host = (req.headers.host || '').toLowerCase();
-  const isWww = host.startsWith('www.');
+  const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1');
+  if (isLocalhost) return next();
+
+  const isApex = host === 'fingtaj.com';
   const proto = req.headers['x-forwarded-proto'];
   const isHttp = proto === 'http';
 
-  if (isWww || (isHttp && process.env.NODE_ENV === 'production')) {
-    const cleanHost = host.replace(/^www\./, '');
-    const cleanUrl = `https://${cleanHost}${req.originalUrl}`;
+  if (isApex || (isHttp && process.env.NODE_ENV === 'production')) {
+    const targetHost = isApex ? 'www.fingtaj.com' : host;
+    const cleanUrl = `https://${targetHost}${req.originalUrl}`;
     return res.redirect(301, cleanUrl);
   }
   next();

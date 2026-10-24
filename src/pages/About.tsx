@@ -99,31 +99,60 @@ export default function About() {
               </ul>
             </div>
 
-            <div className="pt-2 flex flex-wrap gap-4 text-xs">
-              <a
-                href="mailto:support@fingtaj.com"
-                className="text-cyan-400 hover:text-cyan-300 underline font-mono flex items-center gap-1"
-              >
-                Direct Author Email: support@fingtaj.com
-              </a>
-              <span className="text-slate-600">•</span>
-              <a
-                href="https://github.com/theaashutoshjha"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cyan-400 hover:text-cyan-300 underline font-medium"
-              >
-                GitHub Profile (@theaashutoshjha)
-              </a>
-              <span className="text-slate-600">•</span>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cyan-400 hover:text-cyan-300 underline font-medium"
-              >
-                LinkedIn Professional Network
-              </a>
+            <div className="pt-3 border-t border-slate-800">
+              <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 block mb-2">
+                Official Entity & Verified Social Profiles:
+              </span>
+              <div className="flex flex-wrap gap-2.5 text-xs">
+                <a
+                  href="https://www.linkedin.com/in/ashutosh-kumar-r/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                >
+                  <span className="font-semibold text-cyan-400">in</span> LinkedIn (Ashutosh Kumar R)
+                </a>
+                <a
+                  href="https://x.com/FinGTaj"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                >
+                  <span className="font-semibold text-cyan-400">𝕏</span> X (@FinGTaj)
+                </a>
+                <a
+                  href="https://www.youtube.com/@fingtaj"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                >
+                  <span className="font-semibold text-rose-400">▶</span> YouTube (@fingtaj)
+                </a>
+                <a
+                  href="https://whatsapp.com/channel/0029Vb7gkNgIt5rwnKzp0Y0K"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                >
+                  <span className="font-semibold text-emerald-400">💬</span> WhatsApp Channel
+                </a>
+                <a
+                  href="https://www.quora.com/profile/FinGTaj"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                >
+                  <span className="font-semibold text-rose-300">Q</span> Quora (FinGTaj)
+                </a>
+                <a
+                  href="https://github.com/theaashutoshjha"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                >
+                  <span className="font-semibold text-slate-400">⚡</span> GitHub (@theaashutoshjha)
+                </a>
+              </div>
             </div>
           </div>
         </section>

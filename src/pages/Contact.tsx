@@ -343,6 +343,59 @@ export default function Contact() {
             </div>
           </div>
 
+          {/* Official Social & Community Channels Card */}
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
+            <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              Official Community & Social Channels
+            </h3>
+            <p className="text-xs text-slate-400 mb-4">
+              Connect with FingTaj across our verified community portals:
+            </p>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <a
+                href="https://www.linkedin.com/in/ashutosh-kumar-r/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition"
+              >
+                LinkedIn Profile
+              </a>
+              <a
+                href="https://x.com/FinGTaj"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition"
+              >
+                X (@FinGTaj)
+              </a>
+              <a
+                href="https://www.youtube.com/@fingtaj"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-rose-400 text-slate-300 hover:text-rose-400 transition"
+              >
+                YouTube Channel
+              </a>
+              <a
+                href="https://whatsapp.com/channel/0029Vb7gkNgIt5rwnKzp0Y0K"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition"
+              >
+                WhatsApp Updates
+              </a>
+              <a
+                href="https://www.quora.com/profile/FinGTaj"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-red-400 text-slate-300 hover:text-red-400 transition col-span-2 text-center"
+              >
+                Quora Knowledge Space (@FinGTaj)
+              </a>
+            </div>
+          </div>
+
           <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
             <h3 className="text-sm font-bold text-white mb-3">Service Level Agreement (SLA) Matrix</h3>
             <div className="overflow-x-auto">

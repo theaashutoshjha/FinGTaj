@@ -561,12 +561,34 @@ export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.
           name: 'FinGTaj',
           url: baseUrl,
           logo: `${baseUrl}/favicon.svg`,
-          description: 'Institutional financial education, compounding simulators, and SEBI-compliant wealth engineering publication.',
-          email: 'admin@fingtaj.com',
+          description: 'Institutional financial education, compounding simulators, statutory tax computation, and zero-telemetry wealth engineering.',
+          email: 'support@fingtaj.com',
+          sameAs: [
+            'https://www.linkedin.com/in/ashutosh-kumar-r/',
+            'https://www.youtube.com/@fingtaj',
+            'https://whatsapp.com/channel/0029Vb7gkNgIt5rwnKzp0Y0K',
+            'https://www.quora.com/profile/FinGTaj',
+            'https://x.com/FinGTaj',
+            'https://github.com/theaashutoshjha'
+          ],
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Chennai',
+            addressRegion: 'Tamil Nadu',
+            postalCode: '600001',
+            addressCountry: 'IN'
+          },
           founder: {
             '@type': 'Person',
-            name: 'Aashutosh Jha',
-            url: `${baseUrl}/author/aashutosh-jha`
+            name: 'Ashutosh Kumar R (Ashutosh Jha)',
+            url: `${baseUrl}/about`,
+            sameAs: [
+              'https://www.linkedin.com/in/ashutosh-kumar-r/',
+              'https://x.com/FinGTaj',
+              'https://www.youtube.com/@fingtaj',
+              'https://www.quora.com/profile/FinGTaj',
+              'https://github.com/theaashutoshjha'
+            ]
           }
         },
         {

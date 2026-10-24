@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Copy, Check, Calculator, ShieldCheck, BookOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ChevronDown, ChevronUp, Copy, Check, Calculator, ShieldCheck, BookOpen, Home } from 'lucide-react';
 
 export interface VariableDefinition {
   symbol: string;
@@ -54,6 +55,57 @@ export default function CalculatorLayout({
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 sm:py-12">
+      {/* Dynamic Structured Data (Checks 285, 299: BreadcrumbList & FAQPage Schema) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'BreadcrumbList',
+                'itemListElement': [
+                  {
+                    '@type': 'ListItem',
+                    'position': 1,
+                    'name': 'Home',
+                    'item': 'https://www.fingtaj.com/'
+                  },
+                  {
+                    '@type': 'ListItem',
+                    'position': 2,
+                    'name': title
+                  }
+                ]
+              },
+              {
+                '@type': 'FAQPage',
+                'mainEntity': faqs.map(faq => ({
+                  '@type': 'Question',
+                  'name': faq.question,
+                  'acceptedAnswer': {
+                    '@type': 'Answer',
+                    'text': faq.answer
+                  }
+                }))
+              }
+            ]
+          })
+        }}
+      />
+
+      {/* Breadcrumb Navigation (Checks 034, 108, 351, 352) */}
+      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-slate-400">
+        <Link to="/" className="inline-flex items-center gap-1 hover:text-cyan-400 transition">
+          <Home size={12} />
+          <span>Home</span>
+        </Link>
+        <span className="text-slate-600">/</span>
+        <span className="text-slate-400">Statutory Calculators</span>
+        <span className="text-slate-600">/</span>
+        <span className="text-cyan-400 font-medium truncate">{title}</span>
+      </nav>
+
       {/* Header & Primary H1 */}
       <div className="mb-8">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-cyan-950/70 text-cyan-400 border border-cyan-800/50 mb-3">

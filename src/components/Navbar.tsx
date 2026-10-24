@@ -64,6 +64,17 @@ export default function Navbar() {
                 </Link>
               );
             })}
+
+            {/* Quick Community Link */}
+            <a
+              href="https://whatsapp.com/channel/0029Vb7gkNgIt5rwnKzp0Y0K"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join FingTaj WhatsApp Channel"
+              className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-950/80 hover:bg-emerald-900 text-emerald-400 border border-emerald-500/40 transition hover:scale-105"
+            >
+              <span>Join Channel</span>
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
