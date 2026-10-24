@@ -500,6 +500,7 @@ class Database {
         if (!this.data.auditLogs) this.data.auditLogs = [];
         if (!this.data.users) this.data.users = [];
         if (!this.data.sessions) this.data.sessions = [];
+        if (!this.data.contactMessages) this.data.contactMessages = [];
       } else {
         this.data.articles = INITIAL_ARTICLES;
         this.save();
@@ -750,6 +751,38 @@ class Database {
     if (!token || !this.data.sessions) return;
     this.data.sessions = this.data.sessions.filter(s => s.token !== token);
     this.save();
+  }
+
+  saveContactMessage({ name, email, category, subject, message, ip, userAgent }) {
+    if (!this.data.contactMessages) this.data.contactMessages = [];
+    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const randomSuffix = crypto.randomBytes(3).toString('hex').toUpperCase();
+    const trackingId = `FT-${dateStr}-${randomSuffix}`;
+
+    const record = {
+      id: trackingId,
+      name: String(name || '').trim().slice(0, 100),
+      email: String(email || '').trim().toLowerCase().slice(0, 120),
+      category: String(category || 'General Inquiry').trim(),
+      subject: String(subject || 'General Inquiry').trim().slice(0, 150),
+      message: String(message || '').trim().slice(0, 5000),
+      ip: ip || 'client-side',
+      userAgent: userAgent || 'browser',
+      status: 'received',
+      createdAt: new Date().toISOString()
+    };
+
+    this.data.contactMessages.unshift(record);
+    // Keep last 1000 inquiries
+    if (this.data.contactMessages.length > 1000) {
+      this.data.contactMessages.pop();
+    }
+    this.save();
+    return record;
+  }
+
+  getContactMessages() {
+    return this.data.contactMessages || [];
   }
 }
 

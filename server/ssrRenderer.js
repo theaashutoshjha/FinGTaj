@@ -472,21 +472,30 @@ export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.
         <h1 style="font-size: 36px; font-weight: 800; color: #ffffff; margin-bottom: 24px;">${pageTitle.split('|')[0]}</h1>
 
         ${isPrivacy ? `
-          <h2>1. Introduction & Commitment to Data Privacy</h2>
-          <p>At FinGTaj (accessible from https://fingtaj.com), the privacy of our visitors is of paramount importance. This Privacy Policy document outlines the types of personal information that is received and collected by FinGTaj and how it is used.</p>
+          <h2>1. Preamble & Zero-Telemetry Architecture</h2>
+          <p>At FinGTaj (https://www.fingtaj.com), we operate under a strict, verifiable Zero-Telemetry Computational Architecture. All mathematical evaluations—including salaries, tax deductions under Section 115BAC, loan principals, and gratuity calculations—execute solely within your browser's local JavaScript heap. No computational data or user-entered numbers are ever transmitted or stored on our servers.</p>
 
-          <h2>2. Google AdSense & Third-Party Advertising Vendors</h2>
-          <p>Google, as a third-party vendor, uses cookies to serve ads on FinGTaj. Google's use of the DoubleClick DART cookie enables it and its partners to serve ads to our users based on their visit to FinGTaj and/or other sites on the Internet.</p>
-          <p>Users may opt out of the use of the DART cookie by visiting the Google ad and content network privacy policy at <a href="https://policies.google.com/technologies/ads" style="color: #00f5ff;">https://policies.google.com/technologies/ads</a>.</p>
+          <h2>2. Google AdSense & Third-Party Advertising Cookies</h2>
+          <p>We partner with Google AdSense and third-party advertising partners to serve contextual and personalized ads. Google uses cookies, including the DoubleClick DART cookie, to serve ads based on prior visits to our site and other internet portals.</p>
+          <p>Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" style="color: #00f5ff;">Google Ads Settings</a> or <a href="https://www.aboutads.info/choices/" style="color: #00f5ff;">AboutAds.info</a>.</p>
 
-          <h2>3. Log Files & Analytics</h2>
-          <p>Like many other Web sites, FinGTaj makes use of log files. The information inside the log files includes internet protocol (IP) addresses, type of browser, Internet Service Provider (ISP), date/time stamp, referring/exit pages, and number of clicks to analyze trends, administer the site, track user movement around the site, and gather demographic information.</p>
+          <h2>3. Digital Personal Data Protection Act 2023 (DPDP Act)</h2>
+          <p>In compliance with India's DPDP Act 2023, data principals retain full rights to request summary, correction, or erasure of any communication data submitted via our contact portal.</p>
 
-          <h2>4. Cookies and Web Beacons</h2>
-          <p>FinGTaj uses cookies to store information about visitors' preferences, to record user-specific information on which pages the site visitor accesses or visits, and to customize Web page content based on visitors' browser type or other information that the visitor sends via their browser.</p>
+          <h2>4. Statutory Grievance Redressal Officer</h2>
+          <p>Under Rule 3(2) of the Information Technology (Intermediary Guidelines) Rules 2021, the designated Grievance Officer is Ashutosh Jha (Email: support@fingtaj.com, Location: Chennai, Tamil Nadu, India) with statutory acknowledgement within 24 hours.</p>
+        ` : ''}
 
-          <h2>5. Contact Information</h2>
-          <p>If you require any more information or have any questions about our privacy policy, please feel free to contact us by email at <a href="mailto:admin@fingtaj.com" style="color: #00f5ff;">admin@fingtaj.com</a>.</p>
+        ${isTerms ? `
+          <blockquote style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 16px; margin: 20px 0; color: #fde68a;">
+            <strong>Statutory Financial & Tax Disclaimer:</strong> All computation algorithms and tax estimates on FingTaj are provided strictly for educational and self-planning purposes. FingTaj is not a Chartered Accountancy practice, SEBI Registered Investment Advisor (RIA), or banking representative.
+          </blockquote>
+
+          <h2>1. Use License & Prohibited Conduct</h2>
+          <p>Permission is granted to freely use the calculators for individual and educational purposes. Automated scraping, reverse-engineering, or unauthorized commercial redistribution is strictly prohibited.</p>
+
+          <h2>2. Governing Law & Forum Selection</h2>
+          <p>These terms are governed by the laws of the Republic of India. Any legal dispute is subject to the exclusive territorial jurisdiction of the competent courts in Chennai, Tamil Nadu, India.</p>
         ` : ''}
 
         ${isDisclaimer ? `
@@ -501,25 +510,25 @@ export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.
         ` : ''}
 
         ${isContact ? `
-          <h2>Reach the FingTaj Editorial & Research Desk</h2>
-          <p>We welcome fact-checking inquiries, research collaborations, feedback on our computational models, and general queries.</p>
+          <h2>Reach the FingTaj Engineering & Editorial Desk</h2>
+          <p>We welcome statutory tax discrepancy reports, bug submissions, algorithmic audit inquiries, and partnership requests.</p>
           <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 24px; margin: 24px 0;">
-            <p><strong>Primary Editorial Email:</strong> <a href="mailto:admin@fingtaj.com" style="color: #00f5ff;">admin@fingtaj.com</a></p>
-            <p><strong>Alternative Desk:</strong> <a href="mailto:editorial@fingtaj.com" style="color: #00f5ff;">editorial@fingtaj.com</a></p>
-            <p><strong>Stated Turnaround Time:</strong> 24 to 48 business hours for all legitimate correspondence.</p>
-            <p><strong>Operational Address:</strong> Bengaluru, Karnataka, India.</p>
+            <p><strong>Primary Support & Formula Audits:</strong> <a href="mailto:support@fingtaj.com" style="color: #00f5ff;">support@fingtaj.com</a></p>
+            <p><strong>Administrative & Publisher Desk:</strong> <a href="mailto:admin@fingtaj.com" style="color: #00f5ff;">admin@fingtaj.com</a></p>
+            <p><strong>Stated Turnaround Time:</strong> 24 to 48 business hours for all correspondence.</p>
+            <p><strong>Operational Jurisdiction:</strong> Chennai, Tamil Nadu, 600001, India.</p>
           </div>
         ` : ''}
 
         ${isAbout ? `
-          <h2>Our Educational Mission</h2>
-          <p>FinGTaj was founded to eliminate financial misinformation and empower Indian investors with transparent, institutional-grade mathematical models and peer-reviewed educational guides.</p>
+          <h2>Our Computational Engineering Mission</h2>
+          <p>FingTaj was established by Ashutosh Jha in Chennai, Tamil Nadu, India, to provide private, high-speed, zero-telemetry statutory financial calculators for Indian taxpayers, salaried employees, and long-term investors.</p>
           
-          <h2>Fact-Checking & Research Verification Policy</h2>
-          <p>Every article and computational formula published on FinGTaj is audited against official circulars published by the Reserve Bank of India (RBI), the Securities and Exchange Board of India (SEBI), and the Central Board of Direct Taxes (CBDT).</p>
+          <h2>Statutory Alignment</h2>
+          <p>Our algorithms mirror official legislative conventions from the Indian Income Tax Act 1961 (Section 115BAC), RBI Master Directions on Amortization, and the Payment of Gratuity Act 1972.</p>
 
           <h2>Zero-Kickback & Non-Affiliate Guarantee</h2>
-          <p>We operate on a zero-kickback policy: we do not accept sponsored reviews, undisclosed commissions, or affiliate bounties from lending institutions or brokerages.</p>
+          <p>FingTaj operates with complete editorial neutrality: we accept zero commissions, kickbacks, or referral bounties from banks, NBFCs, or loan aggregators.</p>
         ` : ''}
       </main>
 

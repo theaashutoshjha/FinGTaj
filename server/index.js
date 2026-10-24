@@ -356,6 +356,79 @@ app.get('/ads.txt', (req, res) => {
 });
 
 // ==============================================================================
+// PUBLIC INQUIRY & CONTACT DISPATCH ENDPOINT
+// ==============================================================================
+
+app.post('/api/contact', (req, res) => {
+  try {
+    const { name, email, category, subject, message, _hp_company } = req.body || {};
+
+    // 1. Honeypot Anti-Bot Shield (hidden field trap)
+    if (_hp_company) {
+      return res.json({
+        success: true,
+        trackingId: 'FT-BOT-' + Date.now().toString(36).toUpperCase(),
+        message: 'Your inquiry has been received.'
+      });
+    }
+
+    // 2. Strict Input Validation
+    const cleanName = String(name || '').trim();
+    const cleanEmail = String(email || '').trim().toLowerCase();
+    const cleanCategory = String(category || 'General Inquiry').trim();
+    const cleanSubject = String(subject || '').trim() || `${cleanCategory} - ${cleanName}`;
+    const cleanMessage = String(message || '').trim();
+
+    if (!cleanName || cleanName.length < 2) {
+      return res.status(400).json({ error: 'Please enter a valid full name (minimum 2 characters).' });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+      return res.status(400).json({ error: 'Please enter a valid, reachable email address.' });
+    }
+
+    if (!cleanMessage || cleanMessage.length < 10) {
+      return res.status(400).json({ error: 'Please provide detailed message context (minimum 10 characters).' });
+    }
+
+    // 3. Record in database with unique tracking reference
+    const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'client';
+    const userAgent = req.headers['user-agent'] || '';
+
+    const saved = db.saveContactMessage({
+      name: cleanName,
+      email: cleanEmail,
+      category: cleanCategory,
+      subject: cleanSubject,
+      message: cleanMessage,
+      ip: typeof ip === 'string' ? ip.split(',')[0].trim() : 'client',
+      userAgent
+    });
+
+    db.logAction('CONTACT_FORM_SUBMISSION', cleanEmail, {
+      trackingId: saved.id,
+      category: cleanCategory
+    });
+
+    res.json({
+      success: true,
+      trackingId: saved.id,
+      createdAt: saved.createdAt,
+      message: `Inquiry registered successfully under Reference ID ${saved.id}. Our technical and statutory review desk will respond within 24 to 48 business hours.`
+    });
+  } catch (err) {
+    console.error('[Contact] Error processing inquiry:', err);
+    res.status(500).json({ error: 'Failed to record inquiry. Please reach out directly to support@fingtaj.com.' });
+  }
+});
+
+// Admin View Contact Inquiries
+app.get('/api/admin/contact-inquiries', requireAdmin, (req, res) => {
+  res.json(db.getContactMessages());
+});
+
+// ==============================================================================
 // PROTECTED ADMINISTRATIVE ENDPOINTS (requireAdmin)
 // ==============================================================================
 
