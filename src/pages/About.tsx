@@ -4,32 +4,31 @@ export default function About() {
   useEffect(() => {
     document.title = 'About FingTaj — Institutional Financial Engine & E-E-A-T Authorship';
     const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute('content', 'Learn about FingTaj, our zero-telemetry computational philosophy, and founder Ashutosh Kumar R in Chennai, Tamil Nadu.');
+    if (metaDesc) metaDesc.setAttribute('content', 'Learn about FingTaj, our zero-telemetry computational philosophy, and founder Ashutosh Jha in Chennai, Tamil Nadu.');
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute('href', 'https://www.fingtaj.com/about');
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 text-slate-300">
-      {/* Title & Badge */}
+    <div className="max-w-4xl mx-auto px-4 py-10 text-slate-300">
+      {/* Title & Metadata Kicker */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-3">
-          Institutional Governance & E-E-A-T Disclosure
+        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2">
+          Institutional Governance · E-E-A-T Disclosure
         </div>
         <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
           About FingTaj Financial Engine
         </h1>
-        <p className="text-lg text-slate-300 leading-relaxed">
-          FingTaj (<a href="https://www.fingtaj.com" className="text-cyan-400 underline hover:text-cyan-300">https://www.fingtaj.com</a>) is an independent, non-partisan computational technology platform built to deliver transparent, institutional-grade, zero-telemetry financial and statutory calculation engines for Indian taxpayers, salaried professionals, and long-term investors.
+        <p className="text-base md:text-lg text-slate-300 leading-relaxed">
+          FingTaj (<a href="https://www.fingtaj.com" className="text-emerald-400 underline hover:text-emerald-300">https://www.fingtaj.com</a>) is an independent, non-partisan computational technology platform built to deliver transparent, institutional-grade, zero-telemetry financial and statutory calculation engines for Indian taxpayers, salaried professionals, and long-term investors.
         </p>
       </div>
 
-      <div className="space-y-10 text-sm leading-relaxed">
+      <div className="space-y-8 text-sm leading-relaxed">
         {/* Mission & Founding Purpose */}
-        <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
-          <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            1. The Problem We Solve: Why FingTaj Exists
+        <section className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 md:p-8 space-y-4">
+          <h2 className="text-xl md:text-2xl font-bold text-white">
+            01. The Problem We Solve: Why FingTaj Exists
           </h2>
           <p>
             For decades, digital personal finance in India has been dominated by predatory lead-generation portals masquerading as "free calculators." When an unsuspecting salaried employee inputs their gross salary, home loan principal, or retirement goals into common search-result widgets, their financial parameters are routinely logged, packaged, and auctioned to third-party telemarketing firms, credit card brokers, and aggressive private lenders.
@@ -44,28 +43,27 @@ export default function About() {
 
         {/* Zero Telemetry Architecture */}
         <section className="space-y-4">
-          <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            2. The Core Engineering Guarantee: Zero Telemetry
+          <h2 className="text-xl md:text-2xl font-bold text-white">
+            02. The Core Engineering Guarantee: Zero Telemetry
           </h2>
           <p>
             Every single calculation tool on FingTaj—from the multi-slab Section 115BAC Income Tax simulator to the reducing-balance loan amortization matrix—is architected strictly around a <strong>Zero-Telemetry Client-Side Execution Model</strong>.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-              <h3 className="font-semibold text-cyan-400 mb-1">Volatile RAM Execution</h3>
+              <h3 className="font-semibold text-emerald-400 mb-1">Volatile RAM Execution</h3>
               <p className="text-xs text-slate-400">
                 Inputs (salary, deductions, principal, tenure) are evaluated exclusively within your browser's local JavaScript heap memory.
               </p>
             </div>
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-              <h3 className="font-semibold text-cyan-400 mb-1">Zero Database Retention</h3>
+              <h3 className="font-semibold text-emerald-400 mb-1">Zero Database Retention</h3>
               <p className="text-xs text-slate-400">
                 No financial parameters or computational payloads are ever transmitted to or stored on our web application servers.
               </p>
             </div>
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-              <h3 className="font-semibold text-cyan-400 mb-1">Zero Lead Selling</h3>
+              <h3 className="font-semibold text-emerald-400 mb-1">Zero Lead Selling</h3>
               <p className="text-xs text-slate-400">
                 We collect zero phone numbers, zero PAN records, and zero bank account identifiers. Your calculations remain 100% private.
               </p>
@@ -77,15 +75,15 @@ export default function About() {
         </section>
 
         {/* E-E-A-T Human Authorship & Governance */}
-        <section className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-5">
+        <section className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-xl p-6 md:p-8 space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
             <div>
               <h2 className="text-xl md:text-2xl font-bold text-white">
-                3. Author & Technical Governance (E-E-A-T)
+                03. Author &amp; Technical Governance (E-E-A-T)
               </h2>
-              <p className="text-xs text-cyan-400 font-mono mt-0.5">Author Experience, Expertise, Authoritativeness & Trustworthiness</p>
+              <p className="text-xs text-emerald-400 font-mono mt-0.5">Author Experience, Expertise, Authoritativeness &amp; Trustworthiness</p>
             </div>
-            <span className="px-3 py-1 bg-cyan-950/80 border border-cyan-500/40 rounded-full text-xs text-cyan-300 font-semibold">
+            <span className="text-xs text-slate-400 font-mono">
               Principal Systems Architect
             </span>
           </div>
@@ -99,7 +97,7 @@ export default function About() {
             </p>
             
             <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4 text-xs space-y-2">
-              <h4 className="font-semibold text-slate-300 uppercase tracking-wider text-[11px]">Primary Credentials & Verification:</h4>
+              <h4 className="font-semibold text-slate-300 uppercase tracking-wider text-[11px]">Primary Credentials &amp; Verification:</h4>
               <ul className="list-disc list-inside space-y-1 text-slate-400">
                 <li>Systems architecture and mathematical modeling with a focus on Indian financial compliance algorithms.</li>
                 <li>Comprehensive audit oversight of every calculation script against official Government of India Gazette notifications.</li>
@@ -109,30 +107,30 @@ export default function About() {
 
             <div className="pt-3 border-t border-slate-800">
               <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 block mb-2">
-                Official Entity & Verified Social Profiles:
+                Official Entity &amp; Verified Social Profiles:
               </span>
-              <div className="flex flex-wrap gap-2.5 text-xs">
+              <div className="flex flex-wrap gap-2 text-xs">
                 <a
                   href="https://www.linkedin.com/in/ashutosh-kumar-r/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                  className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition inline-flex items-center gap-1.5"
                 >
-                  <span className="font-semibold text-cyan-400">in</span> LinkedIn (Ashutosh Kumar R)
+                  <span className="font-semibold text-emerald-400">in</span> LinkedIn (Ashutosh Kumar R)
                 </a>
                 <a
                   href="https://x.com/FinGTaj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                  className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition inline-flex items-center gap-1.5"
                 >
-                  <span className="font-semibold text-cyan-400">𝕏</span> X (@FinGTaj)
+                  <span className="font-semibold text-emerald-400">𝕏</span> X (@FinGTaj)
                 </a>
                 <a
                   href="https://www.youtube.com/@fingtaj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                  className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition inline-flex items-center gap-1.5"
                 >
                   <span className="font-semibold text-rose-400">▶</span> YouTube (@fingtaj)
                 </a>
@@ -140,7 +138,7 @@ export default function About() {
                   href="https://whatsapp.com/channel/0029Vb7gkNgIt5rwnKzp0Y0K"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                  className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition inline-flex items-center gap-1.5"
                 >
                   <span className="font-semibold text-emerald-400">💬</span> WhatsApp Channel
                 </a>
@@ -148,7 +146,7 @@ export default function About() {
                   href="https://www.quora.com/profile/FinGTaj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                  className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition inline-flex items-center gap-1.5"
                 >
                   <span className="font-semibold text-rose-300">Q</span> Quora (FinGTaj)
                 </a>
@@ -156,7 +154,7 @@ export default function About() {
                   href="https://github.com/theaashutoshjha"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition inline-flex items-center gap-1.5"
+                  className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition inline-flex items-center gap-1.5"
                 >
                   <span className="font-semibold text-slate-400">⚡</span> GitHub (@theaashutoshjha)
                 </a>
@@ -167,9 +165,8 @@ export default function About() {
 
         {/* Statutory Alignment Framework */}
         <section className="space-y-4">
-          <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            4. Statutory & Regulatory Conventions Observed
+          <h2 className="text-xl md:text-2xl font-bold text-white">
+            04. Statutory &amp; Regulatory Conventions Observed
           </h2>
           <p>
             FingTaj calculation models do not employ subjective approximations. Every algorithm is calibrated to mirror official legislative schedules:
@@ -186,8 +183,8 @@ export default function About() {
               <tbody className="divide-y divide-slate-800 text-slate-400">
                 <tr>
                   <td className="p-3 font-medium text-white">Income Tax Engine</td>
-                  <td className="p-3">Income Tax Act 1961 (Sec 115BAC & Finance Acts 2024–2025)</td>
-                  <td className="p-3">Multi-slab marginal relief, 4% Health & Education cess, standard ₹75,000 deduction</td>
+                  <td className="p-3">Income Tax Act 1961 (Sec 115BAC &amp; Finance Acts 2024–2025)</td>
+                  <td className="p-3">Multi-slab marginal relief, 4% Health &amp; Education cess, standard ₹75,000 deduction</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-medium text-white">Loan EMI Matrix</td>
@@ -201,7 +198,7 @@ export default function About() {
                 </tr>
                 <tr>
                   <td className="p-3 font-medium text-white">HRA Exemption</td>
-                  <td className="p-3">Income Tax Act 1961, Section 10(13A) & Rule 2A</td>
+                  <td className="p-3">Income Tax Act 1961, Section 10(13A) &amp; Rule 2A</td>
                   <td className="p-3">Minimum of actual HRA, 50%/40% of basic wage, or rent paid minus 10% basic</td>
                 </tr>
                 <tr>
@@ -211,7 +208,7 @@ export default function About() {
                 </tr>
                 <tr>
                   <td className="p-3 font-medium text-white">Capital Gains Engine</td>
-                  <td className="p-3">Income Tax Act 1961, Sections 111A, 112A & Budget 2024</td>
+                  <td className="p-3">Income Tax Act 1961, Sections 111A, 112A &amp; Budget 2024</td>
                   <td className="p-3">12.5% LTCG with ₹1.25 Lakh exemption threshold; 20% STCG under Sec 111A</td>
                 </tr>
               </tbody>
@@ -220,23 +217,22 @@ export default function About() {
         </section>
 
         {/* Editorial Independence & Commercial Transparency */}
-        <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
-          <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            5. Editorial Independence & Monetization Transparency
+        <section className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 md:p-8 space-y-4">
+          <h2 className="text-xl md:text-2xl font-bold text-white">
+            05. Editorial Independence &amp; Monetization Transparency
           </h2>
           <p>
             FingTaj operates with strict editorial and mathematical neutrality:
           </p>
           <ul className="list-disc list-inside space-y-2 text-slate-300">
             <li>
-              <strong>No Banking or NBFC Affiliation:</strong> FingTaj does not receive commissions, kickbacks, referral bounties, or origin fees from commercial banks, housing finance corporations (HFCs), or loan aggregators.
+              <strong>No Banking or NBFC Affiliation:</strong> FingTaj does not receive commissions, referral bounties, or origin fees from commercial banks, housing finance corporations (HFCs), or loan aggregators.
             </li>
             <li>
               <strong>No Sponsored Recommendations:</strong> When our calculators evaluate amortization or compounding, no sponsored loans, mutual fund schemes, or financial instruments are artificially pushed to users.
             </li>
             <li>
-              <strong>Transparent Contextual Advertising:</strong> To finance our web infrastructure, SSL certificates, edge CDN servers, and computational upkeep without charging user fees or walling calculations, FingTaj displays non-intrusive contextual banner advertisements via Google AdSense. Ads are clearly segregated from calculation results with rigorous click-prevention buffer zones.
+              <strong>Transparent Contextual Advertising:</strong> To finance our web infrastructure, SSL certificates, edge CDN servers, and computational upkeep without charging user fees or walling calculations, FingTaj displays non-intrusive contextual banner advertisements via Google AdSense. Ads are clearly segregated from calculation results.
             </li>
           </ul>
         </section>
@@ -244,10 +240,10 @@ export default function About() {
         {/* Contact & Jurisdiction */}
         <section className="border-t border-slate-800 pt-6 text-xs text-slate-400 space-y-2">
           <p>
-            <strong>Physical Jurisdiction & Principal Office:</strong> FingTaj operates from Chennai, Tamil Nadu, 600001, Republic of India.
+            <strong>Physical Jurisdiction &amp; Principal Office:</strong> FingTaj operates from Chennai, Tamil Nadu, 600001, Republic of India.
           </p>
           <p>
-            <strong>Statutory Feedback & Formula Audits:</strong> Inquiries regarding computational logic or statutory gazette variances may be addressed directly to our technical desk at <a href="mailto:support@fingtaj.com" className="text-cyan-400">support@fingtaj.com</a> or via our official <a href="/contact" className="text-cyan-400 underline">Contact Portal</a>.
+            <strong>Statutory Feedback &amp; Formula Audits:</strong> Inquiries regarding computational logic or statutory gazette variances may be addressed directly to our technical desk at <a href="mailto:support@fingtaj.com" className="text-emerald-400">support@fingtaj.com</a> or via our official <a href="/contact" className="text-emerald-400 underline">Contact Portal</a>.
           </p>
         </section>
       </div>

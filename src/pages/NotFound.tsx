@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft, Search, HelpCircle } from 'lucide-react';
+import { Home, HelpCircle } from 'lucide-react';
 
 export default function NotFound() {
   useEffect(() => {
     document.title = '404 Page Not Found — FingTaj';
   }, []);
+
   const popularTools = [
     { name: 'SIP Wealth Calculator', path: '/sip-calculator' },
-    { name: 'Home Loan EMI Calculator', path: '/loan-emi-calculator' },
+    { name: 'Home Loan EMI Calculator', path: '/home-loan-emi-calculator' },
     { name: 'Income Tax Calculator (115BAC)', path: '/income-tax-calculator' },
     { name: 'PPF Scheme Calculator', path: '/ppf-calculator' }
   ];
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/60 border border-rose-500/30 text-rose-400 text-xs font-semibold uppercase tracking-wider mb-6">
-        HTTP 404 • Resource Not Found
+    <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+      <div className="text-xs font-semibold uppercase tracking-wider text-rose-400 mb-3">
+        HTTP 404 · Resource Not Found
       </div>
       
-      <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-4">
+      <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
         Page Not Found
       </h1>
       
@@ -27,24 +28,24 @@ export default function NotFound() {
         The computational module or document you are looking for has been relocated or does not exist under this exact URL.
       </p>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-3 mb-10">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-cyan-500/20"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-emerald-500/20"
         >
           <Home size={16} />
           Return to Financial Hub
         </Link>
         <Link
           to="/contact"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm transition border border-slate-700"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-850 text-white font-medium text-sm transition border border-slate-800"
         >
           <HelpCircle size={16} />
           Report Missing Resource
         </Link>
       </div>
 
-      <div className="border-t border-slate-800 pt-8 max-w-md mx-auto">
+      <div className="border-t border-slate-800 pt-6 max-w-md mx-auto">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
           Explore Popular Statutory Calculators:
         </h2>
@@ -53,7 +54,7 @@ export default function NotFound() {
             <Link
               key={tool.path}
               to={tool.path}
-              className="p-2.5 rounded-lg bg-slate-900/60 hover:bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 transition"
+              className="p-2.5 rounded-lg bg-slate-900/60 hover:bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 transition"
             >
               {tool.name}
             </Link>

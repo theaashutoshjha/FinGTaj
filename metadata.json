@@ -1,0 +1,8 @@
+{
+  "name": "FingTaj",
+  "description": "High-precision client-side Indian financial calculators. Compute SIP wealth, Home Loan EMI, Income Tax (Section 115BAC), Gratuity, and Capital Gains with zero data collection.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

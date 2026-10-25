@@ -27,35 +27,40 @@ export const setupAuth0 = () => {
   const issuerBaseURL = process.env.ISSUER_BASE_URL || 'https://dev-1iofcqlcwa1lvzvv.us.auth0.com';
   const clientID = process.env.CLIENT_ID || 'mdXD45c448jB42N1B1EXd1Wy32AkBZjr';
   const secret = process.env.SECRET || '726ce5b769e901aec0c8d76953b7d7156c5a364bbe31a5e6cf9caaa005a11ba8';
-  const baseURL = process.env.BASE_URL || 'https://fingtaj.com';
+  const baseURL = process.env.BASE_URL || 'http://localhost:3000';
 
   console.log(`[Auth0] Initializing OpenID Connect for Issuer: ${issuerBaseURL}`);
   console.log(`[Auth0] Client ID: ${clientID} | Base URL: ${baseURL}`);
 
-  return auth({
-    authRequired: false, // Don't require login globally; public can read articles
-    auth0Logout: true,
-    secret,
-    baseURL,
-    clientID,
-    issuerBaseURL,
-    routes: {
-      login: false, // Handled with custom parameter forwarding in server/index.js
-      logout: '/logout',
-      callback: '/callback',
-      postLogoutRedirect: '/'
-    },
-    session: {
-      rolling: true,
-      rollingDuration: 24 * 60 * 60, // 24 hours rolling session
-      absoluteDuration: 7 * 24 * 60 * 60, // 7 days max session
-      cookie: {
-        httpOnly: true,
-        sameSite: 'Lax',
-        secure: process.env.NODE_ENV === 'production' || Boolean(baseURL && baseURL.startsWith('https'))
+  try {
+    return auth({
+      authRequired: false, // Don't require login globally; public can read articles
+      auth0Logout: true,
+      secret,
+      baseURL,
+      clientID,
+      issuerBaseURL,
+      routes: {
+        login: false, // Handled with custom parameter forwarding in server/index.js
+        logout: '/logout',
+        callback: '/callback',
+        postLogoutRedirect: '/'
+      },
+      session: {
+        rolling: true,
+        rollingDuration: 24 * 60 * 60, // 24 hours rolling session
+        absoluteDuration: 7 * 24 * 60 * 60, // 7 days max session
+        cookie: {
+          httpOnly: true,
+          sameSite: 'Lax',
+          secure: process.env.NODE_ENV === 'production' && Boolean(baseURL && baseURL.startsWith('https'))
+        }
       }
-    }
-  });
+    });
+  } catch (err) {
+    console.warn('[Auth0] OpenID Connect initialization error, using passthrough:', err?.message || err);
+    return (req, res, next) => next();
+  }
 };
 
 // Middleware: Require Authenticated User (Supports direct email session or Auth0)

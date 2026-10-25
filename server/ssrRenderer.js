@@ -1,17 +1,34 @@
-import { CALCULATOR_GUIDES } from './data/calculatorGuidesData.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { db } from './db.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+let ALL_CALCULATORS = [];
+try {
+  const jsonPath = path.join(__dirname, 'data', 'allCalculators.json');
+  if (fs.existsSync(jsonPath)) {
+    ALL_CALCULATORS = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+  }
+} catch (e) {
+  console.warn('[SSR] Could not load allCalculators.json', e);
+}
+
+const CALCULATORS_BY_SLUG = new Map(ALL_CALCULATORS.map(c => [c.slug, c]));
 
 // Simple markdown-to-HTML parser for crawler indexing
 function markdownToHtml(md) {
   if (!md) return '';
   let html = md
-    .replace(/^### (.*$)/gim, '<h3 style="font-size: 20px; margin: 24px 0 12px; color: #00f5ff;">$1</h3>')
+    .replace(/^### (.*$)/gim, '<h3 style="font-size: 20px; margin: 24px 0 12px; color: #10b981;">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 style="font-size: 24px; margin: 28px 0 14px; color: #ffffff;">$1</h2>')
     .replace(/^# (.*$)/gim, '<h1 style="font-size: 32px; margin: 32px 0 16px; color: #ffffff;">$1</h1>')
-    .replace(/^\> (.*$)/gim, '<blockquote style="border-left: 4px solid #00f5ff; padding-left: 16px; margin: 16px 0; color: #94a3b8;">$1</blockquote>')
+    .replace(/^> (.*$)/gim, '<blockquote style="border-left: 4px solid #10b981; padding-left: 16px; margin: 16px 0; color: #94a3b8;">$1</blockquote>')
     .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
     .replace(/\*(.*)\*/gim, '<em>$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" style="color: #00f5ff;">$1</a>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" style="color: #10b981;">$1</a>')
     .replace(/---/gim, '<hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 24px 0;" />');
 
   // Convert paragraphs
@@ -28,57 +45,142 @@ function markdownToHtml(md) {
   }).join('\n');
 }
 
-export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://fingtaj.com') {
+export function renderCrawlerHtml(rawPath, baseHtml, baseUrl = 'https://www.fingtaj.com') {
   const cleanPath = rawPath.toLowerCase().replace(/\/$/, '') || '/';
+  const cleanSlug = cleanPath.replace(/^\//, '');
   const publishedArticles = db.getPublishedArticles();
 
-  let pageTitle = 'FingTaj | Financial Education, Wealth Compounding Calculators & Investment Guides';
-  let metaDescription = 'Master wealth compounding, loan amortizations, and Indian tax strategies with FingTaj\'s interactive calculators, peer-reviewed financial guides, and institutional research.';
+  let pageTitle = 'FingTaj — Institutional-Grade Statutory Financial Calculators for India';
+  let metaDescription = 'High-precision client-side Indian financial calculators. Compute SIP wealth, Home Loan EMI, Income Tax (Section 115BAC), Gratuity, and Capital Gains with zero data collection.';
   let canonicalUrl = `${baseUrl}${cleanPath === '/' ? '' : cleanPath}`;
   let jsonLd = null;
   let bodyContent = '';
 
   // ----------------------------------------------------------------------------
-  // 1. CALCULATOR ROUTES (Dedicated URLs and /calculators/:id)
+  // 1. ALL 50 FINANCIAL CALCULATOR ROUTES
   // ----------------------------------------------------------------------------
-  const dedicatedCalcMap = {
-    '/sip-calculator': 'sip',
-    '/loan-emi-calculator': 'emi',
-    '/income-tax-calculator': 'income-tax',
-    '/ppf-calculator': 'ppf',
-    '/inflation-adjusted-return-calculator': 'inflation',
-    '/fd-calculator': 'fd',
-    '/hra-calculator': 'hra',
-    '/gratuity-calculator': 'gratuity',
-    '/capital-gains-tax-calculator': 'capital-gains',
-    '/section-44ada-calculator': '44ada'
-  };
+  const matchedCalc = CALCULATORS_BY_SLUG.get(cleanSlug);
 
-  const isDedicatedCalc = dedicatedCalcMap[cleanPath];
-  if (cleanPath.startsWith('/calculators') || isDedicatedCalc) {
-    let calcKey = isDedicatedCalc || cleanPath.replace('/calculators', '').replace(/^\//, '');
-    if (!calcKey) calcKey = 'sip';
-    if (calcKey === 'stepup') calcKey = 'step-up';
+  if (matchedCalc) {
+    pageTitle = `${matchedCalc.title} — Free High-Precision Indian Financial Calculator | FingTaj`;
+    metaDescription = `${matchedCalc.shortDesc} Compute instantly with zero telemetry on FingTaj.`;
+    canonicalUrl = `${baseUrl}/${matchedCalc.slug}`;
 
-    const guide = CALCULATOR_GUIDES[calcKey] || CALCULATOR_GUIDES['sip'];
-    pageTitle = `${guide.title} | FingTaj`;
-    metaDescription = guide.metaDescription;
-    canonicalUrl = `${baseUrl}${cleanPath}`;
-
-    // FAQPage JSON-LD schema
     jsonLd = {
       '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: guide.faqs.map(faq => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.answer
+      '@graph': [
+        {
+          '@type': 'WebApplication',
+          '@id': `${canonicalUrl}#webapp`,
+          name: matchedCalc.title,
+          url: canonicalUrl,
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          description: matchedCalc.shortDesc,
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'INR'
+          }
+        },
+        {
+          '@type': 'FAQPage',
+          '@id': `${canonicalUrl}#faq`,
+          mainEntity: (matchedCalc.editorialGuide?.faqs || []).map(f => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: f.a
+            }
+          }))
         }
-      }))
+      ]
     };
 
+    bodyContent = `
+      <header style="padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #050914;">
+        <a href="/" style="font-size: 22px; font-weight: 800; color: #10b981; text-decoration: none;">Fing<span style="color: #fff;">Taj</span></a>
+        <nav style="display: flex; gap: 20px; font-size: 14px;">
+          <a href="/#loans" style="color: #cbd5e1; text-decoration: none;">Loans</a>
+          <a href="/#investing" style="color: #cbd5e1; text-decoration: none;">Investing</a>
+          <a href="/#tax" style="color: #cbd5e1; text-decoration: none;">Taxation</a>
+          <a href="/#retirement" style="color: #cbd5e1; text-decoration: none;">Retirement</a>
+          <a href="/indexing" style="color: #10b981; text-decoration: none; font-weight: 600;">Search Console</a>
+          <a href="/about" style="color: #cbd5e1; text-decoration: none;">About</a>
+        </nav>
+      </header>
+
+      <main style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+        <nav style="font-size: 13px; color: #94a3b8; margin-bottom: 24px;">
+          <a href="/" style="color: #10b981; text-decoration: none;">Home</a> / 
+          <span style="color: #94a3b8;">${matchedCalc.categoryLabel}</span> / 
+          <span style="color: #ffffff;">${matchedCalc.title}</span>
+        </nav>
+
+        <div style="font-size: 12px; color: #10b981; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">
+          ${matchedCalc.categoryLabel} · ${matchedCalc.statute} · Updated ${matchedCalc.lastUpdated}
+        </div>
+
+        <h1 style="font-size: 38px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 16px;">
+          ${matchedCalc.title}
+        </h1>
+        <p style="font-size: 18px; color: #cbd5e1; line-height: 1.6; margin-bottom: 32px;">
+          ${matchedCalc.shortDesc}
+        </p>
+
+        <!-- Mathematical Formula Section -->
+        <section style="background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.25); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+          <h2 style="font-size: 18px; color: #10b981; margin-bottom: 8px;">Governing Mathematical Formula</h2>
+          <code style="font-family: monospace; font-size: 16px; font-weight: bold; color: #ffffff; display: block; background: #0a1224; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; margin: 12px 0;">
+            ${matchedCalc.formula}
+          </code>
+          <p style="font-size: 14px; color: #94a3b8; line-height: 1.6;">
+            ${matchedCalc.formulaExplanation}
+          </p>
+        </section>
+
+        <!-- Editorial Guide -->
+        <article style="font-size: 16px; color: #cbd5e1; line-height: 1.8;">
+          <h2 style="font-size: 22px; color: #ffffff; margin: 28px 0 12px;">Overview &amp; Statutory Principles</h2>
+          <p>${matchedCalc.editorialGuide?.summary || ''}</p>
+
+          <h3 style="font-size: 18px; color: #10b981; margin: 24px 0 10px;">Key Strategic Considerations</h3>
+          <ul>
+            ${(matchedCalc.editorialGuide?.keyBenefits || []).map(b => `<li style="margin-bottom: 8px;">${b}</li>`).join('')}
+          </ul>
+
+          ${matchedCalc.editorialGuide?.workedExample ? `
+            <h3 style="font-size: 18px; color: #10b981; margin: 24px 0 10px;">Worked Mathematical Scenario</h3>
+            <p><strong>${matchedCalc.editorialGuide.workedExample.scenario}</strong></p>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+              ${matchedCalc.editorialGuide.workedExample.breakdown.map(step => `<p style="margin-bottom: 8px;">• ${step}</p>`).join('')}
+            </div>
+          ` : ''}
+
+          <h2 style="font-size: 22px; color: #ffffff; margin: 32px 0 16px;">Frequently Asked Questions (FAQ)</h2>
+          ${(matchedCalc.editorialGuide?.faqs || []).map(faq => `
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+              <h4 style="font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">${faq.q}</h4>
+              <p style="font-size: 14px; color: #cbd5e1; margin: 0;">${faq.a}</p>
+            </div>
+          `).join('')}
+        </article>
+      </main>
+
+      <footer style="background: #050914; border-top: 1px solid rgba(255,255,255,0.1); padding: 40px 20px; text-align: center; font-size: 13px; color: #94a3b8; margin-top: 60px;">
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 16px;">
+          <a href="/sitemap.xml" style="color: #cbd5e1; text-decoration: none;">XML Sitemap</a>
+          <a href="/indexing" style="color: #10b981; text-decoration: none;">Search Console Indexing</a>
+          <a href="/privacy-policy" style="color: #cbd5e1; text-decoration: none;">Privacy Policy</a>
+          <a href="/terms-of-service" style="color: #cbd5e1; text-decoration: none;">Terms of Service</a>
+          <a href="/contact" style="color: #cbd5e1; text-decoration: none;">Technical Contact</a>
+          <a href="/about" style="color: #cbd5e1; text-decoration: none;">About FingTaj</a>
+        </div>
+        <div>© 2026 FingTaj. Zero Telemetry Statutory Financial Utilities.</div>
+      </footer>
+    `;
+  } else if (cleanPath.startsWith('/calculators-old')) {
     bodyContent = `
       <header style="padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #080e17;">
         <a href="/" style="font-size: 24px; font-weight: 800; color: #00f5ff; text-decoration: none;">FinG<span style="color: #fff;">Taj</span></a>

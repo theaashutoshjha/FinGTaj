@@ -10,14 +10,14 @@ export default function TermsOfService() {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 text-slate-300">
-      {/* Title & Badge */}
+    <div className="max-w-4xl mx-auto px-4 py-10 text-slate-300">
+      {/* Title & Metadata */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-3">
-          Statutory Legal Terms & YMYL Regulatory Disclaimers
+        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2">
+          Statutory Legal Terms · YMYL Regulatory Disclaimers
         </div>
         <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
-          Terms of Service & User Agreement
+          Terms of Service &amp; User Agreement
         </h1>
         <p className="text-sm text-slate-400">
           Effective Date: October 24, 2026 | Governing Jurisdiction: Chennai, Tamil Nadu, Republic of India
@@ -44,11 +44,11 @@ export default function TermsOfService() {
         {/* 1. Acceptance of Terms */}
         <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             1. Acceptance of Agreement & Eligibility
           </h2>
           <p>
-            By accessing, browsing, or utilizing the web applications and calculation interfaces provided by FingTaj, you formally agree to be legally bound by these Terms of Service, all applicable statutory rules of the Republic of India, and our <a href="/privacy-policy" className="text-cyan-400 underline">Privacy Policy</a>.
+            By accessing, browsing, or utilizing the web applications and calculation interfaces provided by FingTaj, you formally agree to be legally bound by these Terms of Service, all applicable statutory rules of the Republic of India, and our <a href="/privacy-policy" className="text-emerald-400 underline">Privacy Policy</a>.
           </p>
           <p>
             If you do not unconditionally consent to these terms, you are prohibited from utilizing this platform and must immediately discontinue access.
@@ -58,7 +58,7 @@ export default function TermsOfService() {
         {/* 2. Permitted Use & Prohibited Conduct */}
         <section className="space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             2. Permitted Use & Express Restrictions
           </h2>
           <p>
@@ -86,7 +86,7 @@ export default function TermsOfService() {
         {/* 3. Accuracy of Calculations & "As-Is" Provision */}
         <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             3. Accuracy of Calculations & "As-Is" Provision
           </h2>
           <p>
@@ -105,7 +105,7 @@ export default function TermsOfService() {
         {/* 4. Limitation of Liability */}
         <section className="space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             4. Comprehensive Limitation of Liability
           </h2>
           <p>
@@ -113,11 +113,11 @@ export default function TermsOfService() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-              <h4 className="font-bold text-cyan-400 mb-1">Financial Or Tax Penalties</h4>
+              <h4 className="font-bold text-emerald-400 mb-1">Financial Or Tax Penalties</h4>
               <p className="text-slate-400">Damages arising from interest penalties, under-withholding notices, or tax demands issued by the Income Tax Department.</p>
             </div>
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-              <h4 className="font-bold text-cyan-400 mb-1">Loan Contract Decisions</h4>
+              <h4 className="font-bold text-emerald-400 mb-1">Loan Contract Decisions</h4>
               <p className="text-slate-400">Losses resulting from borrowing choices, mortgage interest variance, or banking prepayment fee discrepancies.</p>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function TermsOfService() {
         {/* 5. Intellectual Property Rights */}
         <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             5. Intellectual Property & Trademark Protection
           </h2>
           <p>
@@ -137,7 +137,7 @@ export default function TermsOfService() {
         {/* 6. Governing Law & Exclusive Jurisdiction */}
         <section className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             6. Governing Law & Exclusive Legal Jurisdiction
           </h2>
           <p>
@@ -157,7 +157,7 @@ export default function TermsOfService() {
             <strong>Severability & Completeness:</strong> If any provision of these Terms is deemed unlawful or unenforceable by a court of competent jurisdiction, that provision shall be severed without affecting the validity and enforceability of the remaining provisions.
           </p>
           <p>
-            <strong>Legal Correspondence:</strong> For institutional licensing queries or formal legal notices, contact <a href="mailto:support@fingtaj.com" className="text-cyan-400">support@fingtaj.com</a> or our administrative office in Chennai, Tamil Nadu, India.
+            <strong>Legal Correspondence:</strong> For institutional licensing queries or formal legal notices, contact <a href="mailto:support@fingtaj.com" className="text-emerald-400">support@fingtaj.com</a> or our administrative office in Chennai, Tamil Nadu, India.
           </p>
         </section>
       </div>

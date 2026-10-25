@@ -105,16 +105,16 @@ export default function Contact() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12 text-slate-300">
+    <div className="max-w-5xl mx-auto px-4 py-10 text-slate-300">
       {/* Header */}
-      <div className="mb-10 text-center max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-3">
-          Direct Statutory Review & Support Desk
+      <div className="mb-8 text-center max-w-2xl mx-auto">
+        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2">
+          Direct Statutory Review · Support Desk
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">
           Contact FingTaj Engineering Desk
         </h1>
-        <p className="text-slate-400 text-base leading-relaxed">
+        <p className="text-slate-400 text-sm md:text-base leading-relaxed">
           Submit statutory tax discrepancies, algorithmic bug reports, data governance requests, or partnership inquiries directly to our technical and mathematical review team.
         </p>
       </div>
@@ -137,7 +137,7 @@ export default function Contact() {
               <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-5 space-y-3 font-mono text-xs">
                 <div className="flex justify-between border-b border-slate-800 pb-2">
                   <span className="text-slate-500 uppercase">Tracking Reference ID:</span>
-                  <span className="text-cyan-400 font-bold">{result.trackingId}</span>
+                  <span className="text-emerald-400 font-bold">{result.trackingId}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-800 pb-2">
                   <span className="text-slate-500 uppercase">Submission Timestamp:</span>
@@ -206,7 +206,7 @@ export default function Contact() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Your Full Name <span className="text-cyan-400">*</span>
+                    Your Full Name <span className="text-emerald-400">*</span>
                   </label>
                   <input
                     required
@@ -221,7 +221,7 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Email Address <span className="text-cyan-400">*</span>
+                    Email Address <span className="text-emerald-400">*</span>
                   </label>
                   <input
                     required
@@ -238,7 +238,7 @@ export default function Contact() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Inquiry Category <span className="text-cyan-400">*</span>
+                    Inquiry Category <span className="text-emerald-400">*</span>
                   </label>
                   <select
                     name="category"
@@ -271,7 +271,7 @@ export default function Contact() {
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-                  Detailed Message / Computation Context <span className="text-cyan-400">*</span>
+                  Detailed Message / Computation Context <span className="text-emerald-400">*</span>
                 </label>
                 <textarea
                   required
@@ -326,13 +326,13 @@ export default function Contact() {
             <div className="space-y-4 text-xs text-slate-300">
               <div className="border-b border-slate-800 pb-3">
                 <span className="text-slate-400 uppercase font-semibold block text-[10px] mb-1">Direct Operational Inquiries</span>
-                <p className="font-mono text-cyan-400 text-sm">support@fingtaj.com</p>
+                <p className="font-mono text-emerald-400 text-sm">support@fingtaj.com</p>
                 <p className="text-slate-500 text-[11px] mt-0.5">Primary intake for general platform queries and calculation questions.</p>
               </div>
 
               <div className="border-b border-slate-800 pb-3">
                 <span className="text-slate-400 uppercase font-semibold block text-[10px] mb-1">Administrative & Governance Desk</span>
-                <p className="font-mono text-cyan-400 text-sm">admin@fingtaj.com</p>
+                <p className="font-mono text-emerald-400 text-sm">admin@fingtaj.com</p>
                 <p className="text-slate-500 text-[11px] mt-0.5">Publisher, AdSense, syndication, and infrastructure correspondence.</p>
               </div>
 
@@ -345,7 +345,7 @@ export default function Contact() {
               <div>
                 <span className="text-slate-400 uppercase font-semibold block text-[10px] mb-1">Statutory Redressal Desk (IT Rules 2021)</span>
                 <p className="text-slate-200">Grievance Officer: <strong>Ashutosh Jha</strong></p>
-                <p className="text-slate-400 text-[11px] mt-0.5">Email: <span className="font-mono text-cyan-400">support@fingtaj.com</span> (Subject: "Grievance Officer")</p>
+                <p className="text-slate-400 text-[11px] mt-0.5">Email: <span className="font-mono text-emerald-400">support@fingtaj.com</span> (Subject: "Grievance Officer")</p>
                 <p className="text-slate-500 text-[11px] mt-0.5">Statutory acknowledgement within 24 hours; disposal within 15 days as per Rule 3(2) IT Rules 2021.</p>
               </div>
             </div>
@@ -365,7 +365,7 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/ashutosh-kumar-r/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition"
+                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-emerald-400 transition"
               >
                 LinkedIn Profile
               </a>
@@ -373,7 +373,7 @@ export default function Contact() {
                 href="https://x.com/FinGTaj"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition"
+                className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-emerald-400 transition"
               >
                 X (@FinGTaj)
               </a>
@@ -417,7 +417,7 @@ export default function Contact() {
                 <tbody className="divide-y divide-slate-800/60 text-slate-300">
                   <tr>
                     <td className="py-2">Statutory Formula Glitch</td>
-                    <td className="py-2 text-cyan-400 font-medium">12–24 Hours</td>
+                    <td className="py-2 text-emerald-400 font-medium">12–24 Hours</td>
                   </tr>
                   <tr>
                     <td className="py-2">AdSense & Business</td>
