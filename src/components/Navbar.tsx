@@ -1,80 +1,119 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Search, Menu, X, ChevronDown } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import SearchModal from './SearchModal';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
   const location = useLocation();
 
   const navLinks = [
-    { label: 'All 50 Engines', path: '/#all-calculators' },
+    { label: 'All Calculators', path: '/#all-calculators' },
     { label: 'Loans & EMI', path: '/#loans' },
-    { label: 'Wealth & SIP', path: '/#investing' },
-    { label: 'Direct Tax 2026', path: '/#tax' },
+    { label: 'Wealth & Investments', path: '/#investing' },
+    { label: 'Tax & Compliance', path: '/#tax' },
     { label: 'Retirement & EPF', path: '/#retirement' },
-    { label: 'Methodology', path: '/about' }
+    { label: 'Financial Planning', path: '/#everyday' },
+    { label: 'Utilities', path: '/#salary' },
   ];
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#030712]/85 backdrop-blur-xl transition-all">
-        <div className="wrap flex items-center justify-between gap-8 h-16">
+      <header className="sticky top-0 z-40 bg-white border-b border-slate-100 shadow-xs">
+        <div className="wrap flex items-center justify-between gap-6 h-18">
           
-          {/* Zone 1: Single Brand Wordmark */}
+          {/* Brand Logo */}
           <Link to="/" className="shrink-0 flex items-center hover:opacity-95 transition-opacity">
             <BrandLogo size="md" showSubtitle={false} />
           </Link>
 
-          {/* Zone 2: Clean 5-Link Navigation */}
-          <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
+          {/* Navigation Links (Matches Reference Image Exactly) */}
+          <nav className="hidden xl:flex items-center gap-6 text-[13px] font-medium text-slate-600 h-full">
             {navLinks.map((link) => {
-              const isCurrent = location.pathname === link.path;
+              const isCurrent = link.path === '/#all-calculators' && (location.pathname === '/' && !location.hash);
               return (
                 <a
                   key={link.label}
                   href={link.path}
-                  className={`hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 ${
-                    isCurrent ? 'text-emerald-400' : 'text-slate-300'
+                  className={`h-full flex items-center transition-colors whitespace-nowrap shrink-0 relative ${
+                    isCurrent
+                      ? 'text-blue-600 font-bold border-b-2 border-blue-600 pt-0.5'
+                      : 'hover:text-blue-600'
                   }`}
                 >
                   {link.label}
                 </a>
               );
             })}
+
+            {/* "More ▾" Dropdown */}
+            <div className="relative h-full flex items-center">
+              <button
+                type="button"
+                onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
+                className="flex items-center gap-1 hover:text-blue-600 transition-colors"
+              >
+                <span>More</span>
+                <ChevronDown size={14} />
+              </button>
+
+              {moreDropdownOpen && (
+                <div 
+                  className="absolute top-14 right-0 w-48 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50 text-xs font-normal"
+                  onMouseLeave={() => setMoreDropdownOpen(false)}
+                >
+                  <Link 
+                    to="/about" 
+                    onClick={() => setMoreDropdownOpen(false)}
+                    className="block px-4 py-2 hover:bg-slate-50 text-slate-700 hover:text-blue-600"
+                  >
+                    About &amp; Methodology
+                  </Link>
+                  <Link 
+                    to="/indexing" 
+                    onClick={() => setMoreDropdownOpen(false)}
+                    className="block px-4 py-2 hover:bg-slate-50 text-slate-700 hover:text-blue-600"
+                  >
+                    Search Console Indexing
+                  </Link>
+                  <Link 
+                    to="/contact" 
+                    onClick={() => setMoreDropdownOpen(false)}
+                    className="block px-4 py-2 hover:bg-slate-50 text-slate-700 hover:text-blue-600"
+                  >
+                    Contact Support
+                  </Link>
+                  <Link 
+                    to="/privacy-policy" 
+                    onClick={() => setMoreDropdownOpen(false)}
+                    className="block px-4 py-2 hover:bg-slate-50 text-slate-700 hover:text-blue-600"
+                  >
+                    Privacy Policy
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
 
-          {/* Zone 3: 1 Primary Action (Search Terminal Trigger) */}
+          {/* Right: Pill Search Bar (Matches Reference Image Exactly) */}
           <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="hidden sm:flex items-center gap-3 px-3.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-white/[0.08] hover:border-emerald-500/40 text-xs text-slate-300 hover:text-white transition-all font-medium shadow-inner"
+              className="flex items-center gap-3 px-4 py-2 rounded-full bg-slate-100/90 hover:bg-slate-100 text-xs sm:text-sm text-slate-400 hover:text-slate-600 transition-all w-48 sm:w-64 border border-slate-200/60"
             >
-              <Search size={14} className="text-emerald-400" />
-              <span>Search 50 Engines...</span>
-              <kbd className="text-[10px] font-mono bg-[#030712] px-1.5 py-0.5 rounded border border-white/[0.08] text-slate-400">
-                ⌘K
-              </kbd>
+              <Search size={15} className="text-slate-400" />
+              <span className="truncate">Search calculators...</span>
             </button>
 
-            {/* Mobile Search Button */}
-            <button
-              type="button"
-              onClick={() => setSearchOpen(true)}
-              className="sm:hidden p-2 rounded-lg bg-slate-900 border border-white/[0.08] text-slate-300"
-              aria-label="Search"
-            >
-              <Search size={18} />
-            </button>
-
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Hamburger Toggle */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg bg-slate-900 border border-white/[0.08] text-slate-300 hover:text-white"
+              className="xl:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -84,32 +123,38 @@ export default function Navbar() {
 
         {/* Mobile Dropdown Nav */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-white/[0.08] bg-[#030712] px-4 py-4 space-y-1">
+          <div className="xl:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-1 shadow-lg">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider text-slate-300 hover:bg-slate-900 hover:text-emerald-400 transition-colors"
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
               >
                 {link.label}
               </a>
             ))}
-            <div className="pt-2 border-t border-white/[0.08]">
+            <div className="pt-2 border-t border-slate-100 mt-2 space-y-1">
+              <Link
+                to="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 text-sm text-slate-600 hover:text-blue-600"
+              >
+                About &amp; Methodology
+              </Link>
               <Link
                 to="/indexing"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between px-3 py-2 text-xs font-medium text-emerald-400 hover:bg-slate-900 rounded-lg"
+                className="block px-3 py-2 text-sm text-blue-600 font-semibold"
               >
-                <span>Google Search Console Indexing</span>
-                <ArrowUpRight size={14} />
+                Search Console Indexing Hub
               </Link>
             </div>
           </div>
         )}
       </header>
 
-      {/* Global Command Search Modal */}
+      {/* Global Search Modal */}
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );

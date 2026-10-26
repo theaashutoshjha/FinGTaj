@@ -5,43 +5,34 @@ interface BrandLogoProps {
   showSubtitle?: boolean;
 }
 
-export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md', showSubtitle = true }) => {
+export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md' }) => {
   const iconSizes = {
-    sm: 'w-7 h-7',
-    md: 'w-8 h-8',
-    lg: 'w-10 h-10'
+    sm: 'w-7 h-7 text-xs',
+    md: 'w-9 h-9 text-sm',
+    lg: 'w-11 h-11 text-base'
   };
 
   const textSizes = {
     sm: 'text-lg',
-    md: 'text-xl',
-    lg: 'text-2xl'
+    md: 'text-2xl',
+    lg: 'text-3xl'
   };
 
   return (
     <div className="flex items-center gap-2.5 group">
-      {/* Precision Geometric Monogram */}
-      <div className={`${iconSizes[size]} shrink-0 relative rounded-lg bg-gradient-to-b from-slate-900 to-slate-950 border border-emerald-500/30 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(16,185,129,0.3)] group-hover:border-emerald-500/60 transition-colors`}>
-        <svg viewBox="0 0 32 32" className="w-full h-full p-1.5" fill="none">
-          <path d="M7 8H25V11H18V24H14V11H7V8Z" fill="#F8FAFC" />
-          <path d="M10 22C14 22 18 18 24 10" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" />
-          <circle cx="24" cy="10" r="2" fill="#F59E0B" />
+      {/* Dark Circular Badge with Teal T (matches screenshot exactly) */}
+      <div className={`${iconSizes[size]} shrink-0 rounded-full bg-[#0d1b2a] shadow-xs flex items-center justify-center relative overflow-hidden transition-transform group-hover:scale-105`}>
+        <svg viewBox="0 0 36 36" className="w-full h-full p-1" fill="none">
+          <circle cx="18" cy="18" r="17" fill="#0d1b2a" />
+          <path d="M10 12H26V16H20V26H16V16H10V12Z" fill="#00b4d8" />
+          <path d="M13 24C16 25 21 24 25 18" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" />
         </svg>
       </div>
 
-      <div className="flex flex-col">
-        <div className={`font-black tracking-tight text-white ${textSizes[size]} leading-none flex items-center gap-0.5`}>
-          <span>Fing</span>
-          <span className="text-emerald-400">Taj</span>
-          <span className="text-[10px] text-slate-500 font-mono font-medium ml-1.5 px-1 py-0.2 rounded bg-slate-900 border border-slate-800">
-            IN
-          </span>
-        </div>
-        {showSubtitle && (
-          <span className="text-[10px] tracking-widest uppercase text-slate-400 font-semibold mt-0.5">
-            Statutory Financial Engine
-          </span>
-        )}
+      {/* Brand Text: Fing (Dark Slate) + Taj (Teal) */}
+      <div className={`font-extrabold tracking-tight leading-none ${textSizes[size]}`}>
+        <span className="text-slate-900 font-black">Fing</span>
+        <span className="text-[#00b4d8] font-black">Taj</span>
       </div>
     </div>
   );

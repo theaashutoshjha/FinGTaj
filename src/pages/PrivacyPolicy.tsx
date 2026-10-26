@@ -10,34 +10,35 @@ export default function PrivacyPolicy() {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10 text-slate-300">
-      {/* Title & Metadata */}
-      <div className="mb-8">
-        <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2">
-          DPDP Act 2023 · Google AdSense &amp; GDPR Compliant
+    <div className="bg-[#f4f7fb] min-h-screen py-10">
+      <div className="max-w-4xl mx-auto px-4 text-slate-700">
+        {/* Title & Metadata */}
+        <div className="mb-8 bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-xs">
+          <div className="text-xs font-bold uppercase tracking-wider text-[#2563eb] mb-2 font-mono">
+            DPDP Act 2023 · Google AdSense &amp; GDPR Compliant
+          </div>
+          <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-3">
+            Privacy Policy &amp; Data Governance
+          </h1>
+          <p className="text-xs text-slate-500 font-mono">
+            Effective Date: October 24, 2026 | Last Comprehensive Legal Audit: October 2026
+          </p>
         </div>
-        <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
-          Privacy Policy &amp; Data Governance
-        </h1>
-        <p className="text-sm text-slate-400">
-          Effective Date: October 24, 2026 | Last Comprehensive Legal Audit: October 2026
-        </p>
-      </div>
 
-      <div className="space-y-8 text-sm leading-relaxed">
-        {/* Preamble */}
-        <section className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 md:p-8 space-y-4">
-          <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-            1. Preamble &amp; Zero-Telemetry Architecture
-          </h2>
-          <p>
-            At <strong>FingTaj</strong> (<a href="https://www.fingtaj.com" className="text-emerald-400 underline hover:text-emerald-300">https://www.fingtaj.com</a>), your privacy is our foundational engineering constraint. We operate under a strict, verifiable <strong>Zero-Telemetry Computational Architecture</strong>.
-          </p>
-          <p>
-            Unlike conventional fintech websites that harvest user financial inputs to build marketing profiles, FingTaj executes all mathematical computations—including gross salary inputs, tax deduction breakdowns under Section 80C/80D, home loan principals, interest rates, and gratuity calculations—<strong>solely and exclusively within your local web browser's volatile JavaScript execution heap</strong>.
-          </p>
-          <div className="p-4 bg-emerald-950/20 border border-emerald-500/30 rounded-xl text-emerald-200 text-xs font-medium">
+        <div className="space-y-8 text-sm leading-relaxed">
+          {/* Preamble */}
+          <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+            <h2 className="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              1. Preamble &amp; Zero-Telemetry Architecture
+            </h2>
+            <p className="text-slate-600">
+              At <strong>FingTaj</strong> (<a href="https://www.fingtaj.com" className="text-blue-600 underline hover:text-blue-700 font-semibold">https://www.fingtaj.com</a>), your privacy is our foundational engineering constraint. We operate under a strict, verifiable <strong>Zero-Telemetry Computational Architecture</strong>.
+            </p>
+            <p className="text-slate-600">
+              Unlike conventional fintech websites that harvest user financial inputs to build marketing profiles, FingTaj executes all mathematical computations—including gross salary inputs, tax deduction breakdowns under Section 80C/80D, home loan principals, interest rates, and gratuity calculations—<strong>solely and exclusively within your local web browser's volatile JavaScript execution heap</strong>.
+            </p>
+            <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900 text-xs font-medium">
             <strong>Key Guarantee:</strong> No salary numbers, loan amounts, tax records, or computational parameters entered into FingTaj tools are ever dispatched across the network, transmitted to external APIs, or persisted in our backend databases.
           </div>
         </section>
@@ -144,7 +145,7 @@ export default function PrivacyPolicy() {
         </section>
 
         {/* Server Log & Telemetry Policy */}
-        <section className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
+        <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             4. Web Server Logs & Edge Infrastructure
@@ -203,32 +204,33 @@ export default function PrivacyPolicy() {
         </section>
 
         {/* Statutory Grievance Redressal Officer */}
-        <section className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-4">
-          <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+        <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
             7. Statutory Grievance Redressal Officer
           </h2>
-          <p>
+          <p className="text-slate-600">
             In accordance with Rule 3(2) of the <strong>Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021</strong>, the designated Statutory Grievance Redressal Officer for FingTaj is:
           </p>
-          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-5 text-xs font-mono space-y-2">
-            <p><span className="text-slate-500 uppercase">Designated Officer:</span> <strong className="text-white">Ashutosh Jha</strong></p>
-            <p><span className="text-slate-500 uppercase">Principal Office:</span> <span className="text-slate-300">Chennai, Tamil Nadu, 600001, India</span></p>
-            <p><span className="text-slate-500 uppercase">Statutory Email:</span> <a href="mailto:support@fingtaj.com?subject=Attention: Grievance Officer" className="text-emerald-400 underline">support@fingtaj.com</a></p>
-            <p><span className="text-slate-500 uppercase">Statutory Response SLA:</span> <span className="text-emerald-400 font-semibold">Acknowledgement within 24 hours; disposal within 15 days</span></p>
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 text-xs font-mono space-y-2">
+            <p><span className="text-slate-500 uppercase">Designated Officer:</span> <strong className="text-slate-900">Ashutosh Jha</strong></p>
+            <p><span className="text-slate-500 uppercase">Principal Office:</span> <span className="text-slate-700">Chennai, Tamil Nadu, 600001, India</span></p>
+            <p><span className="text-slate-500 uppercase">Statutory Email:</span> <a href="mailto:support@fingtaj.com?subject=Attention: Grievance Officer" className="text-blue-600 underline">support@fingtaj.com</a></p>
+            <p><span className="text-slate-500 uppercase">Statutory Response SLA:</span> <span className="text-emerald-700 font-semibold">Acknowledgement within 24 hours; disposal within 15 days</span></p>
           </div>
         </section>
 
         {/* Policy Revisions */}
-        <section className="border-t border-slate-800 pt-6 text-xs text-slate-400 space-y-2">
+        <section className="border-t border-slate-200 pt-6 text-xs text-slate-500 space-y-2">
           <p>
             <strong>Amendments to Policy:</strong> FingTaj reserves the right to update this Privacy Policy periodically to reflect statutory changes in the Indian Income Tax Act, Finance Acts, or digital data protection regulations. Revisions will be published on this URL with an updated effective date timestamp.
           </p>
           <p>
-            For questions regarding our privacy architecture, email us at <a href="mailto:support@fingtaj.com" className="text-emerald-400">support@fingtaj.com</a>.
+            For questions regarding our privacy architecture, email us at <a href="mailto:support@fingtaj.com" className="text-blue-600 underline">support@fingtaj.com</a>.
           </p>
         </section>
       </div>
     </div>
+  </div>
   );
 }

@@ -25,10 +25,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-[#050914] text-slate-100 relative">
-        {/* Background atmospheric ambient canvas */}
-        <div className="bg-mesh-canvas" />
-
+      <div className="flex flex-col min-h-screen bg-[#f4f7fb] text-slate-900 relative selection:bg-blue-600 selection:text-white">
         <Navbar />
 
         <main className="flex-grow relative z-10">

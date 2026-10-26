@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CALCULATORS_DATA } from '../data/calculatorsData';
 import { ARTICLES } from '../data/articles';
-import { X, Search, ArrowRight, CornerDownLeft, Sparkles, ShieldCheck } from 'lucide-react';
+import { X, Search, ArrowRight, ShieldCheck } from 'lucide-react';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -11,7 +11,6 @@ interface SearchModalProps {
 
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
-  const [selectedIdx, setSelectedIdx] = useState(0);
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -45,7 +44,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         c.category.toLowerCase().includes(q) ||
         c.statute.toLowerCase().includes(q)
       )
-    : CALCULATORS_DATA.slice(0, 7);
+    : CALCULATORS_DATA.slice(0, 8);
 
   const matchedArticles = q
     ? ARTICLES.filter(a => 
@@ -62,32 +61,29 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/85 backdrop-blur-md animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-900/40 backdrop-blur-xs animate-fadeIn"
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-2xl rounded-2xl border border-white/[0.12] bg-[#070d19] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden"
+        className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
-        {/* Command Search Header */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-white/[0.08] bg-slate-900/40">
-          <Search size={18} className="text-emerald-400 shrink-0" />
+        {/* Search Header */}
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 bg-slate-50/50">
+          <Search size={18} className="text-[#2563eb] shrink-0" />
           <input
             ref={inputRef}
             type="text"
             value={query}
-            onChange={e => {
-              setQuery(e.target.value);
-              setSelectedIdx(0);
-            }}
-            placeholder="Type any financial tool, statute, or section (e.g. SIP, 115BAC, Home Loan)..."
-            className="w-full bg-transparent text-white text-sm outline-none placeholder:text-slate-500 font-sans"
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search calculators (e.g. SIP, Home Loan, Income Tax, FD, PPF, Gratuity...)"
+            className="w-full bg-transparent text-slate-900 text-sm outline-none placeholder:text-slate-400 font-sans"
           />
           {query && (
             <button 
               type="button" 
               onClick={() => setQuery('')}
-              className="text-[11px] font-mono text-slate-400 hover:text-white px-2 py-0.5 bg-slate-800 rounded"
+              className="text-xs text-slate-500 hover:text-slate-800 px-2 py-0.5 bg-slate-200/80 rounded"
             >
               Clear
             </button>
@@ -95,22 +91,22 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           <button 
             type="button" 
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
           >
-            <X size={16} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Quick Filter Tag Recommendations if query is empty */}
         {!q && (
-          <div className="px-5 py-2.5 border-b border-white/[0.06] bg-slate-950/30 flex items-center gap-2 overflow-x-auto no-scrollbar text-[11px]">
-            <span className="text-slate-500 font-mono uppercase text-[10px] tracking-wider shrink-0">Popular:</span>
+          <div className="px-5 py-2.5 border-b border-slate-100 bg-white flex items-center gap-2 overflow-x-auto no-scrollbar text-xs">
+            <span className="text-slate-400 font-mono uppercase text-[10px] tracking-wider shrink-0">Popular:</span>
             {['SIP', 'Home Loan', 'Income Tax', 'EPF', 'Gratuity', 'PPF', 'Capital Gains'].map(tag => (
               <button
                 key={tag}
                 type="button"
                 onClick={() => setQuery(tag)}
-                className="px-2 py-0.5 rounded-md bg-slate-900 hover:bg-slate-800 border border-white/[0.06] text-slate-300 hover:text-emerald-400 whitespace-nowrap transition-colors"
+                className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 border border-slate-200/60 whitespace-nowrap transition-colors"
               >
                 {tag}
               </button>
@@ -121,9 +117,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         {/* Results Container */}
         <div className="max-h-[50vh] overflow-y-auto p-3 space-y-3">
           <div>
-            <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-slate-500 flex items-center justify-between">
-              <span>{q ? `Matching Tools (${matchedCalculators.length})` : 'Frequently Launched Engines'}</span>
-              <span>Statutory Accurate</span>
+            <div className="px-2 py-1 text-[11px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>{q ? `Matching Calculators (${matchedCalculators.length})` : 'Popular Calculators'}</span>
+              <span>100% Free</span>
             </div>
 
             {matchedCalculators.length === 0 ? (
@@ -137,25 +133,25 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                     key={c.id}
                     type="button"
                     onClick={() => handleSelectCalc(c.slug)}
-                    className="w-full text-left p-3 rounded-xl hover:bg-slate-900/90 border border-transparent hover:border-emerald-500/30 transition-all flex items-center justify-between group"
+                    className="w-full text-left p-3 rounded-xl hover:bg-blue-50/60 border border-transparent hover:border-blue-100 transition-all flex items-center justify-between group"
                   >
                     <div className="flex items-center gap-3 truncate mr-3">
-                      <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-mono text-xs font-bold shrink-0">
                         ₹
                       </div>
                       <div className="truncate">
-                        <div className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors truncate">
+                        <div className="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors truncate">
                           {c.title}
                         </div>
-                        <div className="text-xs text-slate-400 truncate flex items-center gap-2 mt-0.5">
-                          <span className="text-emerald-400 font-mono text-[10px] uppercase">{c.categoryLabel}</span>
-                          <span aria-hidden="true" className="text-slate-600">·</span>
-                          <span className="text-slate-500 truncate">{c.statute}</span>
+                        <div className="text-xs text-slate-500 truncate flex items-center gap-2 mt-0.5">
+                          <span className="text-blue-600 font-bold">{c.categoryLabel}</span>
+                          <span aria-hidden="true" className="text-slate-300">·</span>
+                          <span className="text-slate-400 truncate">{c.statute}</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 text-slate-500 group-hover:text-emerald-400 shrink-0">
-                      <span className="text-[11px] font-medium hidden sm:inline">Launch</span>
+                    <div className="flex items-center gap-1 text-slate-400 group-hover:text-blue-600 shrink-0">
+                      <span className="text-xs font-medium hidden sm:inline">Open</span>
                       <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                     </div>
                   </button>
@@ -166,9 +162,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
 
           {/* Matched Guides */}
           {matchedArticles.length > 0 && (
-            <div className="border-t border-white/[0.06] pt-2">
-              <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-slate-500">
-                Statutory Research Guides
+            <div className="border-t border-slate-100 pt-2">
+              <div className="px-2 py-1 text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                Research Guides
               </div>
               <div className="space-y-1 mt-1">
                 {matchedArticles.map(a => (
@@ -179,17 +175,17 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                       onClose();
                       navigate('/');
                     }}
-                    className="w-full text-left p-2.5 rounded-lg hover:bg-slate-900/60 border border-transparent hover:border-slate-800 transition-all flex items-center justify-between group"
+                    className="w-full text-left p-2.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all flex items-center justify-between group"
                   >
                     <div className="truncate pr-2">
-                      <div className="text-xs font-semibold text-slate-200 group-hover:text-white truncate">
+                      <div className="text-xs font-semibold text-slate-800 group-hover:text-blue-600 truncate">
                         {a.title}
                       </div>
-                      <div className="text-[11px] text-slate-500 truncate mt-0.5">
+                      <div className="text-[11px] text-slate-400 truncate mt-0.5">
                         {a.tag} · {a.readTime}
                       </div>
                     </div>
-                    <ArrowRight size={12} className="text-slate-600 group-hover:text-slate-300 shrink-0" />
+                    <ArrowRight size={12} className="text-slate-400 group-hover:text-slate-600 shrink-0" />
                   </button>
                 ))}
               </div>
@@ -198,14 +194,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Command Footer */}
-        <div className="flex items-center justify-between px-5 py-3 border-t border-white/[0.08] bg-slate-950/70 text-[11px] text-slate-500 font-mono">
+        <div className="flex items-center justify-between px-5 py-3 border-t border-slate-100 bg-slate-50 text-xs text-slate-500">
           <div className="flex items-center gap-2">
-            <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-white/[0.06] text-slate-400">ESC</span>
+            <span className="px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-600 font-mono text-[10px]">ESC</span>
             <span>to close</span>
           </div>
-          <div className="flex items-center gap-1.5 text-emerald-400">
-            <ShieldCheck size={12} />
-            <span>Zero Telemetry · 100% Free</span>
+          <div className="flex items-center gap-1.5 text-emerald-700 font-medium">
+            <ShieldCheck size={14} />
+            <span>50 Calculators · 100% Free</span>
           </div>
         </div>
       </div>

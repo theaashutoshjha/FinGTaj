@@ -15,50 +15,52 @@ export default function NotFound() {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16 text-center">
-      <div className="text-xs font-semibold uppercase tracking-wider text-rose-400 mb-3">
-        HTTP 404 · Resource Not Found
-      </div>
-      
-      <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
-        Page Not Found
-      </h1>
-      
-      <p className="text-slate-400 text-sm sm:text-base max-w-lg mx-auto mb-8 leading-relaxed">
-        The computational module or document you are looking for has been relocated or does not exist under this exact URL.
-      </p>
+    <div className="bg-[#f4f7fb] min-h-[70vh] flex items-center justify-center py-16 px-4">
+      <div className="max-w-xl w-full text-center bg-white border border-slate-200/80 rounded-2xl p-8 sm:p-10 shadow-xs">
+        <div className="text-xs font-bold uppercase tracking-wider text-rose-600 mb-2 font-mono">
+          HTTP 404 · Resource Not Found
+        </div>
+        
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-3">
+          Page Not Found
+        </h1>
+        
+        <p className="text-slate-500 text-sm max-w-md mx-auto mb-6 leading-relaxed">
+          The computational tool or document you are looking for has been relocated or does not exist under this exact URL.
+        </p>
 
-      <div className="flex flex-wrap justify-center gap-3 mb-10">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-emerald-500/20"
-        >
-          <Home size={16} />
-          Return to Financial Hub
-        </Link>
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-850 text-white font-medium text-sm transition border border-slate-800"
-        >
-          <HelpCircle size={16} />
-          Report Missing Resource
-        </Link>
-      </div>
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold text-xs sm:text-sm transition shadow-xs"
+          >
+            <Home size={15} />
+            Return to All Calculators
+          </Link>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition"
+          >
+            <HelpCircle size={15} />
+            Contact Support
+          </Link>
+        </div>
 
-      <div className="border-t border-slate-800 pt-6 max-w-md mx-auto">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
-          Explore Popular Statutory Calculators:
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          {popularTools.map(tool => (
-            <Link
-              key={tool.path}
-              to={tool.path}
-              className="p-2.5 rounded-lg bg-slate-900/60 hover:bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 transition"
-            >
-              {tool.name}
-            </Link>
-          ))}
+        <div className="border-t border-slate-100 pt-5 text-left">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 font-mono">
+            Popular Calculators:
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            {popularTools.map(tool => (
+              <Link
+                key={tool.path}
+                to={tool.path}
+                className="p-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200/70 text-slate-700 hover:text-blue-600 font-medium transition"
+              >
+                {tool.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -83,83 +83,83 @@ export default function IndexingHub() {
   const categories = ['All', 'Core', 'Legal', 'Loans', 'Investing', 'Savings', 'Retirement', 'Tax', 'Salary', 'Everyday'];
 
   return (
-    <div className="min-h-screen py-10 lg:py-16">
+    <div className="bg-[#f4f7fb] min-h-screen py-10 lg:py-14">
       <div className="wrap max-w-5xl">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-slate-400 mb-6">
-          <Link to="/" className="hover:text-emerald-400 transition-colors">Home</Link>
-          <span aria-hidden="true">/</span>
-          <span className="text-slate-200 font-medium">Search Console Indexing Hub</span>
+        <div className="flex items-center gap-2 text-xs text-slate-500 mb-6">
+          <Link to="/" className="hover:text-blue-600 transition-colors">Home</Link>
+          <span aria-hidden="true" className="text-slate-300">/</span>
+          <span className="text-slate-800 font-bold">Search Console Indexing Hub</span>
         </div>
 
         {/* Header Block */}
-        <div className="mb-10 border-b border-slate-800 pb-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-3">
-            <span className="text-emerald-400 font-semibold uppercase tracking-wider">Webmaster &amp; SEO Center</span>
-            <span aria-hidden="true" className="text-slate-600">·</span>
-            <span className="text-slate-300">55 Canonical URLs</span>
-            <span aria-hidden="true" className="text-slate-600">·</span>
-            <span className="text-slate-400">Google Search Console Ready</span>
+        <div className="mb-8 bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-xs">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2">
+            <span className="text-blue-600 font-bold uppercase tracking-wider font-mono">Webmaster &amp; SEO Center</span>
+            <span aria-hidden="true" className="text-slate-300">·</span>
+            <span className="text-slate-700 font-semibold font-mono">55 Canonical URLs</span>
+            <span aria-hidden="true" className="text-slate-300">·</span>
+            <span className="text-slate-500">Google Search Console Ready</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-3">
             Search Console &amp; Instant Indexing Hub
           </h1>
-          <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed">
             Every calculator and page on FingTaj is published on its own distinct, permanent URL. Use this central hub to submit all URLs to Google Search Console, Bing Webmaster, or IndexNow for rapid indexing.
           </p>
         </div>
 
         {/* 3 Step Instant Indexing Action Box */}
-        <div className="fin-card p-6 sm:p-8 mb-10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border-emerald-500/30">
-          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <Send size={18} className="text-emerald-400" />
+        <div className="p-6 sm:p-8 mb-8 bg-white border border-blue-200 rounded-2xl shadow-xs">
+          <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <Send size={18} className="text-[#2563eb]" />
             How to Submit for Instant Indexing in 3 Steps
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-300">
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div className="font-bold text-white mb-1.5 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono text-xs">1</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs sm:text-sm text-slate-600">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="font-bold text-slate-900 mb-1.5 flex items-center gap-2">
+                <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-mono text-xs font-bold">1</span>
                 <span>Submit XML Sitemap</span>
               </div>
-              <p className="text-slate-400 leading-relaxed mb-3">
+              <p className="text-slate-500 leading-relaxed mb-3 text-xs">
                 In Google Search Console, go to <strong>Indexing → Sitemaps</strong> and submit:
               </p>
               <a
                 href="/sitemap.xml"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-xs text-emerald-400 bg-slate-900 p-2 rounded block border border-slate-800 hover:border-emerald-500/50 transition-colors truncate"
+                className="font-mono text-xs text-blue-600 bg-white p-2 rounded-lg block border border-slate-200 hover:border-blue-400 transition-colors truncate font-semibold"
               >
                 https://www.fingtaj.com/sitemap.xml
               </a>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div className="font-bold text-white mb-1.5 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono text-xs">2</span>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="font-bold text-slate-900 mb-1.5 flex items-center gap-2">
+                <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-mono text-xs font-bold">2</span>
                 <span>URL Inspection (Instant)</span>
               </div>
-              <p className="text-slate-400 leading-relaxed">
-                Paste any high-priority URL (like <code className="text-emerald-400">/sip-calculator</code>) into the top search bar in Search Console and click <strong>"Request Indexing"</strong> for same-day priority crawl.
+              <p className="text-slate-500 leading-relaxed text-xs">
+                Paste any high-priority URL (like <code className="text-blue-600 font-bold">/sip-calculator</code>) into the top search bar in Search Console and click <strong>"Request Indexing"</strong> for same-day priority crawl.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div className="font-bold text-white mb-1.5 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono text-xs">3</span>
-                <span>Batch Indexing List</span>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="font-bold text-slate-900 mb-1.5 flex items-center gap-2">
+                <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-mono text-xs font-bold">3</span>
+                <span>Batch Plaintext List</span>
               </div>
-              <p className="text-slate-400 leading-relaxed mb-3">
+              <p className="text-slate-500 leading-relaxed mb-3 text-xs">
                 Use the newline-separated plaintext URL list for batch indexing tools or Bing IndexNow:
               </p>
               <a
                 href="/urllist.txt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-xs text-cyan-400 bg-slate-900 p-2 rounded block border border-slate-800 hover:border-cyan-500/50 transition-colors truncate"
+                className="font-mono text-xs text-blue-600 bg-white p-2 rounded-lg block border border-slate-200 hover:border-blue-400 transition-colors truncate font-semibold"
               >
                 https://www.fingtaj.com/urllist.txt
               </a>
@@ -167,123 +167,99 @@ export default function IndexingHub() {
           </div>
 
           {/* Quick Action Toolbar */}
-          <div className="mt-6 pt-6 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
-            <div className="text-xs text-slate-400">
-              Total Valid Canonical Endpoints: <span className="font-bold text-white font-mono">{allItems.length}</span>
+          <div className="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+            <div className="text-xs text-slate-500">
+              Total Valid Canonical Endpoints: <span className="font-bold text-slate-900 font-mono">{allItems.length}</span>
             </div>
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={handleCopyAll}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold transition-all shadow-lg shadow-emerald-500/10"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-bold transition-all shadow-xs"
               >
                 {copiedAll ? <Check size={14} /> : <Copy size={14} />}
                 <span>{copiedAll ? 'All 55 URLs Copied!' : 'Copy All 55 URLs'}</span>
               </button>
               <a
-                href="/urllist.txt"
+                href="/sitemap.xml"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
               >
                 <FileCode size={14} />
-                <span>Raw urllist.txt</span>
+                <span>Open sitemap.xml</span>
               </a>
             </div>
           </div>
         </div>
 
-        {/* Directory Search & Filters */}
-        <div className="space-y-4 mb-6">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-            {/* Search Input */}
-            <div className="relative flex-1">
-              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+        {/* Interactive URL Search & Filter Directory */}
+        <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-5">
+            <div className="relative w-full sm:w-72">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 value={filterQuery}
                 onChange={(e) => setFilterQuery(e.target.value)}
-                placeholder="Filter by page name, category, or slug..."
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-slate-500 outline-none focus:border-emerald-500 transition-colors"
+                placeholder="Filter endpoints..."
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
               />
             </div>
 
-            {/* Counter */}
-            <div className="text-xs text-slate-400 shrink-0 self-center">
-              Displaying <span className="font-bold text-white font-mono">{filteredItems.length}</span> of {allItems.length} URLs
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full sm:w-auto">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
+                    selectedCategory === cat 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 no-scrollbar">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors ${
-                  selectedCategory === cat
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                    : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Master URL Table */}
-        <div className="fin-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-slate-800 bg-slate-900/80 text-[11px] uppercase tracking-wider text-slate-400 font-bold">
-                  <th className="py-3 px-4">Index</th>
-                  <th className="py-3 px-4">Page / Calculator Title</th>
-                  <th className="py-3 px-4">Category</th>
-                  <th className="py-3 px-4">Dedicated URL</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
+                <tr className="border-b border-slate-200 text-slate-400 uppercase font-mono text-[10px]">
+                  <th className="py-2.5 px-3">Category</th>
+                  <th className="py-2.5 px-3">Title &amp; Canonical URL</th>
+                  <th className="py-2.5 px-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 font-mono">
+              <tbody className="divide-y divide-slate-100 font-sans">
                 {filteredItems.map((item, idx) => (
-                  <tr key={item.path} className="hover:bg-slate-900/50 transition-colors">
-                    <td className="py-3 px-4 text-slate-500">{String(idx + 1).padStart(2, '0')}</td>
-                    <td className="py-3 px-4 font-sans font-bold text-white">
-                      <Link to={item.path} className="hover:text-emerald-400 transition-colors">
-                        {item.title}
-                      </Link>
-                      <div className="text-[11px] text-slate-500 font-sans font-normal truncate max-w-xs">
-                        {item.statute}
+                  <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
+                    <td className="py-2.5 px-3 whitespace-nowrap font-mono text-blue-600 font-bold">
+                      {item.category}
+                    </td>
+                    <td className="py-2.5 px-3">
+                      <div className="font-semibold text-slate-800 text-xs sm:text-sm">{item.title}</div>
+                      <div className="text-[11px] text-slate-400 font-mono truncate max-w-md sm:max-w-xl mt-0.5">
+                        {item.url}
                       </div>
                     </td>
-                    <td className="py-3 px-4 font-sans text-slate-400">
-                      <span className="text-[11px] text-emerald-400/90 font-medium">
-                        {item.category}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-slate-300">
-                      <span className="text-[11px] text-slate-400 hover:text-slate-200 transition-colors">
-                        {item.path}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-right whitespace-nowrap">
+                    <td className="py-2.5 px-3 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           type="button"
                           onClick={() => handleCopySingle(item.url)}
-                          className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
-                          title="Copy Full URL"
+                          className="p-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-blue-600 transition"
+                          title="Copy URL"
                         >
-                          {copiedUrl === item.url ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                          {copiedUrl === item.url ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
                         </button>
                         <Link
                           to={item.path}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
-                          title="Open in new tab"
+                          className="p-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-blue-600 transition"
+                          title="Open Page"
                         >
                           <ExternalLink size={13} />
                         </Link>
