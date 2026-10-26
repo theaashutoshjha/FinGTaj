@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && cp dist/index.html dist/200.html",
     "lint": "oxlint",
     "preview": "vite preview",
     "start": "node server.ts",

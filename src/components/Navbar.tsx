@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, ArrowUpRight } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import SearchModal from './SearchModal';
 
@@ -10,17 +10,17 @@ export default function Navbar() {
   const location = useLocation();
 
   const navLinks = [
-    { label: 'All 50 Tools', path: '/#all-calculators' },
-    { label: 'Loans', path: '/#loans' },
-    { label: 'Investing', path: '/#investing' },
-    { label: 'Tax & Salary', path: '/#tax' },
-    { label: 'Retirement', path: '/#retirement' },
-    { label: 'About', path: '/about' }
+    { label: 'All 50 Engines', path: '/#all-calculators' },
+    { label: 'Loans & EMI', path: '/#loans' },
+    { label: 'Wealth & SIP', path: '/#investing' },
+    { label: 'Direct Tax 2026', path: '/#tax' },
+    { label: 'Retirement & EPF', path: '/#retirement' },
+    { label: 'Methodology', path: '/about' }
   ];
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#030712]/85 backdrop-blur-xl transition-all">
         <div className="wrap flex items-center justify-between gap-8 h-16">
           
           {/* Zone 1: Single Brand Wordmark */}
@@ -28,8 +28,8 @@ export default function Navbar() {
             <BrandLogo size="md" showSubtitle={false} />
           </Link>
 
-          {/* Zone 2: 4-5 Concise Single-Line Nav Links */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
+          {/* Zone 2: Clean 5-Link Navigation */}
+          <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
             {navLinks.map((link) => {
               const isCurrent = location.pathname === link.path;
               return (
@@ -46,35 +46,35 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Zone 3: 1 Primary Action (Search Modal Trigger) */}
+          {/* Zone 3: 1 Primary Action (Search Terminal Trigger) */}
           <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-xs text-slate-400 hover:text-slate-200 transition-all font-medium"
+              className="hidden sm:flex items-center gap-3 px-3.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-white/[0.08] hover:border-emerald-500/40 text-xs text-slate-300 hover:text-white transition-all font-medium shadow-inner"
             >
               <Search size={14} className="text-emerald-400" />
-              <span>Search 50 tools...</span>
-              <kbd className="text-[10px] font-mono bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800 text-slate-500">
+              <span>Search 50 Engines...</span>
+              <kbd className="text-[10px] font-mono bg-[#030712] px-1.5 py-0.5 rounded border border-white/[0.08] text-slate-400">
                 ⌘K
               </kbd>
             </button>
 
-            {/* Mobile Search Icon Button */}
+            {/* Mobile Search Button */}
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="sm:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300"
+              className="sm:hidden p-2 rounded-lg bg-slate-900 border border-white/[0.08] text-slate-300"
               aria-label="Search"
             >
               <Search size={18} />
             </button>
 
-            {/* Mobile Hamburger Toggle */}
+            {/* Mobile Menu Toggle */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
+              className="lg:hidden p-2 rounded-lg bg-slate-900 border border-white/[0.08] text-slate-300 hover:text-white"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -84,22 +84,32 @@ export default function Navbar() {
 
         {/* Mobile Dropdown Nav */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-slate-800/80 bg-slate-950 px-4 py-4 space-y-1">
+          <div className="lg:hidden border-t border-white/[0.08] bg-[#030712] px-4 py-4 space-y-1">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-sm font-medium text-slate-200 hover:bg-slate-900 hover:text-emerald-400 transition-colors"
+                className="block px-3 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider text-slate-300 hover:bg-slate-900 hover:text-emerald-400 transition-colors"
               >
                 {link.label}
               </a>
             ))}
+            <div className="pt-2 border-t border-white/[0.08]">
+              <Link
+                to="/indexing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between px-3 py-2 text-xs font-medium text-emerald-400 hover:bg-slate-900 rounded-lg"
+              >
+                <span>Google Search Console Indexing</span>
+                <ArrowUpRight size={14} />
+              </Link>
+            </div>
           </div>
         )}
       </header>
 
-      {/* Global Search Modal */}
+      {/* Global Command Search Modal */}
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );

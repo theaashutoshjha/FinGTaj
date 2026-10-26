@@ -14,45 +14,45 @@ import BrandLogo from './BrandLogo';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-800/80 bg-slate-950 text-slate-400 text-xs print-hide">
+    <footer className="border-t border-white/[0.08] bg-[#02050e] text-slate-400 text-xs print-hide">
       
-      {/* Top Banner: Statutory & Zero Telemetry Guarantee */}
-      <div className="border-b border-slate-800/80 bg-slate-950/80 py-3.5">
+      {/* Top Banner: Sovereign Statutory Assurance */}
+      <div className="border-b border-white/[0.06] bg-slate-950/70 py-3.5">
         <div className="wrap flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
-              <ShieldCheck size={16} />
+            <div className="p-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
+              <ShieldCheck size={14} />
             </div>
             <div>
               <span className="font-bold text-white text-xs mr-2">
-                100% Free · Client-Side Memory Execution · Zero Telemetry
+                100% Free · Client-Side Execution · Zero Data Logging
               </span>
-              <span className="text-slate-400 text-[11px] hidden md:inline">
-                Financial parameters are processed strictly inside volatile browser memory.
+              <span className="text-slate-500 text-[11px] hidden md:inline">
+                Calculations evaluate strictly inside volatile browser memory.
               </span>
             </div>
           </div>
 
           <Link
             to="/indexing"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-emerald-500/40 text-emerald-400 font-medium text-[11px] transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-white/[0.08] hover:border-emerald-500/40 text-emerald-400 font-medium text-[11px] transition-colors shrink-0"
           >
             <Send size={12} />
-            <span>Search Console Indexing Hub</span>
+            <span>Search Console Indexing Matrix</span>
           </Link>
         </div>
       </div>
 
       <div className="wrap pt-8 pb-6">
         
-        {/* Balanced 4-Column Directory Grid (No ragged voids, compact height) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6 mb-8 items-start">
+        {/* 4-Column Directory Grid (All 50 Calculators) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-7 mb-8 items-start">
           
-          {/* Column 1: Loans & Borrowing (8 Calculators) */}
+          {/* Column 1: Loans & Debt Architecture (8 Tools) */}
           <div className="space-y-2.5">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-slate-800/80 pb-2">
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-white/[0.08] pb-2 font-mono">
               <Percent size={13} />
-              <span>Loans &amp; Borrowing (8)</span>
+              <span>Loans &amp; Debt Architecture (8)</span>
             </h4>
             <ul className="space-y-1 text-[11px]">
               <li><Link to="/emi-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">EMI Calculator</Link></li>
@@ -66,7 +66,7 @@ export default function Footer() {
             </ul>
 
             <div className="pt-2">
-              <h5 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Debt &amp; Housing</h5>
+              <h5 className="text-[10px] uppercase font-bold text-slate-500 font-mono tracking-wider mb-1">Mortgages &amp; Credit</h5>
               <ul className="space-y-1 text-[11px]">
                 <li><Link to="/credit-card-interest-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">Credit Card Interest APR</Link></li>
                 <li><Link to="/credit-card-payoff-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">Credit Card Payoff</Link></li>
@@ -75,11 +75,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Investing & Wealth (10 Calculators) */}
+          {/* Column 2: Wealth & Systematic Equity (10 Tools) */}
           <div className="space-y-2.5">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-slate-800/80 pb-2">
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-white/[0.08] pb-2 font-mono">
               <TrendingUp size={13} />
-              <span>Investing &amp; Wealth (10)</span>
+              <span>Wealth &amp; Equity (10)</span>
             </h4>
             <ul className="space-y-1 text-[11px]">
               <li><Link to="/sip-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">SIP Calculator</Link></li>
@@ -95,7 +95,7 @@ export default function Footer() {
             </ul>
 
             <div className="pt-2">
-              <h5 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Portfolio Diagnostics</h5>
+              <h5 className="text-[10px] uppercase font-bold text-slate-500 font-mono tracking-wider mb-1">Portfolio Diagnostics</h5>
               <ul className="space-y-1 text-[11px]">
                 <li><Link to="/net-worth-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">Net Worth Ledger</Link></li>
                 <li><Link to="/roi-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">ROI Calculator</Link></li>
@@ -103,11 +103,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 3: Savings & Retirement (13 Calculators) */}
+          {/* Column 3: Fixed Income, Savings & Pensions (13 Tools) */}
           <div className="space-y-2.5">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-slate-800/80 pb-2">
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-white/[0.08] pb-2 font-mono">
               <Clock size={13} />
-              <span>Savings &amp; Retirement (13)</span>
+              <span>Savings &amp; Pensions (13)</span>
             </h4>
             <ul className="space-y-1 text-[11px]">
               <li><Link to="/fd-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">Fixed Deposit (FD) Calculator</Link></li>
@@ -120,7 +120,7 @@ export default function Footer() {
             </ul>
 
             <div className="pt-2">
-              <h5 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Pensions &amp; Longevity</h5>
+              <h5 className="text-[10px] uppercase font-bold text-slate-500 font-mono tracking-wider mb-1">Superannuation</h5>
               <ul className="space-y-1 text-[11px]">
                 <li><Link to="/retirement-corpus-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">Retirement Corpus</Link></li>
                 <li><Link to="/epf-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">EPF Provident Fund</Link></li>
@@ -132,11 +132,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 4: Tax, Salary & Business (16 Calculators) */}
+          {/* Column 4: Taxation, Payroll & Corporate (16 Tools) */}
           <div className="space-y-2.5">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-slate-800/80 pb-2">
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400 border-b border-white/[0.08] pb-2 font-mono">
               <Briefcase size={13} />
-              <span>Tax, Salary &amp; Business (16)</span>
+              <span>Tax &amp; Payroll (16)</span>
             </h4>
             <ul className="space-y-1 text-[11px]">
               <li><Link to="/income-tax-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">Old vs New Tax Regime</Link></li>
@@ -148,7 +148,7 @@ export default function Footer() {
             </ul>
 
             <div className="pt-2">
-              <h5 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Compensation &amp; Commerce</h5>
+              <h5 className="text-[10px] uppercase font-bold text-slate-500 font-mono tracking-wider mb-1">Commerce &amp; Margins</h5>
               <ul className="space-y-1 text-[11px]">
                 <li><Link to="/salary-in-hand-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">In-Hand Salary Calculator</Link></li>
                 <li><Link to="/ctc-to-take-home-calculator" className="hover:text-emerald-300 transition-colors block py-0.5">CTC to Take-Home</Link></li>
@@ -165,11 +165,11 @@ export default function Footer() {
         </div>
 
         {/* Brand & Webmaster Endpoints Strip */}
-        <div className="border-t border-slate-800/80 pt-6 pb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="border-t border-white/[0.08] pt-6 pb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="max-w-xl">
             <BrandLogo size="sm" />
-            <p className="text-[11px] text-slate-400 mt-1.5 leading-relaxed">
-              Institutional-grade statutory financial computation engines for Indian taxpayers and investors. Free public utility engineered by Ashutosh Jha in Chennai, Tamil Nadu.
+            <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">
+              Institutional-grade statutory financial computation engines for Indian taxpayers and wealth planners. Engineered by Ashutosh Jha in Chennai, Tamil Nadu, India.
             </p>
           </div>
 
@@ -177,25 +177,25 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-2 text-xs">
             <Link
               to="/indexing"
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors text-[11px]"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-white/[0.08] hover:border-emerald-500/40 text-slate-300 hover:text-white transition-colors text-[11px]"
             >
               <Send size={12} className="text-emerald-400" />
-              <span>Instant Indexing Hub</span>
+              <span>Indexing Hub</span>
             </Link>
             <a
               href="/sitemap.xml"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors text-[11px]"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-white/[0.08] hover:border-slate-700 text-slate-300 hover:text-white transition-colors text-[11px]"
             >
               <FileCode size={12} className="text-emerald-400" />
-              <span>Sitemap</span>
+              <span>sitemap.xml</span>
             </a>
             <a
               href="/urllist.txt"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors text-[11px]"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-white/[0.08] hover:border-slate-700 text-slate-300 hover:text-white transition-colors text-[11px]"
             >
               <Globe size={12} className="text-emerald-400" />
               <span>urllist.txt</span>
@@ -204,7 +204,7 @@ export default function Footer() {
               href="/ads.txt"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 transition-colors text-[11px]"
+              className="px-2 py-1 rounded bg-slate-900 border border-white/[0.08] hover:border-slate-700 text-slate-400 hover:text-slate-200 transition-colors text-[11px]"
             >
               ads.txt
             </a>
@@ -212,7 +212,7 @@ export default function Footer() {
               href="/robots.txt"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 transition-colors text-[11px]"
+              className="px-2 py-1 rounded bg-slate-900 border border-white/[0.08] hover:border-slate-700 text-slate-400 hover:text-slate-200 transition-colors text-[11px]"
             >
               robots.txt
             </a>
@@ -220,14 +220,14 @@ export default function Footer() {
         </div>
 
         {/* Regulatory Disclaimer */}
-        <div className="border-t border-slate-800/80 pt-4 pb-3 text-[11px] text-slate-400 leading-relaxed">
+        <div className="border-t border-white/[0.08] pt-4 pb-3 text-[11px] text-slate-500 leading-relaxed font-mono">
           <p>
-            <strong>Regulatory &amp; Statutory Disclaimer:</strong> The 50 computational engines on FingTaj are built for educational and illustrative scenario analysis under prevailing statutory rules (Income Tax Act 1961, Section 115BAC, RBI Master Directions, Gratuity Act 1972, and Finance Act 2024). FingTaj is an independent computational platform, not a SEBI-registered Investment Adviser (RIA). All calculations execute in local browser memory with zero user data stored.
+            Regulatory Disclaimer: All 50 computational engines on FingTaj are built for scenario analysis under prevailing statutory rules (Income Tax Act 1961, Section 115BAC, RBI Master Directions, Gratuity Act 1972, and Finance Act 2024). FingTaj is an independent computational platform, not a SEBI-registered Investment Adviser (RIA). All calculations execute in local browser memory with zero user data stored.
           </p>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-800/60 pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-3">
+        <div className="border-t border-white/[0.06] pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-3">
           <div>
             © {new Date().getFullYear()} FingTaj. All 50 Financial Calculators are 100% Free for Public Use.
           </div>

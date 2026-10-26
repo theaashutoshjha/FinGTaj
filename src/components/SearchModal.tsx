@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CALCULATORS_DATA } from '../data/calculatorsData';
 import { ARTICLES } from '../data/articles';
-import { X, Search, Calculator, BookOpen, ArrowRight } from 'lucide-react';
+import { X, Search, ArrowRight, CornerDownLeft, Sparkles, ShieldCheck } from 'lucide-react';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -11,15 +11,22 @@ interface SearchModalProps {
 
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
+  const [selectedIdx, setSelectedIdx] = useState(0);
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        onClose();
+      }
     };
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+      setTimeout(() => inputRef.current?.focus(), 50);
     }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -38,14 +45,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         c.category.toLowerCase().includes(q) ||
         c.statute.toLowerCase().includes(q)
       )
-    : CALCULATORS_DATA.slice(0, 8); // show popular default
+    : CALCULATORS_DATA.slice(0, 7);
 
   const matchedArticles = q
     ? ARTICLES.filter(a => 
         a.title.toLowerCase().includes(q) || 
         a.excerpt.toLowerCase().includes(q) || 
         (a.tag || '').toLowerCase().includes(q)
-      ).slice(0, 4)
+      ).slice(0, 3)
     : [];
 
   const handleSelectCalc = (slug: string) => {
@@ -53,33 +60,34 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
     navigate(`/${slug}`);
   };
 
-  const handleSelectArticle = (slug: string) => {
-    onClose();
-    navigate(`/`);
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+    <div 
+      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/85 backdrop-blur-md animate-fadeIn"
+      onClick={onClose}
+    >
       <div 
-        className="w-full max-w-2xl fin-card p-6 border-slate-700 shadow-2xl relative bg-slate-950"
+        className="w-full max-w-2xl rounded-2xl border border-white/[0.12] bg-[#070d19] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
-        {/* Search Input Bar */}
-        <div className="flex items-center gap-3 border-b border-slate-800 pb-4 mb-4">
-          <Search size={20} className="text-emerald-400 shrink-0" />
+        {/* Command Search Header */}
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-white/[0.08] bg-slate-900/40">
+          <Search size={18} className="text-emerald-400 shrink-0" />
           <input
+            ref={inputRef}
             type="text"
-            autoFocus
             value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search across all 50 financial calculators, taxes, loans..."
-            className="w-full bg-transparent text-white text-base outline-none placeholder:text-slate-500 font-sans"
+            onChange={e => {
+              setQuery(e.target.value);
+              setSelectedIdx(0);
+            }}
+            placeholder="Type any financial tool, statute, or section (e.g. SIP, 115BAC, Home Loan)..."
+            className="w-full bg-transparent text-white text-sm outline-none placeholder:text-slate-500 font-sans"
           />
           {query && (
             <button 
               type="button" 
               onClick={() => setQuery('')}
-              className="text-xs text-slate-400 hover:text-white px-2 py-1 bg-slate-900 rounded"
+              className="text-[11px] font-mono text-slate-400 hover:text-white px-2 py-0.5 bg-slate-800 rounded"
             >
               Clear
             </button>
@@ -87,82 +95,101 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           <button 
             type="button" 
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
+            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
           >
-            <X size={18} />
+            <X size={16} />
           </button>
         </div>
 
+        {/* Quick Filter Tag Recommendations if query is empty */}
+        {!q && (
+          <div className="px-5 py-2.5 border-b border-white/[0.06] bg-slate-950/30 flex items-center gap-2 overflow-x-auto no-scrollbar text-[11px]">
+            <span className="text-slate-500 font-mono uppercase text-[10px] tracking-wider shrink-0">Popular:</span>
+            {['SIP', 'Home Loan', 'Income Tax', 'EPF', 'Gratuity', 'PPF', 'Capital Gains'].map(tag => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => setQuery(tag)}
+                className="px-2 py-0.5 rounded-md bg-slate-900 hover:bg-slate-800 border border-white/[0.06] text-slate-300 hover:text-emerald-400 whitespace-nowrap transition-colors"
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Results Container */}
-        <div className="max-h-[60vh] overflow-y-auto space-y-4 pr-1">
-          {/* Calculators Results */}
+        <div className="max-h-[50vh] overflow-y-auto p-3 space-y-3">
           <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between">
-              <span>{q ? `Calculators Matching "${query}"` : 'Popular High-Precision Calculators'}</span>
-              <span>{matchedCalculators.length} found</span>
+            <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-slate-500 flex items-center justify-between">
+              <span>{q ? `Matching Tools (${matchedCalculators.length})` : 'Frequently Launched Engines'}</span>
+              <span>Statutory Accurate</span>
             </div>
 
             {matchedCalculators.length === 0 ? (
-              <div className="text-sm text-slate-500 py-4 text-center">
-                No calculators matching "{query}".
+              <div className="py-8 text-center text-xs text-slate-500">
+                No calculator found for "{query}". Try "tax", "loan", or "sip".
               </div>
             ) : (
-              <div className="space-y-1.5">
+              <div className="space-y-1 mt-1">
                 {matchedCalculators.map(c => (
                   <button
                     key={c.id}
                     type="button"
                     onClick={() => handleSelectCalc(c.slug)}
-                    className="w-full text-left p-3 rounded-xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 hover:border-emerald-500/40 transition-all flex items-center justify-between group"
+                    className="w-full text-left p-3 rounded-xl hover:bg-slate-900/90 border border-transparent hover:border-emerald-500/30 transition-all flex items-center justify-between group"
                   >
                     <div className="flex items-center gap-3 truncate mr-3">
-                      <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                        <Calculator size={16} />
+                      <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono text-xs font-bold shrink-0">
+                        ₹
                       </div>
                       <div className="truncate">
                         <div className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors truncate">
                           {c.title}
                         </div>
-                        <div className="text-xs text-slate-400 truncate">
-                          {c.categoryLabel} · {c.statute}
+                        <div className="text-xs text-slate-400 truncate flex items-center gap-2 mt-0.5">
+                          <span className="text-emerald-400 font-mono text-[10px] uppercase">{c.categoryLabel}</span>
+                          <span aria-hidden="true" className="text-slate-600">·</span>
+                          <span className="text-slate-500 truncate">{c.statute}</span>
                         </div>
                       </div>
                     </div>
-                    <ArrowRight size={14} className="text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all shrink-0" />
+                    <div className="flex items-center gap-1 text-slate-500 group-hover:text-emerald-400 shrink-0">
+                      <span className="text-[11px] font-medium hidden sm:inline">Launch</span>
+                      <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Articles Section if matched */}
+          {/* Matched Guides */}
           {matchedArticles.length > 0 && (
-            <div className="border-t border-slate-800 pt-4">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                Educational Research Guides
+            <div className="border-t border-white/[0.06] pt-2">
+              <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-slate-500">
+                Statutory Research Guides
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-1 mt-1">
                 {matchedArticles.map(a => (
                   <button
                     key={a.id}
                     type="button"
-                    onClick={() => handleSelectArticle(a.slug)}
-                    className="w-full text-left p-3 rounded-xl bg-slate-900/40 hover:bg-slate-900 border border-slate-800/60 transition-all flex items-center justify-between group"
+                    onClick={() => {
+                      onClose();
+                      navigate('/');
+                    }}
+                    className="w-full text-left p-2.5 rounded-lg hover:bg-slate-900/60 border border-transparent hover:border-slate-800 transition-all flex items-center justify-between group"
                   >
-                    <div className="flex items-center gap-3 truncate mr-3">
-                      <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0">
-                        <BookOpen size={16} />
+                    <div className="truncate pr-2">
+                      <div className="text-xs font-semibold text-slate-200 group-hover:text-white truncate">
+                        {a.title}
                       </div>
-                      <div className="truncate">
-                        <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors truncate">
-                          {a.title}
-                        </div>
-                        <div className="text-xs text-slate-400 truncate">
-                          {a.tag} · {a.readTime}
-                        </div>
+                      <div className="text-[11px] text-slate-500 truncate mt-0.5">
+                        {a.tag} · {a.readTime}
                       </div>
                     </div>
-                    <ArrowRight size={14} className="text-slate-500 group-hover:text-cyan-400 shrink-0" />
+                    <ArrowRight size={12} className="text-slate-600 group-hover:text-slate-300 shrink-0" />
                   </button>
                 ))}
               </div>
@@ -170,10 +197,16 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           )}
         </div>
 
-        {/* Footer shortcuts */}
-        <div className="flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-800 pt-3 mt-3">
-          <span>Press ESC to close</span>
-          <span>100% Free &amp; Zero Data Collection</span>
+        {/* Command Footer */}
+        <div className="flex items-center justify-between px-5 py-3 border-t border-white/[0.08] bg-slate-950/70 text-[11px] text-slate-500 font-mono">
+          <div className="flex items-center gap-2">
+            <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-white/[0.06] text-slate-400">ESC</span>
+            <span>to close</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-emerald-400">
+            <ShieldCheck size={12} />
+            <span>Zero Telemetry · 100% Free</span>
+          </div>
         </div>
       </div>
     </div>
