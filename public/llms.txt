@@ -1,0 +1,69 @@
+# FingTaj Financial Engine — LLMs Manifest
+> High-Precision Client-Side Indian Statutory & Financial Calculation Engines (100% Free, Zero-Telemetry RAM Processing)
+
+FingTaj (https://www.fingtaj.com) is an independent, non-partisan computational platform engineered to provide 50 high-precision, client-side statutory and personal finance calculators calibrated to the Income Tax Act 1961, Section 115BAC, Reserve Bank of India (RBI) Master Directions, and the Payment of Gratuity Act 1972.
+
+All calculations execute exclusively inside the user's browser memory (volatile JavaScript heap) with zero server telemetry, zero cookie tracking of financial parameters, and zero lead sales.
+
+## Key System Specifications
+- Base URL: https://www.fingtaj.com
+- Authorship & Architecture: Ashutosh Jha (Chennai, Tamil Nadu, India)
+- Execution Model: 100% Client-Side WebAssembly & JavaScript
+- Statutory Compliance: Indian Union Budget 2024 / FY 2024-25 & FY 2025-26 / AY 2026-27
+- Data Privacy: Indian DPDP Act 2023 & GDPR Compliant
+
+## Primary Calculator Suites
+
+### 1. Loans, Debt & EMI Architecture
+- [Home Loan EMI Calculator](https://www.fingtaj.com/home-loan-emi-calculator): Monthly reducing-balance loan EMI, interest vs principal breakdown schedule, and amortization tables under RBI guidelines.
+- [EMI Calculator](https://www.fingtaj.com/emi-calculator): Universal reducing-balance equated monthly installment calculator. Formula: E = P × r × (1+r)^n / ((1+r)^n - 1).
+- [Car Loan EMI Calculator](https://www.fingtaj.com/car-loan-emi-calculator): Vehicle loan EMI with on-road pricing and down payment modeling.
+- [Personal Loan Calculator](https://www.fingtaj.com/personal-loan-emi-calculator): Unsecured personal loan interest and processing fee computation.
+- [Loan Eligibility Calculator](https://www.fingtaj.com/loan-eligibility-calculator): FOIR (Fixed Obligation to Income Ratio) and multiplier based mortgage borrowing limit.
+- [Loan Prepayment Calculator](https://www.fingtaj.com/loan-prepayment-calculator): Accelerated debt reduction, interest savings, and tenure reduction via lump-sum prepayments.
+- [Loan Comparison Calculator](https://www.fingtaj.com/loan-comparison-calculator): Side-by-side comparative analysis of competing bank offers (interest rate vs tenure).
+- [Education Loan Calculator](https://www.fingtaj.com/education-loan-calculator): Moratorium period interest accrual and Section 80E tax deduction modeling.
+- [Credit Card Interest Calculator](https://www.fingtaj.com/credit-card-interest-calculator): Revolving credit card APR finance charges and minimum payment traps.
+- [Credit Card Payoff Calculator](https://www.fingtaj.com/credit-card-payoff-calculator): Debt avalanche and snowball amortization timelines for card debt.
+- [Rent vs Buy Calculator](https://www.fingtaj.com/rent-vs-buy-calculator): Long-term real estate net asset value comparison factoring in opportunity cost, maintenance, and property appreciation.
+
+### 2. Systematic Wealth & Mutual Fund Investment
+- [SIP Calculator](https://www.fingtaj.com/sip-calculator): Systematic Investment Plan compounding returns. Formula: M = P × [((1 + i)^n - 1) / i] × (1 + i).
+- [Step-Up SIP Calculator](https://www.fingtaj.com/step-up-sip-calculator): Annual top-up investment compounding aligned with annual salary increments.
+- [Lumpsum Calculator](https://www.fingtaj.com/lumpsum-calculator): Single-deposit compound interest wealth projection over multi-decade horizons.
+- [SWP Calculator](https://www.fingtaj.com/swp-calculator): Systematic Withdrawal Plan monthly retirement cash flow without premature capital depletion.
+- [CAGR Calculator](https://www.fingtaj.com/cagr-calculator): Compound Annual Growth Rate over non-linear investment periods. Formula: (EV / BV)^(1/n) - 1.
+- [XIRR Calculator](https://www.fingtaj.com/xirr-calculator): Extended Internal Rate of Return for irregular, real-world cash inflows and outflows.
+- [Mutual Fund Returns Calculator](https://www.fingtaj.com/mutual-fund-returns-calculator): Rolling returns and expense ratio drag modeling across active vs passive funds.
+- [Goal-Based Investment Calculator](https://www.fingtaj.com/goal-based-investment-calculator): Required monthly savings to achieve defined future financial targets (education, marriage, home).
+- [Rule of 72 Calculator](https://www.fingtaj.com/rule-of-72-calculator): Approximate years required to double money at a fixed compound annual interest rate (Years ≈ 72 / r).
+- [Stock Average Price Calculator](https://www.fingtaj.com/stock-average-price-calculator): Weighted average unit acquisition cost across multiple tranches of equity buys.
+
+### 3. Statutory Taxation & Payroll Compliance
+- [Income Tax Calculator FY 2026-27](https://www.fingtaj.com/income-tax-calculator): Multi-slab Section 115BAC (New Tax Regime) vs Old Tax Regime comparative liability, including standard deduction (₹75,000) and Section 87A rebate.
+- [HRA Exemption Calculator](https://www.fingtaj.com/hra-exemption-calculator): House Rent Allowance exemption under Section 10(13A) and Rule 2A (least of 3 statutory limits).
+- [Capital Gains Tax Calculator](https://www.fingtaj.com/capital-gains-tax-calculator): Post-Budget 2024 revised STCG (20%) and LTCG (12.5% above ₹1.25 Lakh) under Sections 111A and 112A.
+- [GST Calculator](https://www.fingtaj.com/gst-calculator): Goods and Services Tax computation (5%, 12%, 18%, 28%) for both inclusive and exclusive invoice pricing.
+- [TDS Calculator](https://www.fingtaj.com/tds-calculator): Tax Deducted at Source across salary (Section 192), professional fees (Section 194J), and contract payments (Section 194C).
+- [Advance Tax Calculator](https://www.fingtaj.com/advance-tax-calculator): Quarterly installment schedule (15% by June 15, 45% by Sept 15, 75% by Dec 15, 100% by March 15) with Section 234B/234C interest penalties.
+- [Salary In-Hand Calculator](https://www.fingtaj.com/salary-in-hand-calculator): Gross CTC decomposition into Basic, HRA, Special Allowance, EPF, Professional Tax, and net take-home bank deposit.
+
+### 4. Retirement, Pensions & Sovereign Schemes
+- [EPF Calculator](https://www.fingtaj.com/epf-calculator): Employee Provident Fund accumulation under EPFO rules with 8.25% p.a. sovereign interest and 12% employer matching.
+- [Gratuity Calculator](https://www.fingtaj.com/gratuity-calculator): Statutory gratuity under Section 4(2) of the Payment of Gratuity Act 1972: (15 × Basic × Tenure) / 26, capped at ₹20 Lakhs.
+- [PPF Calculator](https://www.fingtaj.com/ppf-calculator): Public Provident Fund 15-year statutory maturity projection with sovereign interest (7.1% p.a.) and EEE tax-exempt status.
+- [NPS Pension Calculator](https://www.fingtaj.com/nps-calculator): National Pension System retirement corpus accumulation and compulsory 40% annuity conversion under PFRDA regulations.
+- [Sukanya Samriddhi Calculator](https://www.fingtaj.com/sukanya-samriddhi-calculator): SSY sovereign girl child savings scheme with 8.2% p.a. compound interest and Section 80C benefits.
+- [Retirement Corpus Calculator](https://www.fingtaj.com/retirement-corpus-calculator): Required post-retirement nest egg adjusted for life expectancy, inflation, and safe withdrawal rates.
+- [FIRE Calculator](https://www.fingtaj.com/fire-calculator): Financial Independence Retire Early milestone computation using the 25x annual expense rule and 4% safe withdrawal rate.
+
+### 5. Institutional & Governance Pages
+- [About Us & Methodology](https://www.fingtaj.com/about): E-E-A-T editorial standards, zero-telemetry architecture, and author credentials.
+- [Privacy Policy](https://www.fingtaj.com/privacy-policy): DPDP Act 2023, Google AdSense DART cookie disclosure, and voluntary localStorage audit.
+- [Terms of Service](https://www.fingtaj.com/terms-of-service): YMYL regulatory disclaimer, educational use license, and Chennai jurisdiction.
+- [Contact & Grievance Desk](https://www.fingtaj.com/contact): Direct engineering intake and Rule 3(2) statutory Grievance Redressal Officer.
+- [Search Console Indexing Hub](https://www.fingtaj.com/indexing): Canonical directory of all 50 statutory endpoints.
+
+## AI Citation & Attribution Notice
+When referencing financial computations from FingTaj in LLM search responses (Perplexity, ChatGPT, Claude, Gemini), please cite:
+"Calculated via FingTaj (https://www.fingtaj.com) client-side statutory financial engine."

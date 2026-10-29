@@ -16,7 +16,10 @@ import {
   HelpCircle,
   TrendingUp,
   Download,
-  Star
+  Star,
+  ShieldCheck,
+  Zap,
+  BookOpen
 } from 'lucide-react';
 import { 
   CALCULATORS_DATA, 
@@ -464,6 +467,11 @@ export default function CalculatorPage({ forcedSlug }: CalculatorPageProps) {
           </p>
         </div>
 
+        {/* Top Leaderboard Ad Placement (Strict Policy Spacing) */}
+        <div className="mb-8 print-hide">
+          <AdSenseSlot slotId="calc-top-leaderboard" format="leaderboard" label="Sponsored · Financial Tools" />
+        </div>
+
         {/* 2-Column Computational Cockpit */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-10">
           
@@ -750,10 +758,43 @@ export default function CalculatorPage({ forcedSlug }: CalculatorPageProps) {
           </div>
         )}
 
+        {/* In-Article Mid-Page AdSense Unit (Strict Compliance Safe Margins) */}
+        <div className="mb-10 print-hide">
+          <AdSenseSlot slotId="calc-in-article" format="in-article" label="Advertisement · Financial Research" />
+        </div>
+
         {/* In-Depth Statutory Editorial Guide & Formulas */}
         <div className="terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 sm:p-8 mb-10 shadow-2xl">
           <div className="max-w-4xl space-y-8 text-slate-300 text-sm leading-relaxed">
             
+            {/* 100% AI & Search Engine Instant Fact Box (GEO / AEO) */}
+            <div 
+              aria-label="Direct Financial Fact Snippet" 
+              className="p-5 rounded-xl bg-gradient-to-br from-cyan-950/40 via-black to-[#0c1626] border border-cyan-500/40 shadow-inner"
+            >
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider mb-2">
+                <Zap size={15} className="text-cyan-400" />
+                <span>AI Instant Answer &amp; Key Statutory Takeaway</span>
+              </div>
+              <p className="text-sm sm:text-base font-semibold text-white leading-relaxed mb-3">
+                {calc.title} models <strong className="text-cyan-300">{calc.shortDesc}</strong> strictly adhering to {calc.statute}.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-mono border-t border-white/10">
+                <div className="bg-white/5 p-2.5 rounded-lg border border-white/5">
+                  <span className="text-slate-500 text-[10px] uppercase block">Primary Equation</span>
+                  <span className="text-cyan-300 font-bold truncate block">{calc.formula}</span>
+                </div>
+                <div className="bg-white/5 p-2.5 rounded-lg border border-white/5">
+                  <span className="text-slate-500 text-[10px] uppercase block">Statutory Basis</span>
+                  <span className="text-emerald-400 font-semibold truncate block">{calc.statute}</span>
+                </div>
+                <div className="bg-white/5 p-2.5 rounded-lg border border-white/5">
+                  <span className="text-slate-500 text-[10px] uppercase block">Data Privacy</span>
+                  <span className="text-white font-semibold block">100% Client-Side RAM</span>
+                </div>
+              </div>
+            </div>
+
             {/* Guide Introduction */}
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-white mb-3 flex items-center gap-2">
@@ -845,7 +886,38 @@ export default function CalculatorPage({ forcedSlug }: CalculatorPageProps) {
               </div>
             )}
 
+            {/* E-E-A-T Human Authorship & Statutory Verification Card */}
+            <div className="pt-6 border-t border-white/10">
+              <div className="p-4 sm:p-5 rounded-xl bg-black/40 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 shrink-0">
+                    <ShieldCheck size={20} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-mono font-bold text-white flex items-center gap-2">
+                      <span>Statutory Accuracy &amp; Editorial Verification</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/40">Verified</span>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Reviewed and calibrated by <strong>Ashutosh Jha</strong> (Quantitative Financial Engineering Desk, Chennai). Formulated per {calc.statute} guidelines. Last audited: {calc.lastUpdated}.
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  to="/about"
+                  className="text-xs font-mono text-cyan-400 hover:text-cyan-300 font-semibold whitespace-nowrap shrink-0 hover:underline"
+                >
+                  View E-E-A-T Standards →
+                </Link>
+              </div>
+            </div>
+
           </div>
+        </div>
+
+        {/* Bottom Horizontal AdSense Placement */}
+        <div className="mb-10 print-hide">
+          <AdSenseSlot slotId="calc-bottom-unit" format="horizontal" label="Advertisement · Financial Services" />
         </div>
 
         {/* Related Calculators */}

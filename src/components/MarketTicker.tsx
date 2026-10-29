@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component, ErrorInfo, ReactNode } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-interface TickerItem {
+export interface TickerItem {
   symbol: string;
   name: string;
   price: string;
@@ -9,7 +9,7 @@ interface TickerItem {
   isPositive: boolean;
 }
 
-// Guaranteed static baseline market benchmarks (never empty, zero CLS)
+// Guaranteed benchmark prices (zero CLS, instant first paint)
 export const REAL_MARKET_BENCHMARKS: TickerItem[] = [
   { symbol: 'NIFTY 50', name: 'NSE India', price: '25,285.35', change: '+0.68%', isPositive: true },
   { symbol: 'SENSEX', name: 'BSE India', price: '82,890.10', change: '+0.54%', isPositive: true },
@@ -18,7 +18,7 @@ export const REAL_MARKET_BENCHMARKS: TickerItem[] = [
   { symbol: 'NASDAQ 100', name: 'US Tech Benchmark', price: '20,412.50', change: '+0.88%', isPositive: true },
   { symbol: 'GOLD (10g 24K)', name: 'Indian Bullion', price: '₹89,450', change: '+0.32%', isPositive: true },
   { symbol: 'USD / INR', name: 'RBI Reference Rate', price: '₹87.35', change: '-0.08%', isPositive: false },
-  { symbol: '10Y G-SEC YIELD', name: 'India Benchmark Bond', price: '6.78%', change: '-0.02%', isPositive: false }
+  { symbol: '10Y G-SEC YIELD', name: 'India Sovereign Bond', price: '6.78%', change: '-0.02%', isPositive: false }
 ];
 
 interface Props {
@@ -52,52 +52,31 @@ export class MarketTickerErrorBoundary extends Component<Props, State> {
 
 const StaticTickerDisplay: React.FC<{ tickers: TickerItem[] }> = ({ tickers }) => (
   <div 
-    style={{
-      background: 'rgba(5, 12, 22, 0.98)',
-      borderBottom: '1px solid var(--border-subtle)',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      height: '35px',
-      minHeight: '35px',
-      maxHeight: '35px',
-      display: 'flex',
-      alignItems: 'center',
-      position: 'relative',
-      zIndex: 90,
-      contain: 'layout size'
-    }}
+    aria-label="Live Market Benchmarks Ticker"
+    className="bg-[#050b14] border-b border-white/10 overflow-hidden whitespace-nowrap h-8 flex items-center relative z-30 select-none print-hide"
   >
-    <div className="ticker-track">
-      {[...tickers, ...tickers].map((item, idx) => (
+    <div className="flex items-center shrink-0 px-3 h-full bg-[#080f1d] border-r border-white/10 z-10 font-mono text-[10px] uppercase font-bold text-cyan-400 tracking-wider">
+      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-2" />
+      <span>BENCHMARKS</span>
+    </div>
+
+    <div className="ticker-track flex items-center">
+      {[...tickers, ...tickers, ...tickers].map((item, idx) => (
         <div 
           key={idx} 
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '0 20px',
-            fontSize: '12px',
-            borderRight: '1px solid var(--border-subtle)'
-          }}
+          className="inline-flex items-center gap-2 px-4 text-xs border-r border-white/10 shrink-0 font-mono"
         >
-          <span style={{ fontWeight: 800, color: 'var(--text-primary)' }}>{item.symbol}</span>
-          <span className="text-mono" style={{ color: 'var(--text-secondary)' }}>{item.price}</span>
+          <span className="font-bold text-white text-[11px] tracking-tight">{item.symbol}</span>
+          <span className="text-slate-300 text-[11px] tabular-nums">{item.price}</span>
           <span 
-            className="text-mono"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '2px',
-              fontWeight: 700,
-              color: item.isPositive ? 'var(--accent-emerald)' : 'var(--accent-rose)',
-              background: item.isPositive ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)',
-              padding: '2px 6px',
-              borderRadius: '4px',
-              fontSize: '11px'
-            }}
+            className={`inline-flex items-center gap-0.5 font-bold text-[10px] px-1.5 py-0.2 rounded tabular-nums ${
+              item.isPositive 
+                ? 'text-emerald-400 bg-emerald-950/60 border border-emerald-500/30' 
+                : 'text-rose-400 bg-rose-950/60 border border-rose-500/30'
+            }`}
           >
-            {item.isPositive ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
-            {item.change}
+            {item.isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+            <span>{item.change}</span>
           </span>
         </div>
       ))}
@@ -123,7 +102,7 @@ const MarketTickerInner: React.FC = () => {
             ));
           }
         }
-      } catch (e) {
+      } catch {
         // Silently preserve static baseline
       }
     };
@@ -164,3 +143,5 @@ export const MarketTicker: React.FC = () => {
     </MarketTickerErrorBoundary>
   );
 };
+
+export default MarketTicker;

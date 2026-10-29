@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function About() {
   useEffect(() => {
@@ -13,7 +14,12 @@ export default function About() {
     <div className="bg-[#080d16] text-slate-100 min-h-screen py-10 bg-terminal-grid bg-radial-ambient">
       <div className="max-w-4xl mx-auto px-4 text-slate-300">
         
-        {/* Title & Metadata Kicker */}
+        {/* Navigation Breadcrumb */}
+        <div className="mb-6">
+          <Link to="/" className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors">
+            <span>← Return to Financial Terminal</span>
+          </Link>
+        </div>
         <div className="mb-8 terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 sm:p-8 shadow-2xl">
           <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 font-mono">
             Institutional Governance · E-E-A-T Disclosure

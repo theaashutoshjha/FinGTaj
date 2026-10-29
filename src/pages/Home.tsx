@@ -781,8 +781,8 @@ export default function Home() {
       )}
 
       {/* AdSense Placement */}
-      <div className="wrap my-4">
-        <AdSenseSlot slotId="home-mid-banner" />
+      <div className="wrap my-6">
+        <AdSenseSlot slotId="home-mid-banner" format="leaderboard" label="Sponsored · Financial Utilities" />
       </div>
 
       {/* 3. ALL 50 STATUTORY COMPUTATIONAL ENGINES MATRIX */}
@@ -977,8 +977,8 @@ export default function Home() {
       </section>
 
       {/* Bottom AdSense Unit */}
-      <div className="wrap my-4">
-        <AdSenseSlot slotId="home-bottom-banner" />
+      <div className="wrap my-6">
+        <AdSenseSlot slotId="home-bottom-banner" format="horizontal" label="Advertisement · Financial Services" />
       </div>
 
     </div>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import MarketTicker from './components/MarketTicker';
 import Footer from './components/Footer';
 import CookieBanner from './components/CookieBanner';
 import Home from './pages/Home';
@@ -26,6 +27,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-[#080d16] text-slate-100 relative selection:bg-cyan-500 selection:text-black">
+        <MarketTicker />
         <Navbar />
 
         <main className="flex-grow relative z-10">

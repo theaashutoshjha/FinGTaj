@@ -36,5 +36,6 @@ Allow: /
 Disallow: /api/admin
 Disallow: /api/admin/
 
-# Canonical Sitemap Declaration (Check 056, 071)
+# Canonical Sitemap & AI Manifest
 Sitemap: https://www.fingtaj.com/sitemap.xml
+# LLMs Manifest: https://www.fingtaj.com/llms.txt
