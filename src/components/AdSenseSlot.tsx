@@ -69,21 +69,21 @@ export const AdSenseSlot: React.FC<AdSenseSlotProps> = ({
       className={`adsense-wrapper w-full max-w-5xl mx-auto my-6 sm:my-8 overflow-hidden print-hide ${className}`}
       style={style}
     >
-      <div className="rounded-2xl border border-white/5 bg-slate-900/30 backdrop-blur-md p-3 relative">
+      <div className="rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-md p-4 relative overflow-hidden">
         {/* Subtle, policy-compliant sponsor disclosure */}
-        <div className="flex items-center justify-between pb-2 px-1 text-[10px] uppercase font-semibold tracking-wider text-slate-500 border-b border-white/5 mb-2 select-none">
+        <div className="flex items-center justify-between pb-2.5 px-1 text-[10px] uppercase font-semibold tracking-wider text-slate-500 border-b border-white/5 mb-3 select-none">
           <span className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/80" />
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/80 animate-pulse" />
             <span>{label}</span>
           </span>
-          <span className="text-[10px] text-slate-600 font-normal">Google AdSense Partner</span>
+          <span className="text-[10px] text-slate-600 font-normal">Google AdSense · Official Partner</span>
         </div>
 
-        {/* Ad container with CLS barrier */}
-        <div className={`flex items-center justify-center w-full ${getMinHeight()} overflow-hidden text-center`}>
+        {/* Ad container with CLS barrier & subtle background texture */}
+        <div className={`flex flex-col items-center justify-center w-full min-h-[90px] sm:min-h-[100px] overflow-hidden text-center relative`}>
           <ins
             ref={adRef}
-            className="adsbygoogle block w-full text-center"
+            className="adsbygoogle block w-full text-center relative z-10"
             style={{ display: 'block' }}
             data-ad-client="ca-pub-3594420471814241"
             data-ad-slot={slotId}
@@ -91,6 +91,12 @@ export const AdSenseSlot: React.FC<AdSenseSlotProps> = ({
             data-ad-layout={format === 'in-article' ? 'in-article' : undefined}
             data-full-width-responsive="true"
           />
+          {/* Fallback assurance message so slot never looks like an empty black void */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+            <span className="text-[11px] text-slate-500 font-medium">
+              FingTaj Institutional Financial Partner Network
+            </span>
+          </div>
         </div>
       </div>
     </aside>

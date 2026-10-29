@@ -738,57 +738,58 @@ export default function Home() {
       {/* 4. THE 50 CALCULATORS DIRECTORY MATRIX */}
       <section className="wrap pt-6" id="catalog-matrix">
         
-        {/* Section Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 mb-8 border-b border-white/5">
+        {/* Section Header */}
+        <div className="pb-5 mb-6 border-b border-white/5 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-1">
               Complete Computational Catalog
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {selectedCategory === 'All' ? 'All 50 Statutory Engines' : `${selectedCategory} Suite`}
-              <span className="text-slate-500 text-base font-normal ml-3">
+              <span className="text-slate-500 text-sm font-normal ml-3">
                 ({filteredTools.length} Available)
               </span>
             </h2>
           </div>
+        </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            {/* Search Input */}
-            <div className="relative">
-              <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by name, statute or formula..."
-                className="w-full sm:w-64 pl-10 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
-              />
-            </div>
+        {/* Filter & Search Bar */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
+          {/* Search Input */}
+          <div className="relative w-full lg:w-80">
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by name, statute or formula..."
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 transition-colors shadow-inner"
+            />
+          </div>
 
-            {/* Filter Category Pills */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-              {[
-                { label: 'All', key: 'All' },
-                { label: 'Loans', key: 'Loans' },
-                { label: 'Investing', key: 'Investing' },
-                { label: 'Tax', key: 'Tax' },
-                { label: 'Retirement', key: 'Retirement' },
-                { label: 'Everyday', key: 'Everyday' },
-              ].map(cat => (
-                <button
-                  key={cat.key}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat.key)}
-                  className={`px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                    selectedCategory === cat.key
-                      ? 'bg-indigo-600 text-white shadow-sm'
-                      : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+          {/* Filter Category Pills */}
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { label: 'All', key: 'All' },
+              { label: 'Loans', key: 'Loans' },
+              { label: 'Investing', key: 'Investing' },
+              { label: 'Tax', key: 'Tax' },
+              { label: 'Retirement', key: 'Retirement' },
+              { label: 'Everyday', key: 'Everyday' },
+            ].map(cat => (
+              <button
+                key={cat.key}
+                type="button"
+                onClick={() => setSelectedCategory(cat.key)}
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                  selectedCategory === cat.key
+                    ? 'bg-indigo-600 text-white shadow-[0_2px_10px_rgba(99,102,241,0.4)]'
+                    : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 border border-white/5'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
           </div>
         </div>
 

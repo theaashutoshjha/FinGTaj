@@ -16,23 +16,23 @@ export default function Footer() {
     <footer className="border-t border-white/5 bg-slate-950 text-slate-400 text-xs print-hide">
       
       {/* Top Value Assurance Ribbon */}
-      <div className="border-b border-white/5 bg-slate-900/40 py-4">
-        <div className="wrap flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="border-b border-white/5 bg-slate-900/40 py-3.5">
+        <div className="wrap flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
               <Lock size={15} />
             </div>
-            <div className="text-center sm:text-left">
-              <span className="font-semibold text-slate-200 text-xs mr-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+              <span className="font-semibold text-slate-200 text-xs">
                 100% Client-Side RAM Processing · Zero Server Telemetry
               </span>
-              <span className="text-slate-500 text-[11px] hidden md:inline">
-                Financial parameters are evaluated strictly in your browser memory.
+              <span className="text-slate-500 text-[11px] hidden xl:inline">
+                (Financial parameters are evaluated strictly in your browser memory)
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <Link
               to="/about"
               className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-colors text-xs font-medium"
@@ -51,10 +51,10 @@ export default function Footer() {
 
       {/* Main Navigation Columns */}
       <div className="wrap py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 items-start">
           
           {/* Brand Info (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="sm:col-span-2 space-y-4">
             <BrandLogo size="md" showBadge={true} />
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
               FingTaj delivers high-precision statutory and personal finance calculation engines calibrated directly to the Income Tax Act 1961, Section 115BAC, and RBI Master Directions.

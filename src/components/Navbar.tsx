@@ -28,12 +28,12 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const categories: CategoryTab[] = [
-    { name: 'All Engines', key: 'All' },
+    { name: 'All', key: 'All' },
     { name: 'Loans & EMI', key: 'Loans' },
     { name: 'Wealth & SIP', key: 'Investing' },
-    { name: 'Taxation & 115BAC', key: 'Tax' },
-    { name: 'Retirement & EPF', key: 'Retirement' },
-    { name: 'Financial Planning', key: 'Everyday' }
+    { name: 'Tax 115BAC', key: 'Tax' },
+    { name: 'Retirement', key: 'Retirement' },
+    { name: 'Planning', key: 'Everyday' }
   ];
 
   // Global Ctrl+K / Cmd+K search listener
@@ -78,18 +78,18 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-xl border-b border-white/5 transition-all">
-        <div className="wrap flex items-center justify-between gap-6 h-20">
+      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-white/5 transition-all">
+        <div className="wrap flex items-center justify-between gap-4 h-18">
           
           {/* Brand Logo & Subtle Security Tag */}
-          <div className="flex items-center gap-4 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             <Link to="/" className="flex items-center transition-opacity hover:opacity-90">
               <BrandLogo size="md" showBadge={true} />
             </Link>
           </div>
 
           {/* Clean Modern Navigation Pills */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-white/5 shadow-inner">
+          <nav className="hidden xl:flex items-center gap-1.5 bg-slate-900/70 p-1.5 rounded-full border border-white/10 shadow-inner">
             {categories.map((cat) => {
               const isActive = location.pathname === '/' && (
                 cat.key === 'All' ? !location.search.includes('category=') : location.search.includes(`category=${cat.key}`)
@@ -100,10 +100,10 @@ export default function Navbar() {
                   key={cat.key}
                   type="button"
                   onClick={() => handleCategoryClick(cat.key)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap ${
                     isActive
                       ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-[0_2px_12px_rgba(99,102,241,0.4)]'
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      : 'text-slate-300 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   {cat.name}
