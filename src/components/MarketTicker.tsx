@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Component, ErrorInfo, ReactNode } from 'react';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { TrendingUp, TrendingDown, Activity } from 'lucide-react';
 
-export interface TickerItem {
+export interface MarketBenchmark {
   symbol: string;
   name: string;
   price: string;
@@ -9,138 +9,84 @@ export interface TickerItem {
   isPositive: boolean;
 }
 
-// Guaranteed benchmark prices (zero CLS, instant first paint)
-export const REAL_MARKET_BENCHMARKS: TickerItem[] = [
+export const BENCHMARKS_DATA: MarketBenchmark[] = [
   { symbol: 'NIFTY 50', name: 'NSE India', price: '25,285.35', change: '+0.68%', isPositive: true },
   { symbol: 'SENSEX', name: 'BSE India', price: '82,890.10', change: '+0.54%', isPositive: true },
   { symbol: 'BANK NIFTY', name: 'NSE Banking', price: '54,340.25', change: '+0.72%', isPositive: true },
-  { symbol: 'S&P 500', name: 'US Broad Market', price: '5,864.20', change: '+0.41%', isPositive: true },
-  { symbol: 'NASDAQ 100', name: 'US Tech Benchmark', price: '20,412.50', change: '+0.88%', isPositive: true },
-  { symbol: 'GOLD (10g 24K)', name: 'Indian Bullion', price: '₹89,450', change: '+0.32%', isPositive: true },
-  { symbol: 'USD / INR', name: 'RBI Reference Rate', price: '₹87.35', change: '-0.08%', isPositive: false },
-  { symbol: '10Y G-SEC YIELD', name: 'India Sovereign Bond', price: '6.78%', change: '-0.02%', isPositive: false }
+  { symbol: 'S&P 500', name: 'US Broad', price: '5,864.20', change: '+0.41%', isPositive: true },
+  { symbol: 'NASDAQ 100', name: 'US Tech', price: '20,412.50', change: '+0.88%', isPositive: true },
+  { symbol: 'GOLD (10g)', name: '24 Karat', price: '₹89,450', change: '+0.32%', isPositive: true },
+  { symbol: 'USD/INR', name: 'RBI Reference', price: '₹87.35', change: '-0.08%', isPositive: false },
+  { symbol: '10Y G-SEC', name: 'Sovereign Bond', price: '6.78%', change: '-0.02%', isPositive: false }
 ];
 
-interface Props {
-  children?: ReactNode;
-}
-
-interface State {
-  hasError: boolean;
-}
-
-export class MarketTickerErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false
-  };
-
-  public static getDerivedStateFromError(_: Error): State {
-    return { hasError: true };
-  }
-
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.debug('Market ticker safely caught error, falling back to static benchmarks:', error, errorInfo);
-  }
-
-  public render() {
-    if (this.state.hasError) {
-      return <StaticTickerDisplay tickers={REAL_MARKET_BENCHMARKS} />;
-    }
-    return this.props.children;
-  }
-}
-
-const StaticTickerDisplay: React.FC<{ tickers: TickerItem[] }> = ({ tickers }) => (
-  <div 
-    aria-label="Live Market Benchmarks Ticker"
-    className="bg-[#050b14] border-b border-white/10 overflow-hidden whitespace-nowrap h-8 flex items-center relative z-30 select-none print-hide"
-  >
-    <div className="flex items-center shrink-0 px-3 h-full bg-[#080f1d] border-r border-white/10 z-10 font-mono text-[10px] uppercase font-bold text-cyan-400 tracking-wider">
-      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-2" />
-      <span>BENCHMARKS</span>
-    </div>
-
-    <div className="ticker-track flex items-center">
-      {[...tickers, ...tickers, ...tickers].map((item, idx) => (
-        <div 
-          key={idx} 
-          className="inline-flex items-center gap-2 px-4 text-xs border-r border-white/10 shrink-0 font-mono"
-        >
-          <span className="font-bold text-white text-[11px] tracking-tight">{item.symbol}</span>
-          <span className="text-slate-300 text-[11px] tabular-nums">{item.price}</span>
-          <span 
-            className={`inline-flex items-center gap-0.5 font-bold text-[10px] px-1.5 py-0.2 rounded tabular-nums ${
-              item.isPositive 
-                ? 'text-emerald-400 bg-emerald-950/60 border border-emerald-500/30' 
-                : 'text-rose-400 bg-rose-950/60 border border-rose-500/30'
-            }`}
-          >
-            {item.isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
-            <span>{item.change}</span>
-          </span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const MarketTickerInner: React.FC = () => {
-  const [tickers, setTickers] = useState<TickerItem[]>(REAL_MARKET_BENCHMARKS);
+export const MarketTicker: React.FC = () => {
+  const [benchmarks, setBenchmarks] = useState<MarketBenchmark[]>(BENCHMARKS_DATA);
 
   useEffect(() => {
     let isMounted = true;
 
-    const fetchLiveRates = async () => {
+    // Fetch live USD/INR exchange rate
+    const updateFx = async () => {
       try {
         const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=INR');
         if (res.ok && isMounted) {
           const data = await res.json();
           if (data?.rates?.INR) {
-            const usdInr = data.rates.INR.toFixed(2);
-            setTickers(prev => prev.map(t => 
-              t.symbol === 'USD / INR' ? { ...t, price: `₹${usdInr}` } : t
+            const inrRate = data.rates.INR.toFixed(2);
+            setBenchmarks(prev => prev.map(item => 
+              item.symbol === 'USD/INR' ? { ...item, price: `₹${inrRate}` } : item
             ));
           }
         }
       } catch {
-        // Silently preserve static baseline
+        // preserve baseline safely
       }
     };
 
-    fetchLiveRates();
-    const fetchTimer = setInterval(fetchLiveRates, 60000);
-
-    const tickInterval = setInterval(() => {
-      if (!isMounted) return;
-      setTickers(prev => prev.map(item => {
-        if (Math.random() > 0.4) return item;
-        const delta = (Math.random() - 0.49) * 0.04;
-        const currentPct = parseFloat(item.change);
-        const newPct = (currentPct + delta).toFixed(2);
-        const isPos = parseFloat(newPct) >= 0;
-        return {
-          ...item,
-          change: (isPos ? '+' : '') + newPct + '%',
-          isPositive: isPos
-        };
-      }));
-    }, 5000);
-
+    updateFx();
+    const interval = setInterval(updateFx, 120000);
     return () => {
       isMounted = false;
-      clearInterval(fetchTimer);
-      clearInterval(tickInterval);
+      clearInterval(interval);
     };
   }, []);
 
-  return <StaticTickerDisplay tickers={tickers} />;
-};
-
-export const MarketTicker: React.FC = () => {
   return (
-    <MarketTickerErrorBoundary>
-      <MarketTickerInner />
-    </MarketTickerErrorBoundary>
+    <div 
+      aria-label="Live Market Benchmarks"
+      className="bg-slate-950/80 border-b border-white/5 h-9 flex items-center overflow-hidden select-none relative z-30 backdrop-blur-md print-hide"
+    >
+      {/* Sleek Leading Tag */}
+      <div className="flex items-center gap-2 px-4 h-full bg-slate-900/90 border-r border-white/5 shrink-0 z-10 text-[11px] font-semibold text-slate-300">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <span className="hidden sm:inline text-slate-400 font-mono uppercase text-[10px] tracking-wider">Market Benchmarks</span>
+        <span className="sm:hidden text-xs">Live</span>
+      </div>
+
+      {/* Marquee Track */}
+      <div className="animate-marquee flex items-center">
+        {[...benchmarks, ...benchmarks, ...benchmarks].map((item, idx) => (
+          <div 
+            key={idx} 
+            className="inline-flex items-center gap-2 px-5 text-xs border-r border-white/5 shrink-0"
+          >
+            <span className="font-semibold text-slate-200 text-xs">{item.symbol}</span>
+            <span className="font-tabular text-slate-400 text-xs">{item.price}</span>
+            <span 
+              className={`inline-flex items-center gap-0.5 text-[11px] font-medium font-tabular px-1.5 py-0.5 rounded-md ${
+                item.isPositive 
+                  ? 'text-emerald-400 bg-emerald-500/10' 
+                  : 'text-rose-400 bg-rose-500/10'
+              }`}
+            >
+              {item.isPositive ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
+              <span>{item.change}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

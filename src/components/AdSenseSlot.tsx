@@ -21,7 +21,7 @@ export const AdSenseSlot: React.FC<AdSenseSlotProps> = ({
   format = 'auto',
   className = '',
   style = {},
-  label = 'Advertisement'
+  label = 'Sponsored'
 }) => {
   const adRef = useRef<HTMLModElement | null>(null);
   const pushedRef = useRef(false);
@@ -35,15 +35,15 @@ export const AdSenseSlot: React.FC<AdSenseSlotProps> = ({
         pushedRef.current = true;
       }
     } catch {
-      // Dev, adblocker, or sandboxed preview mode
+      // safe fallback in dev or adblock
     }
   }, []);
 
-  // Set predictable minimum heights to guarantee zero CLS (Cumulative Layout Shift)
+  // Strict min-heights preventing Cumulative Layout Shift (CLS = 0)
   const getMinHeight = () => {
     switch (format) {
       case 'leaderboard':
-        return 'min-h-[90px]';
+        return 'min-h-[90px] sm:min-h-[100px]';
       case 'rectangle':
       case 'sidebar':
         return 'min-h-[250px] sm:min-h-[280px]';
@@ -66,20 +66,20 @@ export const AdSenseSlot: React.FC<AdSenseSlotProps> = ({
   return (
     <aside
       aria-label="Sponsored Content"
-      className={`adsense-wrapper w-full max-w-5xl mx-auto my-6 sm:my-8 px-2 overflow-hidden print-hide ${className}`}
+      className={`adsense-wrapper w-full max-w-5xl mx-auto my-6 sm:my-8 overflow-hidden print-hide ${className}`}
       style={style}
     >
-      <div className="rounded-xl border border-white/5 bg-[#0a101d]/60 backdrop-blur-xs p-2 sm:p-3 relative">
-        {/* Policy-mandated clear Advertisement disclosure */}
-        <div className="flex items-center justify-between pb-1.5 px-2 text-[10px] uppercase font-mono tracking-widest text-slate-500 border-b border-white/5 mb-2 select-none">
+      <div className="rounded-2xl border border-white/5 bg-slate-900/30 backdrop-blur-md p-3 relative">
+        {/* Subtle, policy-compliant sponsor disclosure */}
+        <div className="flex items-center justify-between pb-2 px-1 text-[10px] uppercase font-semibold tracking-wider text-slate-500 border-b border-white/5 mb-2 select-none">
           <span className="flex items-center gap-1.5">
-            <span className="w-1 h-1 rounded-full bg-cyan-500/60" />
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/80" />
             <span>{label}</span>
           </span>
-          <span className="text-[9px] text-slate-600">Google AdSense · Verified Publisher</span>
+          <span className="text-[10px] text-slate-600 font-normal">Google AdSense Partner</span>
         </div>
 
-        {/* Ad Container with CLS protection */}
+        {/* Ad container with CLS barrier */}
         <div className={`flex items-center justify-center w-full ${getMinHeight()} overflow-hidden text-center`}>
           <ins
             ref={adRef}

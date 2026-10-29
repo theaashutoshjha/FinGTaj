@@ -6,26 +6,27 @@
 }
 
 /* ==========================================================================
-   FINGTAJ — INSTITUTIONAL FINTECH COMPUTATIONAL TERMINAL
-   Deep Obsidian Canvas, Cyan & Emerald Glow, Titanium Hairline Panels, Tabular Numerals
+   FINGTAJ — NEXT-GEN LUXURY FINTECH DESIGN SYSTEM
+   Linear / Stripe Inspired Luminous Obsidian, Electric Indigo, Emerald Mint
    ========================================================================== */
 
 :root {
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --bg-deep: #080d16;
-  --bg-panel: #0d1524;
-  --bg-panel-elevated: #121c2e;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(6, 182, 212, 0.35);
+  /* Premium Obsidian Spectrum */
+  --bg-canvas: #090d16;
+  --bg-surface: #0f172a;
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-card-hover: rgba(30, 41, 59, 0.85);
 
-  --cyan-primary: #06b6d4;
-  --cyan-glow: #00f5ff;
-  --emerald-gains: #10b981;
-  --amber-tax: #f59e0b;
-  --purple-wealth: #a855f7;
-  --rose-debt: #f43f5e;
+  /* Primary Luminous Accents */
+  --primary: #6366f1;
+  --primary-glow: rgba(99, 102, 241, 0.25);
+  --accent-cyan: #06b6d4;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
 }
 
 *, *::before, *::after {
@@ -36,8 +37,8 @@
 
 html {
   font-family: var(--font-sans);
-  color: #f1f5f9;
-  background-color: var(--bg-deep);
+  color: #f8fafc;
+  background-color: var(--bg-canvas);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -45,105 +46,112 @@ html {
 
 body {
   min-height: 100vh;
-  background-color: var(--bg-deep);
-  color: #f1f5f9;
+  background-color: var(--bg-canvas);
+  color: #f8fafc;
   line-height: 1.6;
   overflow-x: hidden;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 40%, rgba(6, 182, 212, 0.08), transparent);
+  background-attachment: fixed;
 }
 
-/* Container Wrapper */
+/* Container Width */
 .wrap {
   width: 100%;
-  max-width: 1420px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
-@media (max-width: 640px) {
+@media (min-width: 640px) {
   .wrap {
-    padding: 0 16px;
+    padding: 0 32px;
   }
 }
 
-/* Micro-Grid Background Pattern */
-.bg-terminal-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-.bg-radial-ambient {
-  background: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.08) 0%, transparent 65%);
-}
-
-/* Modern Titanium Terminal Panel */
-.terminal-card {
-  background: #0d1524;
+/* Modern Luxury Glassmorphic Card */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.terminal-card:hover {
-  border-color: rgba(6, 182, 212, 0.25);
-  box-shadow: 0 12px 40px -5px rgba(6, 182, 212, 0.1);
+.glass-card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.15);
   transform: translateY(-2px);
 }
 
-.terminal-card-elevated {
-  background: #121c2e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
+/* Luminous Highlight Card */
+.glass-card-glow {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px -20px rgba(99, 102, 241, 0.25);
 }
 
-/* Tabular Numerals & Monospace */
-.num-mono {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-
-/* Tactile Terminal Slider */
+/* Next-Gen Tactile Range Slider */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 6px;
+  height: 8px;
   background: #1e293b;
   border-radius: 9999px;
   outline: none;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background 0.2s ease;
+}
+
+input[type="range"]:hover {
+  background: #334155;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: #06b6d4;
-  border: 3px solid #080d16;
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.8);
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: #ffffff;
+  border: 4px solid #6366f1;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.8), 0 2px 6px rgba(0,0,0,0.4);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 18px rgba(0, 245, 255, 1);
+  transform: scale(1.15);
+  box-shadow: 0 0 24px rgba(99, 102, 241, 1), 0 4px 10px rgba(0,0,0,0.5);
+  border-color: #818cf8;
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.25);
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: #06b6d4;
-  border: 3px solid #080d16;
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.8);
-  cursor: pointer;
+  background: #ffffff;
+  border: 4px solid #6366f1;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.8);
+  cursor: grab;
+}
+
+/* Monospace numerals for currency values */
+.font-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 /* Custom Scrollbars */
@@ -153,16 +161,16 @@ input[type="range"]::-moz-range-thumb {
 }
 
 ::-webkit-scrollbar-track {
-  background: #080d16;
+  background: #090d16;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #475569;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -173,24 +181,7 @@ input[type="range"]::-moz-range-thumb {
   scrollbar-width: none;
 }
 
-/* Live Market Ticker Marquee */
-@keyframes tickerMarquee {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-33.333%, 0, 0); }
-}
-
-.ticker-track {
-  display: inline-flex;
-  white-space: nowrap;
-  animation: tickerMarquee 45s linear infinite;
-  will-change: transform;
-}
-
-.ticker-track:hover {
-  animation-play-state: paused;
-}
-
-/* Remove number input spinner arrows */
+/* Hide number spinner buttons */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -200,20 +191,33 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Smooth Marquee Track */
+@keyframes marqueeScroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-33.333%, 0, 0); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marqueeScroll 45s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 /* Print Optimization */
 @media print {
   body {
     background: #ffffff !important;
     color: #0f172a !important;
   }
-  header,
-  footer,
-  .print-hide,
-  input[type="range"],
-  button {
+  header, footer, .print-hide, input[type="range"], button {
     display: none !important;
   }
-  .terminal-card, .terminal-card-elevated {
+  .glass-card, .glass-card-glow {
     background: #ffffff !important;
     border: 1px solid #cbd5e1 !important;
     box-shadow: none !important;

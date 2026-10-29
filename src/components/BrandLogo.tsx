@@ -2,54 +2,72 @@ import React from 'react';
 
 interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg';
-  showTagline?: boolean;
+  showBadge?: boolean;
 }
 
-export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md', showTagline = false }) => {
-  const iconSizes = {
+export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md', showBadge = false }) => {
+  const iconDimensions = {
     sm: 'w-7 h-7',
     md: 'w-9 h-9',
     lg: 'w-11 h-11'
   };
 
-  const textSizes = {
+  const textStyles = {
     sm: 'text-lg',
     md: 'text-2xl',
     lg: 'text-3xl'
   };
 
   return (
-    <div className="flex items-center gap-3 group select-none">
-      {/* Precision Geometric Monogram Badge */}
+    <div className="flex items-center gap-3 group select-none cursor-pointer">
+      {/* Luxury Geometric Prism Emblem */}
       <div 
-        className={`${iconSizes[size]} shrink-0 rounded-xl bg-gradient-to-br from-[#0c1626] to-[#122038] border border-cyan-500/40 shadow-[0_0_18px_rgba(6,182,212,0.3)] flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:border-cyan-400 group-hover:shadow-[0_0_24px_rgba(0,245,255,0.5)] group-hover:scale-105`}
+        className={`${iconDimensions[size]} shrink-0 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1.5px] shadow-[0_4px_20px_rgba(99,102,241,0.35)] transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_6px_25px_rgba(99,102,241,0.55)]`}
       >
-        <div className="absolute inset-0 bg-radial-ambient opacity-50" />
-        <svg viewBox="0 0 36 36" className="w-full h-full p-1.5 relative z-10" fill="none">
-          <circle cx="18" cy="18" r="16" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="2 2" />
-          {/* Cyan T-Geometric Symbol */}
-          <path d="M8 9H28V13.5H20.5V27H15.5V13.5H8V9Z" fill="url(#cyanGrad)" />
-          {/* Emerald Growth Trendline */}
-          <path d="M10 24.5C14 26 21 24 26 15" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" />
-          <circle cx="26" cy="15" r="2.2" fill="#34d399" />
-          <defs>
-            <linearGradient id="cyanGrad" x1="8" y1="9" x2="28" y2="27" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#00f5ff" />
-              <stop offset="1" stopColor="#06b6d4" />
-            </linearGradient>
-          </defs>
-        </svg>
+        <div className="w-full h-full rounded-[10px] bg-[#090d16] flex items-center justify-center p-1.5 overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-cyan-400/20" />
+          <svg viewBox="0 0 24 24" fill="none" className="w-full h-full relative z-10">
+            {/* Architectural Diamond / Growth Vault */}
+            <path 
+              d="M12 2L21 7V17L12 22L3 17V7L12 2Z" 
+              stroke="url(#logoGrad1)" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+            />
+            {/* Precision Multiplication Core */}
+            <path 
+              d="M12 7V17M7 12H17" 
+              stroke="url(#logoGrad2)" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+            />
+            <defs>
+              <linearGradient id="logoGrad1" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#818cf8" />
+                <stop offset="1" stopColor="#06b6d4" />
+              </linearGradient>
+              <linearGradient id="logoGrad2" x1="7" y1="7" x2="17" y2="17" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#38bdf8" />
+                <stop offset="1" stopColor="#34d399" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
       </div>
 
-      {/* Brand Wordmark */}
-      <div className="flex flex-col">
-        <div className={`font-black tracking-tight leading-none ${textSizes[size]} flex items-center`}>
-          <span className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">Fing</span>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-[#06b6d4] drop-shadow-[0_0_15px_rgba(0,245,255,0.4)]">Taj</span>
-        </div>
-        {showTagline && (
-          <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase mt-0.5">
-            Statutory Financial Engine
+      {/* Brand Typography */}
+      <div className="flex items-center gap-2">
+        <span className={`font-black tracking-tight leading-none ${textStyles[size]}`}>
+          <span className="text-white">Fing</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400">
+            Taj
+          </span>
+        </span>
+
+        {showBadge && (
+          <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            PRO
           </span>
         )}
       </div>
