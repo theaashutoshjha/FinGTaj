@@ -78,39 +78,15 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-white/5 transition-all">
-        <div className="wrap flex items-center justify-between gap-4 h-18">
+      <header className="sticky top-0 z-40 bg-[#080d1a]/95 backdrop-blur-xl border-b border-white/[0.08] transition-all">
+        <div className="wrap flex items-center justify-between gap-4 h-16">
           
-          {/* Brand Logo & Subtle Security Tag */}
+          {/* Brand Logo & PRO badge */}
           <div className="flex items-center gap-3 shrink-0">
             <Link to="/" className="flex items-center transition-opacity hover:opacity-90">
               <BrandLogo size="md" showBadge={true} />
             </Link>
           </div>
-
-          {/* Clean Modern Navigation Pills */}
-          <nav className="hidden xl:flex items-center gap-1.5 bg-slate-900/70 p-1.5 rounded-full border border-white/10 shadow-inner">
-            {categories.map((cat) => {
-              const isActive = location.pathname === '/' && (
-                cat.key === 'All' ? !location.search.includes('category=') : location.search.includes(`category=${cat.key}`)
-              );
-
-              return (
-                <button
-                  key={cat.key}
-                  type="button"
-                  onClick={() => handleCategoryClick(cat.key)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                    isActive
-                      ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white shadow-[0_2px_12px_rgba(99,102,241,0.4)]'
-                      : 'text-slate-300 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  {cat.name}
-                </button>
-              );
-            })}
-          </nav>
 
           {/* Action Center: Search Command & Trust Links */}
           <div className="flex items-center gap-3 shrink-0">
@@ -118,21 +94,21 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-3 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-indigo-500/40 text-slate-300 hover:text-white transition-all text-xs cursor-pointer shadow-sm group"
+              className="flex items-center gap-3 px-3.5 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/40 text-slate-300 hover:text-white transition-all text-xs cursor-pointer shadow-sm group"
             >
               <Search size={14} className="text-slate-400 group-hover:text-indigo-400 transition-colors" />
-              <span className="hidden sm:inline font-medium">Search 50 tools...</span>
+              <span className="font-medium text-slate-400">Search 50 tools...</span>
               <kbd className="hidden sm:inline-flex px-1.5 py-0.5 rounded bg-black/40 border border-white/10 text-[10px] font-mono text-indigo-400 font-bold">
                 ⌘K
               </kbd>
             </button>
 
             {/* Trust & Legal Dropdown */}
-            <div className="relative hidden md:block">
+            <div className="relative">
               <button
                 type="button"
                 onClick={() => setLegalDropdownOpen(!legalDropdownOpen)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <span>Legal &amp; Trust</span>
                 <ChevronDown size={14} className={`transition-transform duration-200 ${legalDropdownOpen ? 'rotate-180' : ''}`} />

@@ -2,42 +2,36 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   TrendingUp, 
-  Percent, 
   Home as HomeIcon,
+  Percent, 
   Users,
-  Shield,
-  Flame,
-  Search,
-  ArrowRight,
-  Star,
+  Shield, 
+  Flame, 
+  Search, 
+  ArrowRight, 
+  Star, 
+  SlidersHorizontal,
+  FileText,
+  Clock,
   Sparkles,
-  CheckCircle2,
-  Lock,
+  PieChart,
   Calculator,
-  Compass,
   ArrowUpRight
 } from 'lucide-react';
 import { CALCULATORS_DATA, formatINR, formatINRWords } from '../data/calculatorsData';
 import { ARTICLES } from '../data/articles';
-import AdSenseSlot from '../components/AdSenseSlot';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>(() => {
-    if (typeof window !== 'undefined') {
-      const p = new URLSearchParams(window.location.search);
-      return p.get('category') || 'All';
-    }
-    return 'All';
-  });
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  // LocalStorage Pinned Favorites
+  // Favorites state
   const [favorites, setFavorites] = useState<string[]>(() => {
     try {
       const stored = localStorage.getItem('fingtaj_favorites');
-      return stored ? JSON.parse(stored) : ['sip-calculator', 'home-loan-emi-calculator', 'income-tax-calculator'];
+      return stored ? JSON.parse(stored) : ['home-loan-emi-calculator', 'sip-calculator', 'income-tax-calculator'];
     } catch {
-      return ['sip-calculator', 'home-loan-emi-calculator', 'income-tax-calculator'];
+      return ['home-loan-emi-calculator', 'sip-calculator', 'income-tax-calculator'];
     }
   });
 
@@ -48,38 +42,18 @@ export default function Home() {
       const next = prev.includes(slug) ? prev.filter(s => s !== slug) : [...prev, slug];
       try {
         localStorage.setItem('fingtaj_favorites', JSON.stringify(next));
-      } catch {
-        // safe fallback
-      }
+      } catch {}
       return next;
     });
   };
 
-  // Sync category filter events from Navbar
-  useEffect(() => {
-    const handleCategoryEvent = (e: any) => {
-      if (e.detail?.category) {
-        setSelectedCategory(e.detail.category);
-      }
-    };
-    window.addEventListener('fingtaj:filterCategory', handleCategoryEvent);
-    return () => window.removeEventListener('fingtaj:filterCategory', handleCategoryEvent);
-  }, []);
-
   // SEO synchronization
   useEffect(() => {
-    document.title = 'FingTaj — 50 High-Precision Financial & Statutory Calculators for India';
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute(
-        'content',
-        'India’s most advanced financial calculators. Compute SIP wealth, Home Loan EMIs, Income Tax (Section 115BAC), Gratuity, and Retirement with zero telemetry in local RAM.'
-      );
-    }
+    document.title = 'FingTaj — 50 Statutory & Financial Calculators for India';
   }, []);
 
-  // Interactive Live Studio State
-  type EngineType = 'sip' | 'loan' | 'tax' | 'gratuity' | 'ppf' | 'fire';
+  // Simulator state
+  type EngineType = 'sip' | 'loan' | 'tax' | 'gratuity';
   const [activeEngine, setActiveEngine] = useState<EngineType>('sip');
 
   // SIP inputs
@@ -88,33 +62,25 @@ export default function Home() {
   const [sipReturn, setSipReturn] = useState(12);
 
   // Loan inputs
-  const [loanPrincipal, setLoanPrincipal] = useState(5000000); // 50 Lakhs
+  const [loanPrincipal, setLoanPrincipal] = useState(5000000);
   const [loanRate, setLoanRate] = useState(8.5);
   const [loanTenure, setLoanTenure] = useState(20);
 
   // Tax inputs
-  const [taxSalary, setTaxSalary] = useState(1800000); // 18 Lakhs
+  const [taxSalary, setTaxSalary] = useState(1800000);
 
   // Gratuity inputs
   const [gratuityBasic, setGratuityBasic] = useState(75000);
   const [gratuityYears, setGratuityYears] = useState(12);
 
-  // PPF inputs
-  const [ppfAnnual, setPpfAnnual] = useState(150000);
-  const [ppfYears, setPpfYears] = useState(15);
-
-  // FIRE inputs
-  const [fireMonthlyExpense, setFireMonthlyExpense] = useState(80000);
-
-  // Engine Calculations
+  // Calculations
   const sipOutcome = useMemo(() => {
     const r = (sipReturn / 100) / 12;
     const n = sipYears * 12;
     const invested = sipAmount * n;
     const total = Math.round(sipAmount * ((Math.pow(1 + r, n) - 1) / r) * (1 + r));
     const gains = total - invested;
-    const wealthMultiple = invested > 0 ? (total / invested).toFixed(2) : '1.0';
-    return { invested, total, gains, wealthMultiple };
+    return { invested, total, gains };
   }, [sipAmount, sipYears, sipReturn]);
 
   const loanOutcome = useMemo(() => {
@@ -136,37 +102,15 @@ export default function Home() {
     else if (taxable <= 1200000) tax = 50000 + (taxable - 1000000) * 0.15;
     else if (taxable <= 1500000) tax = 80000 + (taxable - 1200000) * 0.20;
     else tax = 140000 + (taxable - 1500000) * 0.30;
-
     if (taxable <= 700000) tax = 0;
     const cess = Math.round(tax * 0.04);
-    const totalTax = tax + cess;
-    return { totalTax, taxable };
+    return { totalTax: tax + cess, taxable };
   }, [taxSalary]);
 
   const gratuityOutcome = useMemo(() => {
     const raw = Math.round((gratuityBasic * 15 * gratuityYears) / 26);
-    const payable = Math.min(2000000, raw);
-    return { payable, raw };
+    return { payable: Math.min(2000000, raw), raw };
   }, [gratuityBasic, gratuityYears]);
-
-  const ppfOutcome = useMemo(() => {
-    const rate = 0.071;
-    let balance = 0;
-    let invested = 0;
-    for (let y = 1; y <= ppfYears; y++) {
-      invested += ppfAnnual;
-      balance = (balance + ppfAnnual) * (1 + rate);
-    }
-    const total = Math.round(balance);
-    const interest = total - invested;
-    return { total, invested, interest };
-  }, [ppfAnnual, ppfYears]);
-
-  const fireOutcome = useMemo(() => {
-    const annualExpense = fireMonthlyExpense * 12;
-    const corpusNeeded = annualExpense * 25; // 4% rule
-    return { corpusNeeded, annualExpense };
-  }, [fireMonthlyExpense]);
 
   // Catalog Filtering
   const filteredTools = useMemo(() => {
@@ -176,598 +120,439 @@ export default function Home() {
       const matchesQuery = !q || 
         tool.title.toLowerCase().includes(q) || 
         tool.shortDesc.toLowerCase().includes(q) || 
-        tool.statute.toLowerCase().includes(q) ||
-        tool.categoryLabel.toLowerCase().includes(q);
+        tool.statute.toLowerCase().includes(q);
       return matchesCategory && matchesQuery;
     });
   }, [selectedCategory, searchQuery]);
 
+  // Color helper for badges
+  const getBadgeStyle = (category: string) => {
+    switch (category) {
+      case 'Loans':
+        return 'bg-sky-500/15 text-sky-400 border-sky-500/30';
+      case 'Investing':
+        return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30';
+      case 'Tax':
+        return 'bg-pink-500/15 text-pink-400 border-pink-500/30';
+      case 'Retirement':
+        return 'bg-amber-500/15 text-amber-400 border-amber-500/30';
+      default:
+        return 'bg-purple-500/15 text-purple-400 border-purple-500/30';
+    }
+  };
+
   return (
-    <div className="min-h-screen text-slate-100 pb-20">
+    <div className="min-h-screen text-slate-100 pb-16">
       
-      {/* 1. HERO & INTERACTIVE FINANCIAL WORKBENCH */}
-      <section className="relative pt-12 pb-16 lg:pt-16 lg:pb-24 border-b border-white/5 overflow-hidden">
-        <div className="wrap relative z-10">
-          
-          {/* Header Copy */}
-          <div className="max-w-3xl mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-4">
-              <Sparkles size={13} />
-              <span>50 Statutory Calculators · FY 2026–27 Calibrated</span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.1] mb-5">
-              Precision Financial Modeling,{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400">
-                Zero Compromise.
-              </span>
-            </h1>
+      {/* 1. HERO TITLE & QUICK LAUNCH BAR */}
+      <section className="wrap pt-12 pb-8 text-center">
+        <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-3">
+          Precision Financial Modeling, Zero Compromise.
+        </h1>
+        <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mb-6">
+          Client-side privacy for institutional precision and statutory financial calculation.
+        </p>
 
-            <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
-              Calculate SIP wealth creation, reducing-balance home loan EMIs, Income Tax Section 115BAC, and superannuation with 100% private, client-side memory execution.
-            </p>
-          </div>
-
-          {/* Interactive Calculator Studio Card */}
-          <div className="glass-card-glow p-6 sm:p-10 relative overflow-hidden">
-            
-            {/* Engine Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-6 border-b border-white/10 mb-8">
-              {[
-                { id: 'sip', name: 'SIP Wealth', icon: TrendingUp },
-                { id: 'loan', name: 'Home Loan EMI', icon: HomeIcon },
-                { id: 'tax', name: 'Income Tax 115BAC', icon: Percent },
-                { id: 'gratuity', name: 'Gratuity (1972)', icon: Users },
-                { id: 'ppf', name: 'PPF 15-Yr', icon: Shield },
-                { id: 'fire', name: 'FIRE Corpus', icon: Flame },
-              ].map(engine => {
-                const Icon = engine.icon;
-                const isSelected = activeEngine === engine.id;
-
-                return (
-                  <button
-                    key={engine.id}
-                    type="button"
-                    onClick={() => setActiveEngine(engine.id as EngineType)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap cursor-pointer ${
-                      isSelected
-                        ? 'bg-indigo-600 text-white shadow-[0_4px_16px_rgba(99,102,241,0.4)] scale-102'
-                        : 'bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white'
-                    }`}
-                  >
-                    <Icon size={15} />
-                    <span>{engine.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Studio Workspace: Left Controls, Right Outcome Card */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              
-              {/* Controls Column (7 Cols) */}
-              <div className="lg:col-span-7 space-y-6">
-                
-                {/* SIP ENGINE */}
-                {activeEngine === 'sip' && (
-                  <>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Monthly Investment</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {formatINR(sipAmount)} <span className="text-slate-400 text-xs">({formatINRWords(sipAmount)})</span>
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={1000}
-                        max={100000}
-                        step={1000}
-                        value={sipAmount}
-                        onChange={(e) => setSipAmount(Number(e.target.value))}
-                      />
-                      <div className="flex gap-2 pt-1">
-                        {[5000, 10000, 25000, 50000].map(val => (
-                          <button
-                            key={val}
-                            type="button"
-                            onClick={() => setSipAmount(val)}
-                            className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 transition-colors cursor-pointer"
-                          >
-                            ₹{val / 1000}k
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Investment Horizon</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {sipYears} Years
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={1}
-                        max={35}
-                        step={1}
-                        value={sipYears}
-                        onChange={(e) => setSipYears(Number(e.target.value))}
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Expected Annual Return</span>
-                        <span className="font-tabular text-sm font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20">
-                          {sipReturn}% p.a.
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={6}
-                        max={24}
-                        step={0.5}
-                        value={sipReturn}
-                        onChange={(e) => setSipReturn(Number(e.target.value))}
-                      />
-                    </div>
-                  </>
-                )}
-
-                {/* HOME LOAN ENGINE */}
-                {activeEngine === 'loan' && (
-                  <>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Loan Principal</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {formatINR(loanPrincipal)}
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={500000}
-                        max={20000000}
-                        step={100000}
-                        value={loanPrincipal}
-                        onChange={(e) => setLoanPrincipal(Number(e.target.value))}
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Interest Rate</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {loanRate}% p.a.
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={6.5}
-                        max={16}
-                        step={0.1}
-                        value={loanRate}
-                        onChange={(e) => setLoanRate(Number(e.target.value))}
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Tenure</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {loanTenure} Years
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={1}
-                        max={30}
-                        step={1}
-                        value={loanTenure}
-                        onChange={(e) => setLoanTenure(Number(e.target.value))}
-                      />
-                    </div>
-                  </>
-                )}
-
-                {/* TAX ENGINE */}
-                {activeEngine === 'tax' && (
-                  <>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Gross Annual Salary (CTC)</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {formatINR(taxSalary)}
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={300000}
-                        max={10000000}
-                        step={50000}
-                        value={taxSalary}
-                        onChange={(e) => setTaxSalary(Number(e.target.value))}
-                      />
-                    </div>
-                    <div className="p-3.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-200">
-                      Standard deduction of ₹75,000 and Section 87A rebate factored automatically per Union Budget 2024 revised slabs.
-                    </div>
-                  </>
-                )}
-
-                {/* GRATUITY ENGINE */}
-                {activeEngine === 'gratuity' && (
-                  <>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Last Drawn Basic + DA</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {formatINR(gratuityBasic)}
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={10000}
-                        max={500000}
-                        step={5000}
-                        value={gratuityBasic}
-                        onChange={(e) => setGratuityBasic(Number(e.target.value))}
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Completed Service Years</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {gratuityYears} Years
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={5}
-                        max={40}
-                        step={1}
-                        value={gratuityYears}
-                        onChange={(e) => setGratuityYears(Number(e.target.value))}
-                      />
-                    </div>
-                  </>
-                )}
-
-                {/* PPF ENGINE */}
-                {activeEngine === 'ppf' && (
-                  <>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Annual Contribution</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {formatINR(ppfAnnual)}
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={500}
-                        max={150000}
-                        step={5000}
-                        value={ppfAnnual}
-                        onChange={(e) => setPpfAnnual(Number(e.target.value))}
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Duration</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {ppfYears} Years
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={15}
-                        max={30}
-                        step={5}
-                        value={ppfYears}
-                        onChange={(e) => setPpfYears(Number(e.target.value))}
-                      />
-                    </div>
-                  </>
-                )}
-
-                {/* FIRE ENGINE */}
-                {activeEngine === 'fire' && (
-                  <>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-slate-300">Current Monthly Living Expenses</span>
-                        <span className="font-tabular text-sm font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                          {formatINR(fireMonthlyExpense)}
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={20000}
-                        max={500000}
-                        step={5000}
-                        value={fireMonthlyExpense}
-                        onChange={(e) => setFireMonthlyExpense(Number(e.target.value))}
-                      />
-                    </div>
-                  </>
-                )}
-
-              </div>
-
-              {/* Outcome Console (5 Cols) */}
-              <div className="lg:col-span-5">
-                <div className="rounded-2xl bg-slate-900/90 border border-white/10 p-6 sm:p-7 space-y-6 shadow-xl">
-                  
-                  {/* Primary Output Display */}
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                      {activeEngine === 'sip' ? 'Estimated Total Wealth' :
-                       activeEngine === 'loan' ? 'Monthly Equated Installment (EMI)' :
-                       activeEngine === 'tax' ? 'Total Annual Tax Liability' :
-                       activeEngine === 'gratuity' ? 'Eligible Gratuity Amount' :
-                       activeEngine === 'ppf' ? 'Maturity Corpus (100% Tax Free)' :
-                       'Target Financial Independence Corpus'}
-                    </div>
-
-                    <div className="text-3xl sm:text-4xl font-black font-tabular text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 tracking-tight">
-                      {activeEngine === 'sip' ? formatINR(sipOutcome.total) :
-                       activeEngine === 'loan' ? formatINR(loanOutcome.emi) :
-                       activeEngine === 'tax' ? formatINR(taxOutcome.totalTax) :
-                       activeEngine === 'gratuity' ? formatINR(gratuityOutcome.payable) :
-                       activeEngine === 'ppf' ? formatINR(ppfOutcome.total) :
-                       formatINR(fireOutcome.corpusNeeded)}
-                    </div>
-                  </div>
-
-                  {/* Secondary Metrics Grid */}
-                  <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/10">
-                    {activeEngine === 'sip' && (
-                      <>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Capital Outlay</span>
-                          <span className="font-tabular font-bold text-sm text-slate-200">{formatINR(sipOutcome.invested)}</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                          <span className="text-[11px] text-emerald-300 block mb-0.5">Estimated Wealth Gain</span>
-                          <span className="font-tabular font-bold text-sm text-emerald-400">+{formatINR(sipOutcome.gains)}</span>
-                        </div>
-                      </>
-                    )}
-
-                    {activeEngine === 'loan' && (
-                      <>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Total Interest</span>
-                          <span className="font-tabular font-bold text-sm text-amber-400">{formatINR(loanOutcome.totalInterest)}</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Total Repayment</span>
-                          <span className="font-tabular font-bold text-sm text-slate-200">{formatINR(loanOutcome.totalPayable)}</span>
-                        </div>
-                      </>
-                    )}
-
-                    {activeEngine === 'tax' && (
-                      <>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Standard Deduction</span>
-                          <span className="font-tabular font-bold text-sm text-emerald-400">₹75,000</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Taxable Salary</span>
-                          <span className="font-tabular font-bold text-sm text-slate-200">{formatINR(taxOutcome.taxable)}</span>
-                        </div>
-                      </>
-                    )}
-
-                    {activeEngine === 'gratuity' && (
-                      <>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Statutory Formula</span>
-                          <span className="font-mono text-xs text-indigo-300 font-bold">(15 × B × Y) / 26</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                          <span className="text-[11px] text-emerald-300 block mb-0.5">Tax Exemption</span>
-                          <span className="text-xs font-bold text-emerald-400">Section 10(10)</span>
-                        </div>
-                      </>
-                    )}
-
-                    {activeEngine === 'ppf' && (
-                      <>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Sovereign Interest Rate</span>
-                          <span className="font-tabular font-bold text-sm text-indigo-300">7.1% p.a.</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                          <span className="text-[11px] text-emerald-300 block mb-0.5">Tax Status</span>
-                          <span className="text-xs font-bold text-emerald-400">EEE (100% Tax Free)</span>
-                        </div>
-                      </>
-                    )}
-
-                    {activeEngine === 'fire' && (
-                      <>
-                        <div className="p-3 rounded-xl bg-white/5">
-                          <span className="text-[11px] text-slate-400 block mb-0.5">Annual Living Cost</span>
-                          <span className="font-tabular font-bold text-sm text-slate-200">{formatINR(fireOutcome.annualExpense)}</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-                          <span className="text-[11px] text-indigo-300 block mb-0.5">Safe Withdrawal</span>
-                          <span className="font-tabular font-bold text-sm text-indigo-400">4.0% Rule</span>
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Visual Growth / Amortization Curve Preview */}
-                  <div className="pt-2">
-                    <div className="flex justify-between items-center text-[11px] text-slate-400 mb-2">
-                      <span>Live Simulation Trajectory</span>
-                      <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        Real-Time
-                      </span>
-                    </div>
-
-                    {/* Dynamic SVG Visual Curve */}
-                    <div className="h-28 w-full bg-slate-950/60 rounded-xl p-3 border border-white/5 relative overflow-hidden flex flex-col justify-end">
-                      <svg className="w-full h-20 overflow-visible" viewBox="0 0 300 80" preserveAspectRatio="none">
-                        <defs>
-                          <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.5" />
-                            <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
-                          </linearGradient>
-                        </defs>
-                        {activeEngine === 'sip' && (
-                          <>
-                            <path
-                              d="M 0 75 Q 120 70, 200 45 T 300 10 L 300 80 L 0 80 Z"
-                              fill="url(#curveGradient)"
-                            />
-                            <path
-                              d="M 0 75 Q 120 70, 200 45 T 300 10"
-                              fill="none"
-                              stroke="#6366f1"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                            />
-                            <circle cx="300" cy="10" r="4" fill="#10b981" className="animate-ping opacity-75" />
-                            <circle cx="300" cy="10" r="4" fill="#ffffff" />
-                          </>
-                        )}
-                        {activeEngine === 'loan' && (
-                          <>
-                            <path
-                              d="M 0 15 Q 100 45, 200 65 T 300 78 L 300 80 L 0 80 Z"
-                              fill="url(#curveGradient)"
-                            />
-                            <path
-                              d="M 0 15 Q 100 45, 200 65 T 300 78"
-                              fill="none"
-                              stroke="#f59e0b"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                            />
-                            <circle cx="300" cy="78" r="4" fill="#10b981" />
-                          </>
-                        )}
-                        {(activeEngine === 'tax' || activeEngine === 'gratuity' || activeEngine === 'ppf' || activeEngine === 'fire') && (
-                          <>
-                            <path
-                              d="M 0 70 C 80 65, 180 30, 300 15 L 300 80 L 0 80 Z"
-                              fill="url(#curveGradient)"
-                            />
-                            <path
-                              d="M 0 70 C 80 65, 180 30, 300 15"
-                              fill="none"
-                              stroke="#10b981"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                            />
-                            <circle cx="300" cy="15" r="4" fill="#ffffff" />
-                          </>
-                        )}
-                      </svg>
-                      <div className="flex justify-between items-center text-[10px] text-slate-500 font-mono pt-1">
-                        <span>Year 1</span>
-                        <span>Midpoint</span>
-                        <span>Maturity</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Launch Detailed Calculator CTA */}
-                  <Link
-                    to={
-                      activeEngine === 'sip' ? `/sip-calculator?monthlyInvestment=${sipAmount}&years=${sipYears}&expectedReturn=${sipReturn}` :
-                      activeEngine === 'loan' ? `/home-loan-emi-calculator?loanAmount=${loanPrincipal}&interestRate=${loanRate}&tenureYears=${loanTenure}` :
-                      activeEngine === 'tax' ? `/income-tax-calculator?grossIncome=${taxSalary}` :
-                      activeEngine === 'gratuity' ? `/gratuity-calculator?basicSalary=${gratuityBasic}&tenureYears=${gratuityYears}` :
-                      activeEngine === 'ppf' ? `/ppf-calculator` :
-                      `/fire-calculator`
-                    }
-                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-sm transition-all shadow-[0_4px_20px_rgba(99,102,241,0.35)] cursor-pointer"
-                  >
-                    <span>Launch Full {activeEngine.toUpperCase()} Studio</span>
-                    <ArrowRight size={16} />
-                  </Link>
-
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
+        {/* Quick-Launch Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 text-xs">
+          <span className="text-slate-400 font-semibold mr-1">Quick-Launch</span>
+          {[
+            { id: 'sip', name: 'SIP Wealth' },
+            { id: 'loan', name: 'Home Loan EMI' },
+            { id: 'tax', name: 'Income Tax 115BAC' },
+            { id: 'gratuity', name: 'Gratuity (1972)' },
+          ].map(item => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setActiveEngine(item.id as EngineType)}
+              className={`px-3.5 py-1.5 rounded-full border transition-all cursor-pointer font-medium ${
+                activeEngine === item.id
+                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-[0_2px_12px_rgba(99,102,241,0.5)]'
+                  : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 border-white/10'
+              }`}
+            >
+              {item.name}
+            </button>
+          ))}
         </div>
       </section>
 
-      {/* 2. AD PLACEMENT: LEADERBOARD SPONSOR */}
-      <div className="wrap my-8">
-        <AdSenseSlot slotId="home-leaderboard" format="leaderboard" label="Sponsored · Verified Tools" />
-      </div>
+      {/* 2. INTERACTIVE SIMULATOR CARD */}
+      <section className="wrap mb-14">
+        <div className="rounded-2xl bg-[#0c1222] border border-slate-800/80 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left Column: 3 Input Columns side-by-side */}
+            <div className="lg:col-span-8 space-y-6">
+              <h2 className="text-lg font-bold text-white tracking-tight">
+                {activeEngine === 'sip' && 'Interactive SIP Simulator'}
+                {activeEngine === 'loan' && 'Interactive Home Loan EMI Simulator'}
+                {activeEngine === 'tax' && 'Interactive Section 115BAC Tax Simulator'}
+                {activeEngine === 'gratuity' && 'Interactive Gratuity Simulator'}
+              </h2>
 
-      {/* 3. PINNED QUICK ACCESS (IF ANY PINNED) */}
-      {favorites.length > 0 && (
-        <section className="wrap mb-12">
-          <div className="flex items-center gap-2 mb-4 text-xs font-semibold uppercase tracking-wider text-slate-400">
-            <Star size={14} className="text-amber-400 fill-amber-400" />
-            <span>Your Pinned Calculators</span>
-          </div>
-          <div className="flex flex-wrap gap-2.5">
-            {CALCULATORS_DATA.filter(c => favorites.includes(c.slug)).map(tool => (
-              <Link
-                key={tool.id}
-                to={`/${tool.slug}`}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-indigo-500/10 border border-white/5 hover:border-indigo-500/30 text-xs font-medium text-slate-200 hover:text-white transition-all"
-              >
-                <span>{tool.title}</span>
-                <ArrowUpRight size={13} className="text-slate-400" />
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+              {/* SIP ENGINE 3 COLUMNS */}
+              {activeEngine === 'sip' && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  {/* Col 1: Monthly Investment */}
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Monthly Investment</span>
+                    <div className="text-xl font-bold font-tabular text-white">{formatINR(sipAmount)}</div>
+                    <input
+                      type="range"
+                      min={1000}
+                      max={100000}
+                      step={1000}
+                      value={sipAmount}
+                      onChange={(e) => setSipAmount(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                    <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+                      <span>₹1k</span>
+                      <span>₹100k</span>
+                    </div>
+                  </div>
 
-      {/* 4. THE 50 CALCULATORS DIRECTORY MATRIX */}
-      <section className="wrap pt-6" id="catalog-matrix">
-        
-        {/* Section Header */}
-        <div className="pb-5 mb-6 border-b border-white/5 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-1">
-              Complete Computational Catalog
+                  {/* Col 2: Horizon */}
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Investment Horizon</span>
+                    <div className="text-xl font-bold font-tabular text-white">{sipYears} Years</div>
+                    <input
+                      type="range"
+                      min={1}
+                      max={35}
+                      step={1}
+                      value={sipYears}
+                      onChange={(e) => setSipYears(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                    <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+                      <span>1 Yr</span>
+                      <span>35 Yrs</span>
+                    </div>
+                  </div>
+
+                  {/* Col 3: Return */}
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Expected Annual Return</span>
+                    <div className="text-xl font-bold font-tabular text-white">{sipReturn}% p.a.</div>
+                    <input
+                      type="range"
+                      min={6}
+                      max={24}
+                      step={0.5}
+                      value={sipReturn}
+                      onChange={(e) => setSipReturn(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                    <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+                      <span>6%</span>
+                      <span>24%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* LOAN ENGINE 3 COLUMNS */}
+              {activeEngine === 'loan' && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Loan Principal</span>
+                    <div className="text-xl font-bold font-tabular text-white">{formatINR(loanPrincipal)}</div>
+                    <input
+                      type="range"
+                      min={500000}
+                      max={20000000}
+                      step={100000}
+                      value={loanPrincipal}
+                      onChange={(e) => setLoanPrincipal(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                    <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+                      <span>₹5L</span>
+                      <span>₹2Cr</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Interest Rate</span>
+                    <div className="text-xl font-bold font-tabular text-white">{loanRate}% p.a.</div>
+                    <input
+                      type="range"
+                      min={6.5}
+                      max={15}
+                      step={0.1}
+                      value={loanRate}
+                      onChange={(e) => setLoanRate(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                    <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+                      <span>6.5%</span>
+                      <span>15%</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Tenure</span>
+                    <div className="text-xl font-bold font-tabular text-white">{loanTenure} Years</div>
+                    <input
+                      type="range"
+                      min={1}
+                      max={30}
+                      step={1}
+                      value={loanTenure}
+                      onChange={(e) => setLoanTenure(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                    <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+                      <span>1 Yr</span>
+                      <span>30 Yrs</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAX ENGINE */}
+              {activeEngine === 'tax' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Annual Gross CTC</span>
+                    <div className="text-xl font-bold font-tabular text-white">{formatINR(taxSalary)}</div>
+                    <input
+                      type="range"
+                      min={300000}
+                      max={10000000}
+                      step={50000}
+                      value={taxSalary}
+                      onChange={(e) => setTaxSalary(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                  </div>
+                  <div className="p-4 rounded-xl bg-slate-900 border border-white/5 flex flex-col justify-center text-xs text-slate-400">
+                    <span className="text-indigo-400 font-bold mb-1">Union Budget 2024 Slabs</span>
+                    Standard deduction of ₹75,000 factored in. Nil tax up to ₹7,75,000 taxable salary.
+                  </div>
+                </div>
+              )}
+
+              {/* GRATUITY ENGINE */}
+              {activeEngine === 'gratuity' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Last Drawn Basic + DA</span>
+                    <div className="text-xl font-bold font-tabular text-white">{formatINR(gratuityBasic)}</div>
+                    <input
+                      type="range"
+                      min={10000}
+                      max={500000}
+                      step={5000}
+                      value={gratuityBasic}
+                      onChange={(e) => setGratuityBasic(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <span className="text-xs text-slate-400 font-medium block">Service Completed</span>
+                    <div className="text-xl font-bold font-tabular text-white">{gratuityYears} Years</div>
+                    <input
+                      type="range"
+                      min={5}
+                      max={40}
+                      step={1}
+                      value={gratuityYears}
+                      onChange={(e) => setGratuityYears(Number(e.target.value))}
+                      className="w-full accent-indigo-500"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              {selectedCategory === 'All' ? 'All 50 Statutory Engines' : `${selectedCategory} Suite`}
-              <span className="text-slate-500 text-sm font-normal ml-3">
-                ({filteredTools.length} Available)
-              </span>
-            </h2>
+
+            {/* Right Column: Result Card matching Reference Image */}
+            <div className="lg:col-span-4">
+              <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-emerald-950/20 p-5 relative overflow-hidden flex flex-col justify-between shadow-xl">
+                
+                {/* Header metrics */}
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    {activeEngine === 'sip' && 'ESTIMATED TOTAL WEALTH'}
+                    {activeEngine === 'loan' && 'MONTHLY EQUATED EMI'}
+                    {activeEngine === 'tax' && 'TOTAL TAX LIABILITY'}
+                    {activeEngine === 'gratuity' && 'ELIGIBLE GRATUITY'}
+                  </span>
+                  {activeEngine === 'sip' && (
+                    <div className="text-right">
+                      <span className="text-[10px] text-slate-400 block">Est. Wealth Gain</span>
+                      <span className="text-xs font-bold text-emerald-400">+{formatINR(sipOutcome.gains)}</span>
+                    </div>
+                  )}
+                  {activeEngine === 'loan' && (
+                    <div className="text-right">
+                      <span className="text-[10px] text-slate-400 block">Total Interest</span>
+                      <span className="text-xs font-bold text-amber-400">{formatINR(loanOutcome.totalInterest)}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Main Large Display Number */}
+                <div className="text-3xl sm:text-4xl font-black font-tabular text-emerald-400 mb-1">
+                  {activeEngine === 'sip' && formatINR(sipOutcome.total)}
+                  {activeEngine === 'loan' && formatINR(loanOutcome.emi)}
+                  {activeEngine === 'tax' && formatINR(taxOutcome.totalTax)}
+                  {activeEngine === 'gratuity' && formatINR(gratuityOutcome.payable)}
+                </div>
+
+                {/* Sub-label */}
+                <div className="text-xs text-slate-400 mb-3">
+                  {activeEngine === 'sip' && `Capital Outlay: ${formatINR(sipOutcome.invested)}`}
+                  {activeEngine === 'loan' && `Total Repayment: ${formatINR(loanOutcome.totalPayable)}`}
+                  {activeEngine === 'tax' && `Taxable Salary: ${formatINR(taxOutcome.taxable)}`}
+                  {activeEngine === 'gratuity' && `Statutory formula: (15 × B × Y) / 26`}
+                </div>
+
+                {/* SVG Upward Curved Chart (Visual matches reference image) */}
+                <div className="w-full h-24 relative overflow-hidden flex items-end">
+                  <svg className="w-full h-20 overflow-visible" viewBox="0 0 300 70" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="glowArea" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#6366f1" stopOpacity="0.0" />
+                      </linearGradient>
+                      <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#38bdf8" />
+                        <stop offset="50%" stopColor="#818cf8" />
+                        <stop offset="100%" stopColor="#34d399" />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      d="M 0 65 Q 140 60, 220 35 T 300 8 L 300 70 L 0 70 Z"
+                      fill="url(#glowArea)"
+                    />
+                    <path
+                      d="M 0 65 Q 140 60, 220 35 T 300 8"
+                      fill="none"
+                      stroke="url(#lineGrad)"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="300" cy="8" r="4" fill="#34d399" />
+                  </svg>
+                </div>
+
+                {/* Launch full calculator button */}
+                <Link
+                  to={
+                    activeEngine === 'sip' ? `/sip-calculator?monthlyInvestment=${sipAmount}&years=${sipYears}&expectedReturn=${sipReturn}` :
+                    activeEngine === 'loan' ? `/home-loan-emi-calculator?loanAmount=${loanPrincipal}&interestRate=${loanRate}&tenureYears=${loanTenure}` :
+                    activeEngine === 'tax' ? `/income-tax-calculator?grossIncome=${taxSalary}` :
+                    `/gratuity-calculator?basicSalary=${gratuityBasic}&tenureYears=${gratuityYears}`
+                  }
+                  className="mt-3 w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold text-center text-slate-200 hover:text-white transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <span>Open Full Calculation Model</span>
+                  <ArrowRight size={13} />
+                </Link>
+
+              </div>
+            </div>
+
           </div>
         </div>
+      </section>
 
-        {/* Filter & Search Bar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
-          {/* Search Input */}
-          <div className="relative w-full lg:w-80">
-            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name, statute or formula..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 transition-colors shadow-inner"
-            />
-          </div>
+      {/* 3. YOUR PINNED CALCULATORS SECTION */}
+      <section className="wrap mb-14">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+          YOUR PINNED CALCULATORS
+        </h3>
 
-          {/* Filter Category Pills */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Card 1: Home Loan */}
+          <Link
+            to="/home-loan-emi-calculator"
+            className="rounded-2xl border border-amber-500/30 bg-[#0f172a]/70 hover:border-amber-400/60 transition-all p-5 flex items-center justify-between group shadow-lg"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+                <HomeIcon size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">
+                  Home Loan EMI &amp; Tax Benefit Calculator
+                </h4>
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-2 shrink-0">
+              <Star size={16} className="text-amber-400 fill-amber-400" />
+              <span className="text-xs font-semibold text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span>Calculate</span>
+                <ArrowRight size={12} />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 2: SIP Compounding */}
+          <Link
+            to="/sip-calculator"
+            className="rounded-2xl border border-amber-500/30 bg-[#0f172a]/70 hover:border-amber-400/60 transition-all p-5 flex items-center justify-between group shadow-lg"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+                <PieChart size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">
+                  SIP Compounding Calculator
+                </h4>
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-2 shrink-0">
+              <Star size={16} className="text-amber-400 fill-amber-400" />
+              <span className="text-xs font-semibold text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span>Calculate</span>
+                <ArrowRight size={12} />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 3: Income Tax */}
+          <Link
+            to="/income-tax-calculator"
+            className="rounded-2xl border border-amber-500/30 bg-[#0f172a]/70 hover:border-amber-400/60 transition-all p-5 flex items-center justify-between group shadow-lg"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+                <FileText size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">
+                  Income Tax Calculator (Old vs New Regime)
+                </h4>
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-2 shrink-0">
+              <Star size={16} className="text-amber-400 fill-amber-400" />
+              <span className="text-xs font-semibold text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span>Calculate</span>
+                <ArrowRight size={12} />
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* 4. ALL 50 STATUTORY ENGINES (5-COLUMN GRID) */}
+      <section className="wrap mb-16" id="catalog-matrix">
+        
+        {/* Title */}
+        <h3 className="text-2xl font-black text-white tracking-tight mb-4">
+          All 50 Statutory Engines
+        </h3>
+
+        {/* Filter Bar & Search */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          {/* Filter Pills */}
           <div className="flex flex-wrap items-center gap-2">
             {[
               { label: 'All', key: 'All' },
@@ -781,20 +566,33 @@ export default function Home() {
                 key={cat.key}
                 type="button"
                 onClick={() => setSelectedCategory(cat.key)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   selectedCategory === cat.key
-                    ? 'bg-indigo-600 text-white shadow-[0_2px_10px_rgba(99,102,241,0.4)]'
-                    : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 border border-white/5'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'bg-slate-900/90 text-slate-300 hover:text-white border border-white/10'
                 }`}
               >
                 {cat.label}
               </button>
             ))}
           </div>
+
+          {/* Search Input with Filter Icon */}
+          <div className="relative w-full sm:w-72">
+            <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search & Filter..."
+              className="w-full pl-9 pr-8 py-2 rounded-xl bg-slate-900/90 border border-white/10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+            />
+            <SlidersHorizontal size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+          </div>
         </div>
 
-        {/* Calculator Cards Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* 5-Column Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {filteredTools.map(tool => {
             const isFav = favorites.includes(tool.slug);
 
@@ -802,42 +600,45 @@ export default function Home() {
               <Link
                 key={tool.id}
                 to={`/${tool.slug}`}
-                className="glass-card p-6 flex flex-col justify-between group"
+                className="rounded-xl bg-[#0b1120] border border-slate-800 hover:border-indigo-500/40 p-4 flex flex-col justify-between transition-all group shadow-sm hover:shadow-indigo-500/5 hover:-translate-y-0.5"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                  {/* Top Badge & Star */}
+                  <div className="flex items-center justify-between mb-2.5">
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getBadgeStyle(tool.category)}`}>
                       {tool.categoryLabel}
                     </span>
-
                     <button
                       type="button"
                       onClick={(e) => toggleFavorite(tool.slug, e)}
-                      className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                        isFav ? 'text-amber-400' : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'
+                      className={`p-1 transition-colors cursor-pointer ${
+                        isFav ? 'text-amber-400' : 'text-slate-600 hover:text-slate-400'
                       }`}
                       aria-label="Pin tool"
                     >
-                      <Star size={14} className={isFav ? 'fill-amber-400' : ''} />
+                      <Star size={13} className={isFav ? 'fill-amber-400' : ''} />
                     </button>
                   </div>
 
-                  <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition-colors mb-2 leading-snug">
+                  {/* Title */}
+                  <h4 className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors mb-2 line-clamp-2 leading-snug">
                     {tool.title}
-                  </h3>
+                  </h4>
 
-                  <p className="text-xs text-slate-400 leading-relaxed line-clamp-2 mb-4">
+                  {/* Description */}
+                  <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-3 mb-4">
                     {tool.shortDesc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs">
-                  <span className="text-[11px] text-slate-500 font-mono truncate max-w-[200px]">
+                {/* Bottom Statute & Action */}
+                <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[10px]">
+                  <span className="text-slate-500 truncate max-w-[95px] font-mono">
                     {tool.statute}
                   </span>
-                  <span className="font-semibold text-indigo-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span className="font-semibold text-indigo-400 flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
                     <span>Calculate</span>
-                    <ArrowRight size={13} />
+                    <ArrowRight size={10} />
                   </span>
                 </div>
               </Link>
@@ -847,42 +648,33 @@ export default function Home() {
 
       </section>
 
-      {/* 5. IN-ARTICLE AD UNIT */}
-      <div className="wrap my-12">
-        <AdSenseSlot slotId="home-mid-content" format="in-article" label="Advertisement · Financial Services" />
-      </div>
+      {/* 5. RESOURCE & GUIDE ARTICLES */}
+      <section className="wrap mb-16">
+        <h3 className="text-xl font-bold text-white mb-1">
+          Resource &amp; Guide Articles
+        </h3>
+        <p className="text-xs text-slate-400 mb-6">
+          E-E-A-T Verified Financial Insights · Editorial
+        </p>
 
-      {/* 6. RESEARCH & REGULATORY ARTICLES SECTION */}
-      <section className="wrap my-10">
-        <div className="mb-6">
-          <div className="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-1">
-            Statutory Research &amp; Guides
-          </div>
-          <h2 className="text-xl sm:text-2xl font-black text-white">
-            E-E-A-T Verified Financial Insights
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {ARTICLES.slice(0, 3).map(article => (
-            <div key={article.id} className="glass-card p-6 flex flex-col justify-between">
+            <div 
+              key={article.id} 
+              className="rounded-2xl bg-[#0b1120] border border-slate-800 p-5 flex flex-col justify-between hover:border-slate-700 transition-colors"
+            >
               <div>
-                <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
-                  <span className="text-indigo-400 font-medium">{article.tag}</span>
-                  <span>·</span>
-                  <span>{article.readTime}</span>
-                </div>
-                <h3 className="text-base font-bold text-white mb-2 leading-snug">
+                <h4 className="text-sm font-bold text-white mb-2 leading-snug">
                   {article.title}
-                </h3>
+                </h4>
                 <p className="text-xs text-slate-400 leading-relaxed line-clamp-3 mb-4">
                   {article.excerpt}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-500">
-                <span>By {article.author}</span>
-                <span className="text-emerald-400 font-medium">Verified</span>
+              <div className="pt-3 border-t border-white/5 flex items-center gap-1.5 text-xs text-slate-400">
+                <Clock size={13} />
+                <span>{article.readTime}</span>
               </div>
             </div>
           ))}
