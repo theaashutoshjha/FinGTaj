@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, FileText, Lock, AlertTriangle, BookOpen, Cookie, Copyright, Mail, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { Shield, FileText, AlertTriangle, BookOpen, Cookie, Copyright, ExternalLink } from 'lucide-react';
 
 export type PolicyTabType = 'privacy' | 'terms' | 'disclaimer' | 'editorial' | 'cookies' | 'dmca';
 
@@ -11,10 +11,10 @@ export const PolicySection: React.FC<PolicySectionProps> = ({ initialTab = 'priv
   const [tab, setTab] = useState<PolicyTabType>(initialTab);
 
   useEffect(() => {
-    if (initialTab) {
+    if (initialTab && tab !== initialTab) {
       setTab(initialTab);
     }
-  }, [initialTab]);
+  }, [initialTab, tab]);
 
   return (
     <section className="wrap" style={{ padding: '60px 0' }}>

@@ -10,18 +10,18 @@ export default function TermsOfService() {
   }, []);
 
   return (
-    <div className="bg-[#f4f7fb] min-h-screen py-10">
-      <div className="max-w-4xl mx-auto px-4 text-slate-700">
+    <div className="bg-[#080d16] text-slate-100 min-h-screen py-10 bg-terminal-grid bg-radial-ambient">
+      <div className="max-w-4xl mx-auto px-4 text-slate-300">
         
         {/* Title & Metadata */}
-        <div className="mb-8 bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-xs">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#2563eb] mb-2 font-mono">
+        <div className="mb-8 terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 sm:p-8 shadow-2xl">
+          <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 font-mono">
             Statutory Legal Terms · YMYL Regulatory Disclaimers
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-3">
+          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-3">
             Terms of Service &amp; User Agreement
           </h1>
-          <p className="text-xs text-slate-500 font-mono">
+          <p className="text-xs text-slate-400 font-mono">
             Effective Date: October 24, 2026 | Governing Jurisdiction: Chennai, Tamil Nadu, Republic of India
           </p>
         </div>
@@ -44,7 +44,7 @@ export default function TermsOfService() {
           </section>
 
           {/* Section 1 */}
-          <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+          <section className="terminal-card bg-[#0d1524] border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl">
             <h2 className="text-xl md:text-2xl font-bold text-slate-900">
               1. Acceptance of Terms
             </h2>
@@ -54,7 +54,7 @@ export default function TermsOfService() {
           </section>
 
           {/* Section 2 */}
-          <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+          <section className="terminal-card bg-[#0d1524] border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl">
             <h2 className="text-xl md:text-2xl font-bold text-slate-900">
               2. Intellectual Property Rights &amp; Code Usage
             </h2>
@@ -67,7 +67,7 @@ export default function TermsOfService() {
           </section>
 
           {/* Section 3 */}
-          <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+          <section className="terminal-card bg-[#0d1524] border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl">
             <h2 className="text-xl md:text-2xl font-bold text-slate-900">
               3. Limitation of Liability
             </h2>
@@ -77,7 +77,7 @@ export default function TermsOfService() {
           </section>
 
           {/* Section 4 */}
-          <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+          <section className="terminal-card bg-[#0d1524] border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl">
             <h2 className="text-xl md:text-2xl font-bold text-slate-900">
               4. Governing Law &amp; Dispute Resolution
             </h2>

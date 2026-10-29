@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Article } from '../types';
-import { X, Bookmark, Share2, Clock, Check, ShieldCheck, UserCheck, Calendar, BookOpen, ChevronRight, ArrowRight } from 'lucide-react';
+import { X, Bookmark, Share2, Clock, Check, ShieldCheck, UserCheck, Calendar, BookOpen, ArrowRight } from 'lucide-react';
 import { AdSenseSlot } from './AdSenseSlot';
 
 interface ReaderModalProps {
@@ -45,12 +45,12 @@ function renderArticleContent(rawContent: string): string {
     .replace(/^# (.*$)/gim, '<h2 style="font-size:24px; font-weight:800; margin:32px 0 16px; color:var(--text-primary);">$1</h2>')
     .replace(/^## (.*$)/gim, '<h3 style="font-size:20px; font-weight:700; margin:28px 0 14px; color:var(--text-primary);">$1</h3>')
     .replace(/^### (.*$)/gim, '<h4 style="font-size:17px; font-weight:700; margin:22px 0 10px; color:var(--accent-cyan);">$1</h4>')
-    .replace(/^\-\-\-$/gim, '<hr style="border:none; border-top:1px solid var(--border-subtle); margin:28px 0;" />')
+    .replace(/^---$/gim, '<hr style="border:none; border-top:1px solid var(--border-subtle); margin:28px 0;" />')
     .replace(/\*\*(.*?)\*\*/gim, '<strong style="color:var(--text-primary); font-weight:700;">$1</strong>')
     .replace(/\*(.*?)\*/gim, '<em>$1</em>')
     .replace(/```([\s\S]*?)```/gim, '<pre style="background:rgba(0,0,0,0.5); padding:16px; border-radius:8px; overflow-x:auto; border:1px solid var(--border-subtle); margin:18px 0; font-family:var(--font-mono); font-size:13px; color:var(--accent-cyan);"><code>$1</code></pre>')
     .replace(/`([^`]+)`/gim, '<code style="background:rgba(0,245,255,0.08); padding:2px 6px; border-radius:4px; font-family:var(--font-mono); font-size:13px; color:var(--accent-cyan);">$1</code>')
-    .replace(/^\- (.*$)/gim, '<li style="margin-bottom:8px; color:var(--text-secondary); line-height:1.6;">$1</li>')
+    .replace(/^- (.*$)/gim, '<li style="margin-bottom:8px; color:var(--text-secondary); line-height:1.6;">$1</li>')
     .replace(/((?:<li.*<\/li>\s*)+)/gim, '<ul style="padding-left:24px; margin:16px 0;">$1</ul>')
     .replace(/\n\n+/gim, '</p><p style="margin-bottom:18px; line-height:1.75; color:var(--text-secondary); font-size:15px;">');
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CALCULATOR_GUIDES, CalculatorGuideData } from '../data/calculatorGuides';
-import { BookOpen, Calculator, Table, ShieldCheck, ChevronDown, ChevronUp, AlertCircle, FileText } from 'lucide-react';
+import { BookOpen, Calculator, Table, ChevronDown, ChevronUp, AlertCircle, FileText } from 'lucide-react';
 import { AdSenseSlot } from './AdSenseSlot';
 
 interface CalculatorGuideSectionProps {

@@ -10,24 +10,24 @@ export default function PrivacyPolicy() {
   }, []);
 
   return (
-    <div className="bg-[#f4f7fb] min-h-screen py-10">
-      <div className="max-w-4xl mx-auto px-4 text-slate-700">
+    <div className="bg-[#080d16] text-slate-100 min-h-screen py-10 bg-terminal-grid bg-radial-ambient">
+      <div className="max-w-4xl mx-auto px-4 text-slate-300">
         {/* Title & Metadata */}
-        <div className="mb-8 bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-xs">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#2563eb] mb-2 font-mono">
+        <div className="mb-8 terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 sm:p-8 shadow-2xl">
+          <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 font-mono">
             DPDP Act 2023 · Google AdSense &amp; GDPR Compliant
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-3">
+          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-3">
             Privacy Policy &amp; Data Governance
           </h1>
-          <p className="text-xs text-slate-500 font-mono">
+          <p className="text-xs text-slate-400 font-mono">
             Effective Date: October 24, 2026 | Last Comprehensive Legal Audit: October 2026
           </p>
         </div>
 
         <div className="space-y-8 text-sm leading-relaxed">
           {/* Preamble */}
-          <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+          <section className="terminal-card bg-[#0d1524] border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl">
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
               1. Preamble &amp; Zero-Telemetry Architecture
@@ -145,7 +145,7 @@ export default function PrivacyPolicy() {
         </section>
 
         {/* Server Log & Telemetry Policy */}
-        <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+        <section className="terminal-card bg-[#0d1524] border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl">
           <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
             4. Web Server Logs & Edge Infrastructure
@@ -204,7 +204,7 @@ export default function PrivacyPolicy() {
         </section>
 
         {/* Statutory Grievance Redressal Officer */}
-        <section className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 space-y-4 shadow-xs">
+        <section className="terminal-card bg-[#0d1524] border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl">
           <h2 className="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
             7. Statutory Grievance Redressal Officer

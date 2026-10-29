@@ -4,17 +4,13 @@ import { Article } from '../types';
 import { ARTICLES } from '../data/articles';
 import { 
   Award, 
-  BookOpen, 
   CheckCircle2, 
   Clock, 
-  ExternalLink, 
   MapPin, 
   Mail, 
   ShieldCheck, 
   ArrowLeft,
-  ArrowRight,
-  TrendingUp,
-  FileText
+  ArrowRight
 } from 'lucide-react';
 
 interface AuthorSectionProps {

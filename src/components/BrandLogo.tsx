@@ -19,20 +19,22 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md' }) => {
   };
 
   return (
-    <div className="flex items-center gap-2.5 group">
-      {/* Dark Circular Badge with Teal T (matches screenshot exactly) */}
-      <div className={`${iconSizes[size]} shrink-0 rounded-full bg-[#0d1b2a] shadow-xs flex items-center justify-center relative overflow-hidden transition-transform group-hover:scale-105`}>
+    <div className="flex items-center gap-2.5 group cursor-pointer">
+      {/* Precision Geometric Monogram Badge */}
+      <div className={`${iconSizes[size]} shrink-0 rounded-xl bg-gradient-to-br from-[#0e1726] to-[#121c2e] border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:border-cyan-400 group-hover:shadow-[0_0_20px_rgba(0,245,255,0.4)]`}>
         <svg viewBox="0 0 36 36" className="w-full h-full p-1" fill="none">
-          <circle cx="18" cy="18" r="17" fill="#0d1b2a" />
-          <path d="M10 12H26V16H20V26H16V16H10V12Z" fill="#00b4d8" />
-          <path d="M13 24C16 25 21 24 25 18" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="18" cy="18" r="17" fill="none" />
+          {/* Cyan T-Symbol */}
+          <path d="M9 11H27V15H20V27H16V15H9V11Z" fill="#00f5ff" />
+          {/* Emerald Growth Curve */}
+          <path d="M12 25C16 26 22 24 26 16" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" />
         </svg>
       </div>
 
-      {/* Brand Text: Fing (Dark Slate) + Taj (Teal) */}
+      {/* Brand Typography */}
       <div className={`font-extrabold tracking-tight leading-none ${textSizes[size]}`}>
-        <span className="text-slate-900 font-black">Fing</span>
-        <span className="text-[#00b4d8] font-black">Taj</span>
+        <span className="text-white font-black">Fing</span>
+        <span className="text-[#00f5ff] font-black drop-shadow-[0_0_12px_rgba(0,245,255,0.35)]">Taj</span>
       </div>
     </div>
   );

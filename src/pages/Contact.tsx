@@ -104,64 +104,64 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-[#f4f7fb] min-h-screen py-10">
-      <div className="max-w-5xl mx-auto px-4 text-slate-700">
+    <div className="bg-[#080d16] text-slate-100 min-h-screen py-10 bg-terminal-grid bg-radial-ambient">
+      <div className="max-w-5xl mx-auto px-4 text-slate-300">
         
         {/* Header */}
         <div className="mb-8 text-center max-w-2xl mx-auto">
-          <div className="text-xs font-bold uppercase tracking-wider text-[#2563eb] mb-2 font-mono">
+          <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2 font-mono">
             Direct Statutory Review · Support Desk
           </div>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">
             Contact FingTaj Engineering Desk
           </h1>
-          <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+          <p className="text-slate-400 text-sm md:text-base leading-relaxed">
             Submit statutory tax discrepancies, algorithmic bug reports, data governance requests, or partnership inquiries directly to our review team.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Main Contact Form or Success State */}
-          <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 shadow-xs">
+          <div className="lg:col-span-7 terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 md:p-8 shadow-2xl">
             {result ? (
               <div className="space-y-6">
-                <div className="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900">
-                  <svg className="w-8 h-8 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-3 p-4 bg-emerald-950/40 border border-emerald-500/30 rounded-xl text-emerald-200">
+                  <svg className="w-8 h-8 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div>
-                    <h3 className="font-bold text-emerald-900 text-lg">Inquiry Successfully Registered</h3>
-                    <p className="text-xs text-emerald-700">A formal dispatch confirmation has been logged.</p>
+                    <h3 className="font-bold text-white text-lg font-mono">Inquiry Registered</h3>
+                    <p className="text-xs text-emerald-400 font-mono">Tracking reference dispatch logged.</p>
                   </div>
                 </div>
 
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3 font-mono text-xs">
-                  <div className="flex justify-between border-b border-slate-200 pb-2">
-                    <span className="text-slate-500 uppercase">Tracking ID:</span>
-                    <span className="text-blue-600 font-bold">{result.trackingId}</span>
+                <div className="bg-black/40 border border-white/10 rounded-xl p-5 space-y-3 font-mono text-xs">
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-slate-400 uppercase">Tracking ID:</span>
+                    <span className="text-cyan-400 font-bold">{result.trackingId}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-200 pb-2">
-                    <span className="text-slate-500 uppercase">Timestamp:</span>
-                    <span className="text-slate-700">{result.timestamp} IST</span>
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-slate-400 uppercase">Timestamp:</span>
+                    <span className="text-slate-200">{result.timestamp} IST</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-200 pb-2">
-                    <span className="text-slate-500 uppercase">Sender Email:</span>
-                    <span className="text-slate-700">{result.email}</span>
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-slate-400 uppercase">Sender Email:</span>
+                    <span className="text-slate-200">{result.email}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-200 pb-2">
-                    <span className="text-slate-500 uppercase">Category:</span>
-                    <span className="text-slate-900 font-bold">{result.category}</span>
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-slate-400 uppercase">Category:</span>
+                    <span className="text-white font-bold">{result.category}</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 uppercase block mb-1">Message Excerpt:</span>
-                    <p className="text-slate-700 bg-white p-3 rounded-lg border border-slate-200 font-sans text-xs italic">
+                    <span className="text-slate-400 uppercase block mb-1">Message Excerpt:</span>
+                    <p className="text-slate-300 bg-white/5 p-3 rounded-lg border border-white/10 font-sans text-xs italic">
                       "{result.message}"
                     </p>
                   </div>
                 </div>
 
-                <div className="p-4 bg-blue-50/70 border border-blue-100 rounded-xl text-xs text-slate-700 space-y-1">
-                  <p className="font-bold text-blue-800">Turnaround Commitment (SLA):</p>
+                <div className="p-4 bg-cyan-950/40 border border-cyan-500/30 rounded-xl text-xs text-slate-300 space-y-1 font-mono">
+                  <p className="font-bold text-cyan-300">Turnaround Commitment (SLA):</p>
                   <p>
                     Our quantitative engineering desk reviews all inquiries within <strong>24 to 48 business hours</strong>.
                   </p>
@@ -170,22 +170,22 @@ export default function Contact() {
                 <div className="flex flex-wrap gap-3 pt-2">
                   <button
                     onClick={handleReset}
-                    className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-5 py-2.5 rounded-xl text-sm transition"
+                    className="bg-white/10 hover:bg-white/15 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition font-mono cursor-pointer border border-white/10"
                   >
                     Submit Another Inquiry
                   </button>
                   <a
                     href={`mailto:support@fingtaj.com?subject=Regarding Reference ${result.trackingId}&body=Hello FingTaj Desk,%0D%0A%0D%0AFollowing up on tracking ID ${result.trackingId}.`}
-                    className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition inline-flex items-center gap-1.5 shadow-xs"
+                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2.5 rounded-xl text-sm transition inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.4)]"
                   >
-                    Email Support Directly
+                    Email Desk Directly
                   </a>
                 </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
-                  <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-sm">
+                  <div className="p-3 bg-rose-950/50 border border-rose-500/40 rounded-xl text-rose-300 text-sm font-mono">
                     {error}
                   </div>
                 )}
@@ -206,8 +206,8 @@ export default function Contact() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                      Your Full Name <span className="text-rose-500">*</span>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 font-mono">
+                      Your Full Name <span className="text-cyan-400">*</span>
                     </label>
                     <input
                       required
@@ -216,13 +216,13 @@ export default function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="e.g., Rajesh Kumar"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition font-sans"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                      Email Address <span className="text-rose-500">*</span>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 font-mono">
+                      Email Address <span className="text-cyan-400">*</span>
                     </label>
                     <input
                       required
@@ -231,24 +231,24 @@ export default function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="rajesh@example.com"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition font-sans"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                      Inquiry Category <span className="text-rose-500">*</span>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 font-mono">
+                      Inquiry Category <span className="text-cyan-400">*</span>
                     </label>
                     <select
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-cyan-500 transition font-sans"
                     >
                       {categories.map(cat => (
-                        <option key={cat} value={cat}>
+                        <option key={cat} value={cat} className="bg-[#0e1626] text-white">
                           {cat}
                         </option>
                       ))}
@@ -256,7 +256,7 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 font-mono">
                       Subject Line
                     </label>
                     <input
@@ -265,14 +265,14 @@ export default function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       placeholder="e.g., Sec 115BAC Surcharge Query"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition font-sans"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Detailed Message <span className="text-rose-500">*</span>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 font-mono">
+                    Detailed Message <span className="text-cyan-400">*</span>
                   </label>
                   <textarea
                     required
@@ -281,7 +281,7 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Describe your calculation input numbers, expected statutory behavior, bug details, or partnership proposal..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition font-sans"
+                    className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition font-sans"
                   ></textarea>
                 </div>
 
@@ -289,9 +289,9 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full sm:w-auto bg-[#2563eb] hover:bg-[#1d4ed8] disabled:opacity-60 text-white font-bold px-8 py-3 rounded-xl text-sm transition shadow-sm flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-60 text-black font-black px-8 py-3 rounded-xl text-sm transition shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2 cursor-pointer font-mono"
                   >
-                    {loading ? 'Transmitting...' : 'Send Message to Engineering Desk'}
+                    {loading ? 'Transmitting...' : 'Dispatch Message to Engineering Desk'}
                   </button>
                 </div>
               </form>
@@ -300,51 +300,51 @@ export default function Contact() {
 
           {/* Institutional Contact Information Sidebar */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 space-y-5 shadow-xs">
-              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+            <div className="terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 space-y-5 shadow-2xl">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2 font-mono">
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
                 Operational Jurisdictions
               </h2>
 
-              <div className="space-y-4 text-xs text-slate-600">
-                <div className="border-b border-slate-100 pb-3">
-                  <span className="text-slate-400 uppercase font-bold block text-[10px] mb-1 font-mono">Direct Support Desk</span>
-                  <p className="font-mono text-blue-600 text-sm font-semibold">support@fingtaj.com</p>
-                  <p className="text-slate-500 text-[11px] mt-0.5">Primary intake for calculations &amp; queries.</p>
+              <div className="space-y-4 text-xs text-slate-300 font-mono">
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-slate-500 uppercase font-bold block text-[10px] mb-1">Direct Support Desk</span>
+                  <p className="text-cyan-400 text-sm font-semibold">support@fingtaj.com</p>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Primary intake for calculations &amp; queries.</p>
                 </div>
 
-                <div className="border-b border-slate-100 pb-3">
-                  <span className="text-slate-400 uppercase font-bold block text-[10px] mb-1 font-mono">Administration Desk</span>
-                  <p className="font-mono text-blue-600 text-sm font-semibold">admin@fingtaj.com</p>
-                  <p className="text-slate-500 text-[11px] mt-0.5">Publisher, AdSense, syndication correspondence.</p>
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-slate-500 uppercase font-bold block text-[10px] mb-1">Administration Desk</span>
+                  <p className="text-cyan-400 text-sm font-semibold">admin@fingtaj.com</p>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Publisher, AdSense, syndication correspondence.</p>
                 </div>
 
-                <div className="border-b border-slate-100 pb-3">
-                  <span className="text-slate-400 uppercase font-bold block text-[10px] mb-1 font-mono">Jurisdiction &amp; Place</span>
-                  <p className="text-slate-800 font-medium">Chennai, Tamil Nadu, 600001, India</p>
-                  <p className="text-slate-500 text-[11px] mt-0.5">Operating under the regulatory jurisdiction of the Republic of India.</p>
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-slate-500 uppercase font-bold block text-[10px] mb-1">Jurisdiction &amp; Place</span>
+                  <p className="text-white font-medium">Chennai, Tamil Nadu, 600001, India</p>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Operating under the regulatory jurisdiction of the Republic of India.</p>
                 </div>
 
                 <div>
-                  <span className="text-slate-400 uppercase font-bold block text-[10px] mb-1 font-mono">Grievance Officer (IT Rules 2021)</span>
-                  <p className="text-slate-800 font-semibold">Ashutosh Jha</p>
-                  <p className="text-slate-500 text-[11px] mt-0.5">Email: <span className="font-mono text-blue-600">support@fingtaj.com</span></p>
+                  <span className="text-slate-500 uppercase font-bold block text-[10px] mb-1">Grievance Officer (IT Rules 2021)</span>
+                  <p className="text-white font-semibold">Ashutosh Jha</p>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Email: <span className="text-cyan-400">support@fingtaj.com</span></p>
                 </div>
               </div>
             </div>
 
             {/* Social channels */}
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs">
-              <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <div className="terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 shadow-2xl">
+              <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2 font-mono">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
                 Official Channels
               </h3>
-              <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                 <a
                   href="https://www.linkedin.com/in/ashutosh-kumar-r/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-400 text-slate-700 hover:text-blue-600 transition"
+                  className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition"
                 >
                   LinkedIn Profile
                 </a>
@@ -352,7 +352,7 @@ export default function Contact() {
                   href="https://x.com/FinGTaj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-400 text-slate-700 hover:text-blue-600 transition"
+                  className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition"
                 >
                   X (@FinGTaj)
                 </a>
@@ -360,7 +360,7 @@ export default function Contact() {
                   href="https://www.youtube.com/@fingtaj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-rose-400 text-slate-700 hover:text-rose-600 transition"
+                  className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-rose-400 text-slate-300 hover:text-rose-400 transition"
                 >
                   YouTube Channel
                 </a>
@@ -368,7 +368,7 @@ export default function Contact() {
                   href="https://whatsapp.com/channel/0029Vb7gkNgIt5rwnKzp0Y0K"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-400 text-slate-700 hover:text-emerald-600 transition"
+                  className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition"
                 >
                   WhatsApp Channel
                 </a>

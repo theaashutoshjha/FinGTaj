@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Shield, CheckCircle, Send, MessageSquare } from 'lucide-react';
+import { Mail, Shield, CheckCircle, Send } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');

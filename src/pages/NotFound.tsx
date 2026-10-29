@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, HelpCircle } from 'lucide-react';
+import { Home, HelpCircle, Terminal } from 'lucide-react';
 
 export default function NotFound() {
   useEffect(() => {
-    document.title = '404 Page Not Found — FingTaj';
+    document.title = '404 Terminal Exception — Resource Not Found | FingTaj';
   }, []);
 
   const popularTools = [
@@ -15,47 +15,48 @@ export default function NotFound() {
   ];
 
   return (
-    <div className="bg-[#f4f7fb] min-h-[70vh] flex items-center justify-center py-16 px-4">
-      <div className="max-w-xl w-full text-center bg-white border border-slate-200/80 rounded-2xl p-8 sm:p-10 shadow-xs">
-        <div className="text-xs font-bold uppercase tracking-wider text-rose-600 mb-2 font-mono">
-          HTTP 404 · Resource Not Found
+    <div className="bg-[#080d16] text-slate-100 min-h-[75vh] flex items-center justify-center py-16 px-4 bg-terminal-grid bg-radial-ambient">
+      <div className="max-w-xl w-full text-center terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-8 sm:p-10 shadow-2xl">
+        <div className="text-xs font-bold uppercase tracking-wider text-rose-400 mb-2 font-mono flex items-center justify-center gap-2">
+          <Terminal size={14} />
+          <span>HTTP 404 · TERMINAL EXCEPTION</span>
         </div>
         
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-3">
+        <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
           Page Not Found
         </h1>
         
-        <p className="text-slate-500 text-sm max-w-md mx-auto mb-6 leading-relaxed">
-          The computational tool or document you are looking for has been relocated or does not exist under this exact URL.
+        <p className="text-slate-400 text-sm max-w-md mx-auto mb-6 leading-relaxed font-mono">
+          The requested financial engine or computational document does not exist under this routing path.
         </p>
 
         <div className="flex flex-wrap justify-center gap-3 mb-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold text-xs sm:text-sm transition shadow-xs"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs sm:text-sm transition font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)]"
           >
             <Home size={15} />
-            Return to All Calculators
+            Return to Terminal
           </Link>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs sm:text-sm transition font-mono border border-white/10"
           >
             <HelpCircle size={15} />
-            Contact Support
+            Support Desk
           </Link>
         </div>
 
-        <div className="border-t border-slate-100 pt-5 text-left">
+        <div className="border-t border-white/10 pt-5 text-left">
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 font-mono">
-            Popular Calculators:
+            Direct Engine Links:
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
             {popularTools.map(tool => (
               <Link
                 key={tool.path}
                 to={tool.path}
-                className="p-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200/70 text-slate-700 hover:text-blue-600 font-medium transition"
+                className="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/10 border border-white/10 hover:border-cyan-500/30 text-slate-300 hover:text-cyan-400 transition"
               >
                 {tool.name}
               </Link>

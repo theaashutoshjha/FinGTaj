@@ -75,6 +75,26 @@ export function formatINR(val: number): string {
   return `${isNegative ? '-' : ''}₹${formatted}`;
 }
 
+// Format currency in compact Indian words (e.g. ₹50 Lakhs, ₹1.25 Cr)
+export function formatINRWords(val: number): string {
+  if (isNaN(val) || !isFinite(val) || val === 0) return '₹0';
+  const abs = Math.abs(val);
+  const sign = val < 0 ? '-' : '';
+  if (abs >= 10000000) {
+    const cr = abs / 10000000;
+    return `${sign}₹${cr % 1 === 0 ? cr.toFixed(0) : cr.toFixed(2).replace(/\.?0+$/, '')} Cr`;
+  }
+  if (abs >= 100000) {
+    const lk = abs / 100000;
+    return `${sign}₹${lk % 1 === 0 ? lk.toFixed(0) : lk.toFixed(2).replace(/\.?0+$/, '')} Lakh`;
+  }
+  if (abs >= 1000) {
+    const k = abs / 1000;
+    return `${sign}₹${k % 1 === 0 ? k.toFixed(0) : k.toFixed(1).replace(/\.?0+$/, '')}k`;
+  }
+  return `${sign}₹${abs.toLocaleString('en-IN')}`;
+}
+
 // Format numbers generally
 export function formatNum(val: number, decimals = 1): string {
   if (isNaN(val) || !isFinite(val)) return '0';

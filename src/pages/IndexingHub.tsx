@@ -10,25 +10,25 @@ import {
 } from 'lucide-react';
 import { CALCULATORS_DATA } from '../data/calculatorsData';
 
+const BASE_URL = 'https://www.fingtaj.com';
+
+const CORE_PAGES = [
+  { title: 'Home Page — 50 Statutory Financial Calculators', path: '/', category: 'Core' },
+  { title: 'About & Authorship (E-E-A-T Disclosure)', path: '/about', category: 'Core' },
+  { title: 'Privacy Policy & Zero Telemetry Guarantee', path: '/privacy-policy', category: 'Legal' },
+  { title: 'Terms of Service & Statutory Disclaimers', path: '/terms-of-service', category: 'Legal' },
+  { title: 'Technical Inquiries & Editorial Contact', path: '/contact', category: 'Core' }
+];
+
 export default function IndexingHub() {
   const [copiedAll, setCopiedAll] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [filterQuery, setFilterQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const BASE_URL = 'https://www.fingtaj.com';
-
-  const corePages = [
-    { title: 'Home Page — 50 Statutory Financial Calculators', path: '/', category: 'Core' },
-    { title: 'About & Authorship (E-E-A-T Disclosure)', path: '/about', category: 'Core' },
-    { title: 'Privacy Policy & Zero Telemetry Guarantee', path: '/privacy-policy', category: 'Legal' },
-    { title: 'Terms of Service & Statutory Disclaimers', path: '/terms-of-service', category: 'Legal' },
-    { title: 'Technical Inquiries & Editorial Contact', path: '/contact', category: 'Core' }
-  ];
-
   const allItems = useMemo(() => {
     const list = [
-      ...corePages.map(p => ({
+      ...CORE_PAGES.map(p => ({
         title: p.title,
         url: `${BASE_URL}${p.path}`,
         path: p.path,
@@ -83,36 +83,36 @@ export default function IndexingHub() {
   const categories = ['All', 'Core', 'Legal', 'Loans', 'Investing', 'Savings', 'Retirement', 'Tax', 'Salary', 'Everyday'];
 
   return (
-    <div className="bg-[#f4f7fb] min-h-screen py-10 lg:py-14">
-      <div className="wrap max-w-5xl">
+    <div className="bg-[#080d16] text-slate-100 min-h-screen py-10 lg:py-14 bg-terminal-grid bg-radial-ambient">
+      <div className="wrap max-w-5xl text-slate-300">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 mb-6">
-          <Link to="/" className="hover:text-blue-600 transition-colors">Home</Link>
-          <span aria-hidden="true" className="text-slate-300">/</span>
-          <span className="text-slate-800 font-bold">Search Console Indexing Hub</span>
+        <div className="flex items-center gap-2 text-xs text-slate-400 mb-6 font-mono">
+          <Link to="/" className="hover:text-cyan-400 transition-colors">TERMINAL</Link>
+          <span aria-hidden="true" className="text-white/20">/</span>
+          <span className="text-white font-bold">Search Console Indexing Hub</span>
         </div>
 
         {/* Header Block */}
-        <div className="mb-8 bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-xs">
-          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2">
-            <span className="text-blue-600 font-bold uppercase tracking-wider font-mono">Webmaster &amp; SEO Center</span>
-            <span aria-hidden="true" className="text-slate-300">·</span>
-            <span className="text-slate-700 font-semibold font-mono">55 Canonical URLs</span>
-            <span aria-hidden="true" className="text-slate-300">·</span>
+        <div className="mb-8 terminal-card bg-[#0d1524] border border-white/15 rounded-2xl p-6 sm:p-8 shadow-2xl">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400 mb-2">
+            <span className="text-cyan-400 font-bold uppercase tracking-wider">Webmaster &amp; SEO Center</span>
+            <span aria-hidden="true" className="text-white/20">·</span>
+            <span className="text-slate-300 font-semibold">55 Canonical URLs</span>
+            <span aria-hidden="true" className="text-white/20">·</span>
             <span className="text-slate-500">Google Search Console Ready</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-3">
             Search Console &amp; Instant Indexing Hub
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-300 max-w-3xl leading-relaxed">
             Every calculator and page on FingTaj is published on its own distinct, permanent URL. Use this central hub to submit all URLs to Google Search Console, Bing Webmaster, or IndexNow for rapid indexing.
           </p>
         </div>
 
         {/* 3 Step Instant Indexing Action Box */}
-        <div className="p-6 sm:p-8 mb-8 bg-white border border-blue-200 rounded-2xl shadow-xs">
+        <div className="p-6 sm:p-8 mb-8 terminal-card bg-[#0d1524] border border-cyan-500/30 rounded-2xl shadow-2xl">
           <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
             <Send size={18} className="text-[#2563eb]" />
             How to Submit for Instant Indexing in 3 Steps

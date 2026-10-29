@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Currency } from '../types';
-import { ArrowUpRight, Zap, Target, ShieldCheck } from 'lucide-react';
+import { Zap, Target, ShieldCheck } from 'lucide-react';
 
 interface InteractiveChartProps {
   currency: Currency;
