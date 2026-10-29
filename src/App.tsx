@@ -26,7 +26,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-[#080d16] text-slate-100 relative selection:bg-cyan-500 selection:text-black">
+      <div className="flex flex-col min-h-screen bg-[#090d16] text-slate-100 relative selection:bg-indigo-500 selection:text-white">
         <MarketTicker />
         <Navbar />
 

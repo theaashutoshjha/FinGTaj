@@ -605,6 +605,83 @@ export default function Home() {
                     )}
                   </div>
 
+                  {/* Visual Growth / Amortization Curve Preview */}
+                  <div className="pt-2">
+                    <div className="flex justify-between items-center text-[11px] text-slate-400 mb-2">
+                      <span>Live Simulation Trajectory</span>
+                      <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Real-Time
+                      </span>
+                    </div>
+
+                    {/* Dynamic SVG Visual Curve */}
+                    <div className="h-28 w-full bg-slate-950/60 rounded-xl p-3 border border-white/5 relative overflow-hidden flex flex-col justify-end">
+                      <svg className="w-full h-20 overflow-visible" viewBox="0 0 300 80" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.5" />
+                            <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
+                          </linearGradient>
+                        </defs>
+                        {activeEngine === 'sip' && (
+                          <>
+                            <path
+                              d="M 0 75 Q 120 70, 200 45 T 300 10 L 300 80 L 0 80 Z"
+                              fill="url(#curveGradient)"
+                            />
+                            <path
+                              d="M 0 75 Q 120 70, 200 45 T 300 10"
+                              fill="none"
+                              stroke="#6366f1"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                            />
+                            <circle cx="300" cy="10" r="4" fill="#10b981" className="animate-ping opacity-75" />
+                            <circle cx="300" cy="10" r="4" fill="#ffffff" />
+                          </>
+                        )}
+                        {activeEngine === 'loan' && (
+                          <>
+                            <path
+                              d="M 0 15 Q 100 45, 200 65 T 300 78 L 300 80 L 0 80 Z"
+                              fill="url(#curveGradient)"
+                            />
+                            <path
+                              d="M 0 15 Q 100 45, 200 65 T 300 78"
+                              fill="none"
+                              stroke="#f59e0b"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                            />
+                            <circle cx="300" cy="78" r="4" fill="#10b981" />
+                          </>
+                        )}
+                        {(activeEngine === 'tax' || activeEngine === 'gratuity' || activeEngine === 'ppf' || activeEngine === 'fire') && (
+                          <>
+                            <path
+                              d="M 0 70 C 80 65, 180 30, 300 15 L 300 80 L 0 80 Z"
+                              fill="url(#curveGradient)"
+                            />
+                            <path
+                              d="M 0 70 C 80 65, 180 30, 300 15"
+                              fill="none"
+                              stroke="#10b981"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                            />
+                            <circle cx="300" cy="15" r="4" fill="#ffffff" />
+                          </>
+                        )}
+                      </svg>
+                      <div className="flex justify-between items-center text-[10px] text-slate-500 font-mono pt-1">
+                        <span>Year 1</span>
+                        <span>Midpoint</span>
+                        <span>Maturity</span>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Launch Detailed Calculator CTA */}
                   <Link
                     to={
@@ -615,9 +692,9 @@ export default function Home() {
                       activeEngine === 'ppf' ? `/ppf-calculator` :
                       `/fire-calculator`
                     }
-                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-sm transition-all shadow-[0_4px_20px_rgba(99,102,241,0.35)]"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-sm transition-all shadow-[0_4px_20px_rgba(99,102,241,0.35)] cursor-pointer"
                   >
-                    <span>Open Full Detailed Calculator</span>
+                    <span>Launch Full {activeEngine.toUpperCase()} Studio</span>
                     <ArrowRight size={16} />
                   </Link>
 
